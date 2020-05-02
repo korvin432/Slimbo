@@ -2,22 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_sleep"
+        android:id="@+id/sleep"
         android:icon="@drawable/ic_sleep"
         android:title="@string/title_sleep" />
 
     <item
-        android:id="@+id/navigation_history"
+        android:id="@+id/history"
         android:icon="@drawable/ic_history"
         android:title="@string/title_history" />
 
     <item
-        android:id="@+id/navigation_relax"
+        android:id="@+id/relax"
         android:icon="@drawable/ic_relax"
         android:title="@string/title_relax" />
 
     <item
-        android:id="@+id/navigation_more"
+        android:id="@+id/more"
         android:icon="@drawable/ic_more"
         android:title="@string/title_more" />
 

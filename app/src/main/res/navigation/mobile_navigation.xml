@@ -5,27 +5,7 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_sleep">
 
-    <fragment
-        android:id="@+id/navigation_sleep"
-        android:name="com.mindyapps.android.slimbo.ui.sleep.SleepFragment"
-        android:label="@string/title_sleep"
-        tools:layout="@layout/fragment_sleep" />
 
-    <fragment
-        android:id="@+id/navigation_history"
-        android:name="com.mindyapps.android.slimbo.ui.history.HistoryFragment"
-        android:label="@string/title_history"
-        tools:layout="@layout/fragment_history" />
 
-    <fragment
-        android:id="@+id/navigation_relax"
-        android:name="com.mindyapps.android.slimbo.ui.relax.RelaxFragment"
-        android:label="@string/title_relax"
-        tools:layout="@layout/fragment_relax" />
 
-    <fragment
-        android:id="@+id/navigation_more"
-        android:name="com.mindyapps.android.slimbo.ui.more.MoreFragment"
-        android:label="@string/title_more"
-        tools:layout="@layout/fragment_more" />
 </navigation>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/navigation_more"
+    android:id="@+id/more">
+
+    <fragment
+        android:id="@+id/navigation_more"
+        android:name="com.mindyapps.android.slimbo.ui.more.MoreFragment"
+        tools:layout="@layout/fragment_more"
+        android:label="@string/title_more" />
+
+</navigation>
