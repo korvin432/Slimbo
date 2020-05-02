@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Slimbo</string>
+    <string name="title_sleep">Sleep</string>
+    <string name="title_history">History</string>
+    <string name="title_relax">Relax</string>
+    <string name="title_more">More</string>
+    <string name="statistics">Statistics</string>
+</resources>
