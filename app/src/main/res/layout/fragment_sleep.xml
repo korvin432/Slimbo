@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/sleep_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sleep_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/sleep_bg"
@@ -19,9 +18,9 @@
             android:id="@+id/text_clock"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
             android:format12Hour="hh:mm"
             android:format24Hour="HH:mm"
-            android:layout_marginTop="40dp"
             android:textAlignment="center"
             android:textColor="@color/colorWhiteText"
             android:textSize="60sp" />
@@ -56,16 +55,29 @@
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:padding="3dp"
-                        android:tint="@color/factor_tint"
-                        android:src="@drawable/factors" />
+                        android:src="@drawable/factors"
+                        android:tint="@color/factor_tint" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Factors"
+                        android:text="@string/factors"
+                        android:textAlignment="center"
                         android:textColor="@color/colorWhiteText"
-                        android:textSize="18sp"
-                        android:textAlignment="center" />
+                        android:textSize="18sp" />
+
+                    <View
+                        android:id="@+id/factors_space"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="5dp"
+                        android:background="?android:attr/dividerHorizontal"
+                        android:visibility="gone" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/selected_factors_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
@@ -100,16 +112,16 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
-                        android:tint="@color/factor_tint"
-                        android:src="@drawable/ic_relax" />
+                        android:src="@drawable/ic_relax"
+                        android:tint="@color/factor_tint" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Sound"
+                        android:textAlignment="center"
                         android:textColor="@color/colorWhiteText"
-                        android:textSize="18sp"
-                        android:textAlignment="center" />
+                        android:textSize="18sp" />
 
                 </LinearLayout>
 
@@ -136,33 +148,33 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:tint="@color/factor_tint"
                     android:padding="3dp"
-                    android:src="@drawable/ic_alarm" />
+                    android:src="@drawable/ic_alarm"
+                    android:tint="@color/factor_tint" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Alarm"
+                    android:textAlignment="center"
                     android:textColor="@color/colorWhiteText"
-                    android:textSize="18sp"
-                    android:textAlignment="center" />
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
         <com.google.android.material.button.MaterialButton
-            android:layout_below="@id/alarm_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/alarm_card"
+            android:layout_marginHorizontal="110dp"
             android:padding="15dp"
+            android:text="Start"
+            app:cornerRadius="40dp"
             app:icon="@drawable/ic_play"
             app:iconGravity="textStart"
-            app:iconSize="30dp"
-            android:layout_marginHorizontal="110dp"
-            android:text="Start"
-            app:cornerRadius="40dp"/>
+            app:iconSize="30dp" />
 
     </RelativeLayout>
 

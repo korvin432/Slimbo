@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.factor_item.view.*
 
 class FactorsRecyclerAdapter(
     private var factors: MutableList<Factor>,
+    private var selectedFactors: MutableList<Factor>,
     private var context: Context
 ) : RecyclerView.Adapter<FactorsRecyclerAdapter.FactorsHolder>() {
 
@@ -56,12 +57,34 @@ class FactorsRecyclerAdapter(
         )
 
         factorsViewHolder.name.text = context.getString(stringId)
-        val resourceId: Int = context.resources.getIdentifier(
-            factor.resource_name, "drawable",
-            context.packageName
-        )
-        factorsViewHolder.image.setImageDrawable(ContextCompat.getDrawable(context, resourceId))
         factorsViewHolder.image.tag = factor.resource_name
+        if (selectedFactors.size == 0) {
+            val resourceId: Int = context.resources.getIdentifier(
+                factor.resource_name, "drawable",
+                context.packageName
+            )
+            factorsViewHolder.image.setImageDrawable(ContextCompat.getDrawable(context, resourceId))
+        } else {
+            if (selectedFactors.contains(factor)) {
+                val resourceId: Int = context.resources.getIdentifier(
+                    factor.resource_name + "_filled", "drawable",
+                    context.packageName
+                )
+                factorsViewHolder.image.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        context,
+                        resourceId
+                    )
+                )
+                factorsViewHolder.image.setColorFilter(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.colorFilled
+                    )
+                )
+                factorsViewHolder.image.tag = factor.resource_name + "_filled"
+            }
+        }
     }
 
     inner class FactorsHolder(private val view: View) : RecyclerView.ViewHolder(view) {
@@ -72,7 +95,7 @@ class FactorsRecyclerAdapter(
             itemView.setOnClickListener {
                 var name = factors[adapterPosition].resource_name
                 var selected = false
-                var tint = 1
+                val tint: Int
                 if (!image.tag.toString().contains("filled")) {
                     name = factors[adapterPosition].resource_name + "_filled"
                     tint = ContextCompat.getColor(context, R.color.colorFilled)

@@ -22,6 +22,8 @@ import com.mindyapps.android.slimbo.data.model.Factor
 import com.mindyapps.android.slimbo.data.repository.SlimboRepositoryImpl
 import com.mindyapps.android.slimbo.ui.adapters.FactorsRecyclerAdapter
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FactorsFragment : DialogFragment() {
@@ -33,7 +35,7 @@ class FactorsFragment : DialogFragment() {
     private lateinit var factorsRecyclerAdapter: FactorsRecyclerAdapter
 
     private val sourceList = ArrayList<Factor>()
-    private val selectedFactors = ArrayList<Factor>()
+    private var selectedFactors = ArrayList<Factor>()
     private lateinit var observerFactors: Observer<List<Factor>>
 
     override fun onCreateView(
@@ -43,6 +45,15 @@ class FactorsFragment : DialogFragment() {
         val root = inflater.inflate(R.layout.factors_fragment, container, false)
         this.dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
 
+        if (requireArguments().getParcelableArray("selected_factors") != null) {
+            val categories  =
+                requireArguments().getParcelableArray("selected_factors") as Array<Factor>
+            if (categories.size > 1) {
+                selectedFactors = categories.toList() as ArrayList<Factor>
+            } else {
+                selectedFactors.add(categories[0])
+            }
+        }
         confirmButton = root.findViewById(R.id.confirm_button)
         recyclerView = root.findViewById(R.id.factors_recycler)
         viewModel =
@@ -74,7 +85,11 @@ class FactorsFragment : DialogFragment() {
 
     private fun bindRecyclerView() {
         factorsRecyclerAdapter =
-            FactorsRecyclerAdapter(sourceList.toMutableList(), requireActivity().applicationContext)
+            FactorsRecyclerAdapter(
+                sourceList.toMutableList(),
+                selectedFactors.toMutableList(),
+                requireActivity().applicationContext
+            )
         recyclerView.layoutManager =
             GridLayoutManager(requireActivity().applicationContext, 3, VERTICAL, false)
         recyclerView.adapter = factorsRecyclerAdapter

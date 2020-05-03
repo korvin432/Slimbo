@@ -18,6 +18,10 @@
     <dialog
         android:id="@+id/factors_dialog"
         android:name="com.mindyapps.android.slimbo.ui.factors.FactorsFragment"
-        tools:layout="@layout/factors_fragment" />
+        tools:layout="@layout/factors_fragment">
+        <argument
+            android:name="selected_factors"
+            app:argType="com.mindyapps.android.slimbo.data.model.Factor[]"/>
+    </dialog>
 
 </navigation>
