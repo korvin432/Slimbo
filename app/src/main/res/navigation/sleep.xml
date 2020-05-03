@@ -2,12 +2,22 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/navigation_sleep"
-    android:id="@+id/sleep">
+    android:id="@+id/sleep"
+    app:startDestination="@id/navigation_sleep">
 
     <fragment
         android:id="@+id/navigation_sleep"
         android:name="com.mindyapps.android.slimbo.ui.sleep.SleepFragment"
         android:label="@string/title_sleep"
-        tools:layout="@layout/fragment_sleep" />
+        tools:layout="@layout/fragment_sleep">
+        <action
+            android:id="@+id/action_navigation_sleep_to_my_dialog"
+            app:destination="@id/factors_dialog" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/factors_dialog"
+        android:name="com.mindyapps.android.slimbo.ui.factors.FactorsFragment"
+        tools:layout="@layout/factors_fragment" />
+
 </navigation>
