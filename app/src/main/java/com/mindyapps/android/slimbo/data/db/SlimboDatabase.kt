@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 @Database(
     entities = [Factor::class],
-    version = 1
+    version = 2
 )
 abstract class SlimboDatabase : RoomDatabase() {
     abstract fun slimboDao(): SlimboDao
@@ -39,7 +39,10 @@ abstract class SlimboDatabase : RoomDatabase() {
                     context.applicationContext,
                     SlimboDatabase::class.java,
                     "slimbo_database"
-                ).addCallback(rdc).build()
+                )
+                    .addCallback(rdc)
+                    .fallbackToDestructiveMigration()
+                    .build()
                 instance.openHelper.writableDatabase
                 if (firstrun) {
                     importData(instance)
@@ -58,7 +61,7 @@ abstract class SlimboDatabase : RoomDatabase() {
             factors.add(Factor(null, "shower", "ic_showe"))
             factors.add(Factor(null, "wine", "ic_wine"))
             factors.add(Factor(null, "workout", "ic_workout"))
-            CoroutineScope(IO).launch{
+            CoroutineScope(IO).launch {
                 db.slimboDao().insertAllFactors(factors)
             }
         }

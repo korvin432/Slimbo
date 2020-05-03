@@ -5,4 +5,11 @@
     <string name="title_relax">Relax</string>
     <string name="title_more">More</string>
     <string name="statistics">Statistics</string>
+    <string name="confirm">Confirm</string>
+    <string name="coffee">Coffee</string>
+    <string name="disease">Disease</string>
+    <string name="nose">Runny nose</string>
+    <string name="shower">Shower</string>
+    <string name="wine">Alcohol</string>
+    <string name="workout">Worked out</string>
 </resources>

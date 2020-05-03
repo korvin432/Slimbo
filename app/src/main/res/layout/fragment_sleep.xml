@@ -63,7 +63,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Factors"
-                        android:textColor="@color/factor_tint"
+                        android:textColor="@color/colorWhiteText"
                         android:textSize="18sp"
                         android:textAlignment="center" />
 
@@ -107,7 +107,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Sound"
-                        android:textColor="@color/factor_tint"
+                        android:textColor="@color/colorWhiteText"
                         android:textSize="18sp"
                         android:textAlignment="center" />
 
@@ -144,7 +144,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Alarm"
-                    android:textColor="@color/factor_tint"
+                    android:textColor="@color/colorWhiteText"
                     android:textSize="18sp"
                     android:textAlignment="center" />
 
