@@ -19,18 +19,22 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mindyapps.android.slimbo.R
 import com.mindyapps.android.slimbo.data.model.Factor
+import com.mindyapps.android.slimbo.data.model.Music
 import com.mindyapps.android.slimbo.ui.adapters.FactorsRecyclerAdapter
 import com.mindyapps.android.slimbo.ui.adapters.SelectedFactorsRecyclerAdapter
+import kotlinx.android.synthetic.main.fragment_sleep.*
 
 
 class SleepFragment : Fragment(), View.OnClickListener {
 
     private lateinit var sleepViewModel: SleepViewModel
     private lateinit var factorsCard: CardView
+    private lateinit var musicCard: CardView
     private lateinit var recyclerView: RecyclerView
     private lateinit var factorsSpace: View
     private lateinit var selectedFactorsRecyclerAdapter: SelectedFactorsRecyclerAdapter
     private var selectedFactors: ArrayList<Factor>? = ArrayList()
+    private var selectedMusic: Music? = null
 
 
     private var root: View? = null
@@ -50,8 +54,12 @@ class SleepFragment : Fragment(), View.OnClickListener {
 
             factorsCard = root!!.findViewById(R.id.factors_card)
             factorsSpace = root!!.findViewById(R.id.factors_space)
+            musicCard = root!!.findViewById(R.id.sound_card)
             recyclerView = root!!.findViewById(R.id.selected_factors_recycler)
+
+
             factorsCard.setOnClickListener(this)
+            musicCard.setOnClickListener(this)
         }
 
 
@@ -74,6 +82,14 @@ class SleepFragment : Fragment(), View.OnClickListener {
             }
             bindFactorsRecycler(result)
         }
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Music>(
+            "selected_music"
+        )?.observe(
+            viewLifecycleOwner
+        ) { result ->
+            selectedMusic = result
+            selected_music_textview.text = selectedMusic!!.name
+        }
     }
 
     private fun bindFactorsRecycler(factors: ArrayList<Factor>) {
@@ -95,6 +111,14 @@ class SleepFragment : Fragment(), View.OnClickListener {
                     findNavController().navigate(R.id.factors_dialog, bundle)
                 } else {
                     findNavController().navigate(R.id.factors_dialog)
+                }
+            }
+            R.id.sound_card ->{
+                if (selectedMusic != null){
+                    val bundle = bundleOf("selected_music" to selectedMusic)
+                    findNavController().navigate(R.id.select_music_dialog, bundle)
+                } else {
+                    findNavController().navigate(R.id.select_music_dialog)
                 }
             }
         }

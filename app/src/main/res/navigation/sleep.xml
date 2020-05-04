@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_sleep_to_my_dialog"
             app:destination="@id/factors_dialog" />
+        <action
+            android:id="@+id/action_navigation_sleep_to_select_music_dialog"
+            app:destination="@id/select_music_dialog" />
     </fragment>
 
     <dialog
@@ -22,6 +25,15 @@
         <argument
             android:name="selected_factors"
             app:argType="com.mindyapps.android.slimbo.data.model.Factor[]"/>
+    </dialog>
+
+    <dialog
+        android:id="@+id/select_music_dialog"
+        android:name="com.mindyapps.android.slimbo.ui.music_select.SelectMusicFragment"
+        tools:layout="@layout/select_music_fragment">
+        <argument
+            android:name="selected_music"
+            app:argType="com.mindyapps.android.slimbo.data.model.Music"/>
     </dialog>
 
 </navigation>
