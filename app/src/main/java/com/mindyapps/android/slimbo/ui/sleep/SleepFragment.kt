@@ -2,17 +2,14 @@ package com.mindyapps.android.slimbo.ui.sleep
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
-import android.widget.Space
 import androidx.cardview.widget.CardView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -20,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mindyapps.android.slimbo.R
 import com.mindyapps.android.slimbo.data.model.Factor
 import com.mindyapps.android.slimbo.data.model.Music
-import com.mindyapps.android.slimbo.ui.adapters.FactorsRecyclerAdapter
 import com.mindyapps.android.slimbo.ui.adapters.SelectedFactorsRecyclerAdapter
 import kotlinx.android.synthetic.main.fragment_sleep.*
 
@@ -60,6 +56,8 @@ class SleepFragment : Fragment(), View.OnClickListener {
 
             factorsCard.setOnClickListener(this)
             musicCard.setOnClickListener(this)
+
+
         }
 
 
@@ -69,13 +67,14 @@ class SleepFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<ArrayList<Factor>>(
             "factors"
         )?.observe(
             viewLifecycleOwner
         ) { result ->
             selectedFactors = result
-            if (result.size > 0){
+            if (result.size > 0) {
                 factorsSpace.visibility = View.VISIBLE
             } else {
                 factorsSpace.visibility = View.GONE
@@ -88,7 +87,12 @@ class SleepFragment : Fragment(), View.OnClickListener {
             viewLifecycleOwner
         ) { result ->
             selectedMusic = result
-            selected_music_textview.text = selectedMusic!!.name
+            if (result.name != requireContext().getString(R.string.do_not_use)) {
+                selected_music_textview.text = selectedMusic!!.name
+                selected_music_textview.visibility = View.VISIBLE
+            } else {
+                selected_music_textview.visibility = View.GONE
+            }
         }
     }
 
@@ -113,8 +117,8 @@ class SleepFragment : Fragment(), View.OnClickListener {
                     findNavController().navigate(R.id.factors_dialog)
                 }
             }
-            R.id.sound_card ->{
-                if (selectedMusic != null){
+            R.id.sound_card -> {
+                if (selectedMusic != null) {
                     val bundle = bundleOf("selected_music" to selectedMusic)
                     findNavController().navigate(R.id.select_music_dialog, bundle)
                 } else {

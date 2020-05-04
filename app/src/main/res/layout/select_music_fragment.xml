@@ -6,14 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/activity_bg"
-    android:maxHeight="400dp"
     android:orientation="vertical"
     tools:context=".ui.music_select.SelectMusicFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/music_recycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="350dp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/confirm_music_button"

@@ -65,10 +65,15 @@ class SelectMusicFragment : DialogFragment() {
 
         populateSourceList()
         bindRecyclerView()
-
     }
 
     private fun populateSourceList() {
+        sourceList.add(
+            Music(
+                null, requireContext().getString(R.string.do_not_use), "",
+                ""
+            )
+        )
         sourceList.add(
             Music(
                 null, "Autumn dream lullaby", "autumn_dream_lullaby",
@@ -162,6 +167,9 @@ class SelectMusicFragment : DialogFragment() {
 //
 //            val mediaPlayer: MediaPlayer = MediaPlayer.create(requireContext(), resID)
 //            mediaPlayer.start()
+            if (music.name !=  requireContext().getString(R.string.do_not_use)) {
+                //play
+            }
             selectedMusic = music
         }
     }

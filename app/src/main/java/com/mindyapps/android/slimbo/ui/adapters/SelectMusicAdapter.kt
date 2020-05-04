@@ -29,7 +29,8 @@ class SelectedMusicAdapter(
         viewType: Int
     ): MusicHolder {
         val itemView: View =
-            LayoutInflater.from(viewGroup.context).inflate(R.layout.select_music_item, viewGroup, false)
+            LayoutInflater.from(viewGroup.context)
+                .inflate(R.layout.select_music_item, viewGroup, false)
         return MusicHolder(itemView)
     }
 
@@ -56,15 +57,19 @@ class SelectedMusicAdapter(
             lastChecked = compoundButton
         }
         if (selectedMusic?.name != null) {
-            if (music.name == selectedMusic?.name){
+            if (music.name == selectedMusic?.name) {
                 musicViewHolder.musicRadioButton.isChecked = true
             }
+        }
+        if (music.name == context.getString(R.string.do_not_use)) {
+            musicViewHolder.musicRadioButton.isChecked = true
         }
     }
 
     inner class MusicHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         val musicRadioButton: RadioButton by lazy { view.music_select }
         val durationText: TextView by lazy { view.music_duration }
+
         init {
             musicRadioButton.setOnClickListener {
                 onItemClick?.invoke(music[adapterPosition])
