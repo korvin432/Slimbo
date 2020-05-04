@@ -1,5 +1,6 @@
 package com.mindyapps.android.slimbo.ui.music_select
 
+import android.content.DialogInterface
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -30,6 +31,7 @@ class SelectMusicFragment : DialogFragment() {
 
     private val sourceList = ArrayList<Music>()
     private var selectedMusic: Music? = null
+    var player: MediaPlayer? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -146,6 +148,18 @@ class SelectMusicFragment : DialogFragment() {
         )
     }
 
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        stopPlaying()
+    }
+
+    private fun stopPlaying(){
+        if (player!= null){
+            if (player!!.isPlaying)
+                player!!.stop()
+        }
+    }
+
     private fun bindRecyclerView() {
         val linearLayoutManager = LinearLayoutManager(requireContext())
         val dividerItemDecoration = DividerItemDecoration(
@@ -162,13 +176,11 @@ class SelectMusicFragment : DialogFragment() {
         recyclerView.layoutManager = linearLayoutManager
         recyclerView.adapter = selectedMusicAdapter
         selectedMusicAdapter.onItemClick = { music ->
-//            val resID =
-//                resources.getIdentifier(music.fileName, "raw", getPackageName())
-//
-//            val mediaPlayer: MediaPlayer = MediaPlayer.create(requireContext(), resID)
-//            mediaPlayer.start()
+            stopPlaying()
             if (music.name !=  requireContext().getString(R.string.do_not_use)) {
-                //play
+                val resID = resources.getIdentifier(music.fileName, "raw", requireContext().packageName)
+                player = MediaPlayer.create(requireContext(), resID)
+                player!!.start()
             }
             selectedMusic = music
         }

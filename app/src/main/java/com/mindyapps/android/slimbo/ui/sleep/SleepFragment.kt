@@ -1,10 +1,13 @@
 package com.mindyapps.android.slimbo.ui.sleep
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.cardview.widget.CardView
 import androidx.core.os.bundleOf
@@ -14,10 +17,12 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.mindyapps.android.slimbo.BlurDrawable
 import com.mindyapps.android.slimbo.R
 import com.mindyapps.android.slimbo.data.model.Factor
 import com.mindyapps.android.slimbo.data.model.Music
 import com.mindyapps.android.slimbo.ui.adapters.SelectedFactorsRecyclerAdapter
+import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.fragment_sleep.*
 
 
@@ -26,8 +31,14 @@ class SleepFragment : Fragment(), View.OnClickListener {
     private lateinit var sleepViewModel: SleepViewModel
     private lateinit var factorsCard: CardView
     private lateinit var musicCard: CardView
+    private lateinit var factorsLinear: LinearLayout
+    private lateinit var musicLinear: LinearLayout
+    private lateinit var musicBlur: LinearLayout
     private lateinit var recyclerView: RecyclerView
-    private lateinit var factorsSpace: View
+    private lateinit var musicBlurLayout: BlurLayout
+    private lateinit var factorsBlurLayout: BlurLayout
+
+
     private lateinit var selectedFactorsRecyclerAdapter: SelectedFactorsRecyclerAdapter
     private var selectedFactors: ArrayList<Factor>? = ArrayList()
     private var selectedMusic: Music? = null
@@ -49,19 +60,40 @@ class SleepFragment : Fragment(), View.OnClickListener {
             loginActivityBackground.alpha = 35
 
             factorsCard = root!!.findViewById(R.id.factors_card)
-            factorsSpace = root!!.findViewById(R.id.factors_space)
             musicCard = root!!.findViewById(R.id.sound_card)
+            musicBlurLayout = root!!.findViewById(R.id.blurLayoutMusic)
+            factorsBlurLayout = root!!.findViewById(R.id.blurLayoutFactors)
             recyclerView = root!!.findViewById(R.id.selected_factors_recycler)
 
 
             factorsCard.setOnClickListener(this)
             musicCard.setOnClickListener(this)
 
-
+        } else {
+            musicBlurLayout.startBlur()
+            factorsBlurLayout.startBlur()
         }
 
 
         return root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        musicBlurLayout.startBlur()
+        factorsBlurLayout.startBlur()
+    }
+
+    override fun onResume(){
+        super.onResume()
+        musicBlurLayout.startBlur()
+        factorsBlurLayout.startBlur()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        musicBlurLayout.pauseBlur()
+        factorsBlurLayout.pauseBlur()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,11 +106,6 @@ class SleepFragment : Fragment(), View.OnClickListener {
             viewLifecycleOwner
         ) { result ->
             selectedFactors = result
-            if (result.size > 0) {
-                factorsSpace.visibility = View.VISIBLE
-            } else {
-                factorsSpace.visibility = View.GONE
-            }
             bindFactorsRecycler(result)
         }
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Music>(
@@ -87,6 +114,11 @@ class SleepFragment : Fragment(), View.OnClickListener {
             viewLifecycleOwner
         ) { result ->
             selectedMusic = result
+
+
+//            val blurDrawable = BlurDrawable(musicLinear, 70)
+//            musicBlur.background = blurDrawable
+
             if (result.name != requireContext().getString(R.string.do_not_use)) {
                 selected_music_textview.text = selectedMusic!!.name
                 selected_music_textview.visibility = View.VISIBLE
