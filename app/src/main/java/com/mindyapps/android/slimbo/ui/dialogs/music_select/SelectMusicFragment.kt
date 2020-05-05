@@ -71,7 +71,7 @@ class SelectMusicFragment : DialogFragment() {
         niceSpinner.attachDataSource(dataset)
 
         for (i in dataset.indices) {
-            if(dataset[i] == selectedLength){
+            if (dataset[i] == selectedLength) {
                 niceSpinner.selectedIndex = i
             }
         }

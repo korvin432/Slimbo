@@ -5,8 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.mindyapps.android.slimbo.data.model.Factor
-import com.mindyapps.android.slimbo.data.model.Music
+import com.mindyapps.android.slimbo.data.model.*
 
 @Dao
 interface SlimboDao {
@@ -19,6 +18,9 @@ interface SlimboDao {
     @Query("SELECT * FROM factors ORDER BY id")
     fun getFactors(): LiveData<List<Factor>>
 
-    @Query("SELECT * FROM music ORDER BY duration")
+    @Query("SELECT * FROM music WHERE type = '$TYPE_MUSIC' OR type = '$TYPE_SOUND'  ORDER BY duration")
     fun getAllMusic(): LiveData<List<Music>>
+
+    @Query("SELECT * FROM music WHERE type = '$TYPE_ALARM' ORDER BY duration")
+    fun getAlarms(): LiveData<List<Music>>
 }

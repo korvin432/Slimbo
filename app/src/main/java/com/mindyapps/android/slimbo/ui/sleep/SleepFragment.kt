@@ -1,12 +1,10 @@
 package com.mindyapps.android.slimbo.ui.sleep
 
-import android.app.TimePickerDialog
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.cardview.widget.CardView
 import androidx.core.os.bundleOf
@@ -34,9 +32,6 @@ class SleepFragment : Fragment(), View.OnClickListener {
     private lateinit var factorsCard: CardView
     private lateinit var musicCard: CardView
     private lateinit var alarmCard: CardView
-    private lateinit var factorsLinear: LinearLayout
-    private lateinit var musicLinear: LinearLayout
-    private lateinit var musicBlur: LinearLayout
     private lateinit var recyclerView: RecyclerView
     private lateinit var musicBlurLayout: BlurLayout
     private lateinit var factorsBlurLayout: BlurLayout
@@ -46,6 +41,9 @@ class SleepFragment : Fragment(), View.OnClickListener {
     private var selectedFactors: ArrayList<Factor>? = ArrayList()
     private var selectedMusic: Music? = null
     private var selectedLength: String? = null
+    private var selectedAlarm: Music? = null
+    private var selectedHour: Int? = null
+    private var selectedMinutes: Int? = null
 
 
     private var root: View? = null
@@ -132,14 +130,44 @@ class SleepFragment : Fragment(), View.OnClickListener {
                 selectedLength = result
             }
         }
+
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Music>(
+            "selected_alarm_sound"
+        )?.observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                selectedAlarm = result
+
+                val cal = Calendar.getInstance()
+                if (!android.text.format.DateFormat.is24HourFormat(requireContext())) {
+                    cal.set(Calendar.HOUR, selectedHour!!)
+                } else {
+                    cal.set(Calendar.HOUR_OF_DAY, selectedHour!!)
+                }
+                cal.set(Calendar.MINUTE, selectedMinutes!!)
+                selected_alarm_textview.text = getTimeInstance(DateFormat.SHORT).format(cal.time)
+            }
+        }
+
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>(
+            "selected_hour"
+        )?.observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                selectedHour = result
+            }
+        }
+
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>(
+            "selected_minutes"
+        )?.observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                selectedMinutes = result
+            }
+        }
     }
 
     private fun bindFactorsRecycler(factors: ArrayList<Factor>) {
         selectedFactorsRecyclerAdapter =
-            SelectedFactorsRecyclerAdapter(
-                factors,
-                requireActivity().applicationContext
-            )
+            SelectedFactorsRecyclerAdapter(factors, requireActivity().applicationContext)
         recyclerView.layoutManager =
             GridLayoutManager(requireActivity().applicationContext, 3, RecyclerView.VERTICAL, false)
         recyclerView.adapter = selectedFactorsRecyclerAdapter
@@ -167,21 +195,16 @@ class SleepFragment : Fragment(), View.OnClickListener {
                 }
             }
             R.id.alarm_card -> {
-                val cal = Calendar.getInstance()
-                val timeSetListener =
-                    TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
-                        cal.set(Calendar.HOUR_OF_DAY, hour)
-                        cal.set(Calendar.MINUTE, minute)
-                        selected_alarm_textview.text =
-                            getTimeInstance(DateFormat.SHORT).format(cal.time)
-                    }
-                TimePickerDialog(
-                    requireContext(),
-                    timeSetListener,
-                    cal.get(Calendar.HOUR_OF_DAY),
-                    cal.get(Calendar.MINUTE),
-                    android.text.format.DateFormat.is24HourFormat(requireContext())
-                ).show()
+                if (selectedAlarm != null) {
+                    val bundle = bundleOf(
+                        "selected_alarm_sound" to selectedAlarm,
+                        "selected_hour" to selectedHour,
+                        "selected_minutes" to selectedMinutes
+                    )
+                    findNavController().navigate(R.id.select_alarm_dialog, bundle)
+                } else {
+                    findNavController().navigate(R.id.select_alarm_dialog)
+                }
             }
         }
     }

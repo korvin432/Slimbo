@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_navigation_sleep_to_select_music_dialog"
             app:destination="@id/select_music_dialog" />
+        <action
+            android:id="@+id/action_navigation_sleep_to_select_alarm_dialog"
+            app:destination="@id/select_alarm_dialog" />
     </fragment>
 
     <dialog
@@ -37,6 +40,21 @@
         <argument
             android:name="selected_length"
             app:argType="string"/>
+    </dialog>
+
+    <dialog
+        android:id="@+id/select_alarm_dialog"
+        android:name="com.mindyapps.android.slimbo.ui.dialogs.alarm.AlarmFragment"
+        tools:layout="@layout/select_music_fragment">
+        <argument
+            android:name="selected_alarm_sound"
+            app:argType="com.mindyapps.android.slimbo.data.model.Music"/>
+        <argument
+            android:name="selected_hour"
+            app:argType="integer"/>
+        <argument
+            android:name="selected_minutes"
+            app:argType="integer"/>
     </dialog>
 
 </navigation>

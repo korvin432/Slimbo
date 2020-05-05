@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 
 const val TYPE_MUSIC = "music"
 const val TYPE_SOUND = "sound"
+const val TYPE_ALARM = "alarm"
 
 @Entity(tableName = "music")
 class Music(

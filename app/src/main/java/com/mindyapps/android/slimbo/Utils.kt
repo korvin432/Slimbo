@@ -5,6 +5,7 @@ import android.media.MediaPlayer
 import com.mindyapps.android.slimbo.data.db.SlimboDatabase
 import com.mindyapps.android.slimbo.data.model.Factor
 import com.mindyapps.android.slimbo.data.model.Music
+import com.mindyapps.android.slimbo.data.model.TYPE_ALARM
 import com.mindyapps.android.slimbo.data.model.TYPE_MUSIC
 
 class Utils(val context:Context) {
@@ -113,6 +114,30 @@ class Utils(val context:Context) {
                 getDurationLength(context, R.raw.zen_stones)
             )
         )
+         musicList.add(
+             Music(
+                 null, "Alarm tone", "alarm_tone", TYPE_ALARM,
+                 getDurationLength(context, R.raw.alarm_tone)
+             )
+         )
+         musicList.add(
+             Music(
+                 null, "Clock sound", "clock_sound", TYPE_ALARM,
+                 getDurationLength(context, R.raw.clock_sound)
+             )
+         )
+         musicList.add(
+             Music(
+                 null, "Ringing clock", "ringing_clock", TYPE_ALARM,
+                 getDurationLength(context, R.raw.ringing_clock)
+             )
+         )
+         musicList.add(
+             Music(
+                 null, "Wake up", "wake_up", TYPE_ALARM,
+                 getDurationLength(context, R.raw.wake_up)
+             )
+         )
         return musicList
     }
 

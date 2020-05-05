@@ -100,7 +100,7 @@
                                     android:layout_height="27dp"
                                     android:padding="3dp"
                                     android:src="@drawable/factors"
-                                    android:tint="@color/factor_tint" />
+                                    android:tint="@color/colorAccent" />
 
                                 <TextView
                                     android:layout_width="match_parent"
@@ -186,7 +186,7 @@
                                 android:layout_width="27dp"
                                 android:layout_height="27dp"
                                 android:src="@drawable/ic_relax"
-                                android:tint="@color/factor_tint" />
+                                android:tint="@color/colorAccent" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -262,7 +262,7 @@
                             android:layout_height="27dp"
                             android:padding="3dp"
                             android:src="@drawable/ic_alarm"
-                            android:tint="@color/factor_tint" />
+                            android:tint="@color/colorAccent" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -286,6 +286,7 @@
             android:layout_marginHorizontal="110dp"
             android:padding="15dp"
             android:background="@drawable/button_gradient"
+            app:backgroundTint="@null"
             android:text="@string/start"
             android:textColor="@color/colorWhiteText"
             app:icon="@drawable/ic_play"

@@ -14,4 +14,8 @@ class SlimboRepositoryImpl : SlimboRepository {
     override fun getMusic(slimboDao: SlimboDao): LiveData<List<Music>> {
         return slimboDao.getAllMusic()
     }
+
+    override fun getAlarms(slimboDao: SlimboDao): LiveData<List<Music>> {
+        return slimboDao.getAlarms()
+    }
 }
