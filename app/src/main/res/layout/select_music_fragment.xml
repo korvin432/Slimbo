@@ -2,25 +2,41 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/select_music_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/activity_bg"
     android:orientation="vertical"
-    tools:context=".ui.music_select.SelectMusicFragment">
+    android:padding="20dp"
+    tools:context=".ui.dialogs.music_select.SelectMusicFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/length"
+        android:textColor="@color/colorWhiteText"
+        android:textSize="18sp"/>
+
+    <org.angmarch.views.NiceSpinner
+        android:id="@+id/nice_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/colorWhiteText"
+        android:textSize="18sp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/music_recycler"
         android:layout_width="match_parent"
-        android:layout_height="350dp" />
+        android:layout_height="200dp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/confirm_music_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/button_gradient"
         android:text="@string/confirm"
-        app:cornerRadius="10dp" />
+        android:textColor="@color/colorWhiteText" />
 
 
 </LinearLayout>

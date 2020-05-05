@@ -5,7 +5,6 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { url 'https://github.com/500px/500px-android-blur/raw/master/releases/' }
         
     }
     dependencies {
@@ -21,7 +20,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven { url 'https://github.com/500px/500px-android-blur/raw/master/releases/' }
+        maven { url "https://jitpack.io" }
         
     }
 }

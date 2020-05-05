@@ -10,8 +10,10 @@ import android.widget.RadioButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mindyapps.android.slimbo.R
+import com.mindyapps.android.slimbo.data.model.Factor
 import com.mindyapps.android.slimbo.data.model.Music
 import kotlinx.android.synthetic.main.select_music_item.view.*
+import java.util.concurrent.TimeUnit
 
 
 class SelectedMusicAdapter(
@@ -49,7 +51,14 @@ class SelectedMusicAdapter(
         music: Music
     ) {
         musicViewHolder.musicRadioButton.text = music.name
-        musicViewHolder.durationText.text = music.duration
+        if (music.duration!! > 1) {
+            musicViewHolder.durationText.text = String.format(
+                "%d:%d",
+                TimeUnit.MILLISECONDS.toMinutes(music.duration),
+                TimeUnit.MILLISECONDS.toSeconds(music.duration) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(music.duration))
+            )
+        }
         musicViewHolder.musicRadioButton.setOnCheckedChangeListener { compoundButton, b ->
             if (lastChecked != null) {
                 lastChecked!!.isChecked = false
@@ -60,10 +69,17 @@ class SelectedMusicAdapter(
             if (music.name == selectedMusic?.name) {
                 musicViewHolder.musicRadioButton.isChecked = true
             }
+        } else {
+            if (music.name == context.getString(R.string.do_not_use)) {
+                musicViewHolder.musicRadioButton.isChecked = true
+            }
         }
-        if (music.name == context.getString(R.string.do_not_use)) {
-            musicViewHolder.musicRadioButton.isChecked = true
-        }
+    }
+
+    fun setFactors(newMusic: List<Music>) {
+        music.clear()
+        music.addAll(newMusic)
+        notifyDataSetChanged()
     }
 
     inner class MusicHolder(private val view: View) : RecyclerView.ViewHolder(view) {

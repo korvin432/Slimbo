@@ -2,20 +2,27 @@ package com.mindyapps.android.slimbo.data.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+const val TYPE_MUSIC = "music"
+const val TYPE_SOUND = "sound"
+
+@Entity(tableName = "music")
 class Music(
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
     val name: String?,
     val fileName: String?,
-    val duration: String?
+    val type:String?,
+    val duration: Long?
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readString(),
         parcel.readString(),
-        parcel.readString()
+        parcel.readString(),
+        parcel.readValue(Long::class.java.classLoader) as? Long
     ) {
     }
 
@@ -23,7 +30,8 @@ class Music(
         parcel.writeValue(id)
         parcel.writeString(name)
         parcel.writeString(fileName)
-        parcel.writeString(duration)
+        parcel.writeString(type)
+        parcel.writeValue(duration)
     }
 
     override fun describeContents(): Int {

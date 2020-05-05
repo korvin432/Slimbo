@@ -1,7 +1,6 @@
 package com.mindyapps.android.slimbo.ui.sleep
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
+import android.app.TimePickerDialog
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,13 +16,16 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mindyapps.android.slimbo.BlurDrawable
 import com.mindyapps.android.slimbo.R
 import com.mindyapps.android.slimbo.data.model.Factor
 import com.mindyapps.android.slimbo.data.model.Music
 import com.mindyapps.android.slimbo.ui.adapters.SelectedFactorsRecyclerAdapter
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.fragment_sleep.*
+import java.text.DateFormat
+import java.text.DateFormat.getTimeInstance
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class SleepFragment : Fragment(), View.OnClickListener {
@@ -31,6 +33,7 @@ class SleepFragment : Fragment(), View.OnClickListener {
     private lateinit var sleepViewModel: SleepViewModel
     private lateinit var factorsCard: CardView
     private lateinit var musicCard: CardView
+    private lateinit var alarmCard: CardView
     private lateinit var factorsLinear: LinearLayout
     private lateinit var musicLinear: LinearLayout
     private lateinit var musicBlur: LinearLayout
@@ -42,6 +45,7 @@ class SleepFragment : Fragment(), View.OnClickListener {
     private lateinit var selectedFactorsRecyclerAdapter: SelectedFactorsRecyclerAdapter
     private var selectedFactors: ArrayList<Factor>? = ArrayList()
     private var selectedMusic: Music? = null
+    private var selectedLength: String? = null
 
 
     private var root: View? = null
@@ -61,6 +65,7 @@ class SleepFragment : Fragment(), View.OnClickListener {
 
             factorsCard = root!!.findViewById(R.id.factors_card)
             musicCard = root!!.findViewById(R.id.sound_card)
+            alarmCard = root!!.findViewById(R.id.alarm_card)
             musicBlurLayout = root!!.findViewById(R.id.blurLayoutMusic)
             factorsBlurLayout = root!!.findViewById(R.id.blurLayoutFactors)
             recyclerView = root!!.findViewById(R.id.selected_factors_recycler)
@@ -68,6 +73,7 @@ class SleepFragment : Fragment(), View.OnClickListener {
 
             factorsCard.setOnClickListener(this)
             musicCard.setOnClickListener(this)
+            alarmCard.setOnClickListener(this)
 
         } else {
             musicBlurLayout.startBlur()
@@ -84,7 +90,7 @@ class SleepFragment : Fragment(), View.OnClickListener {
         factorsBlurLayout.startBlur()
     }
 
-    override fun onResume(){
+    override fun onResume() {
         super.onResume()
         musicBlurLayout.startBlur()
         factorsBlurLayout.startBlur()
@@ -102,28 +108,28 @@ class SleepFragment : Fragment(), View.OnClickListener {
 
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<ArrayList<Factor>>(
             "factors"
-        )?.observe(
-            viewLifecycleOwner
-        ) { result ->
+        )?.observe(viewLifecycleOwner) { result ->
             selectedFactors = result
             bindFactorsRecycler(result)
         }
+
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Music>(
             "selected_music"
-        )?.observe(
-            viewLifecycleOwner
-        ) { result ->
+        )?.observe(viewLifecycleOwner) { result ->
             selectedMusic = result
-
-
-//            val blurDrawable = BlurDrawable(musicLinear, 70)
-//            musicBlur.background = blurDrawable
-
             if (result.name != requireContext().getString(R.string.do_not_use)) {
                 selected_music_textview.text = selectedMusic!!.name
                 selected_music_textview.visibility = View.VISIBLE
             } else {
                 selected_music_textview.visibility = View.GONE
+            }
+        }
+
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(
+            "selected_length"
+        )?.observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                selectedLength = result
             }
         }
     }
@@ -151,11 +157,31 @@ class SleepFragment : Fragment(), View.OnClickListener {
             }
             R.id.sound_card -> {
                 if (selectedMusic != null) {
-                    val bundle = bundleOf("selected_music" to selectedMusic)
+                    val bundle = bundleOf(
+                        "selected_music" to selectedMusic,
+                        "selected_length" to selectedLength
+                    )
                     findNavController().navigate(R.id.select_music_dialog, bundle)
                 } else {
                     findNavController().navigate(R.id.select_music_dialog)
                 }
+            }
+            R.id.alarm_card -> {
+                val cal = Calendar.getInstance()
+                val timeSetListener =
+                    TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
+                        cal.set(Calendar.HOUR_OF_DAY, hour)
+                        cal.set(Calendar.MINUTE, minute)
+                        selected_alarm_textview.text =
+                            getTimeInstance(DateFormat.SHORT).format(cal.time)
+                    }
+                TimePickerDialog(
+                    requireContext(),
+                    timeSetListener,
+                    cal.get(Calendar.HOUR_OF_DAY),
+                    cal.get(Calendar.MINUTE),
+                    android.text.format.DateFormat.is24HourFormat(requireContext())
+                ).show()
             }
         }
     }

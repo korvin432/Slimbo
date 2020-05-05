@@ -7,7 +7,7 @@
     android:background="@color/activity_bg"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".ui.factors.FactorsFragment">
+    tools:context=".ui.dialogs.factors.FactorsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/factors_recycler"

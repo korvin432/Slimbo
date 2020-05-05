@@ -20,7 +20,7 @@
 
     <dialog
         android:id="@+id/factors_dialog"
-        android:name="com.mindyapps.android.slimbo.ui.factors.FactorsFragment"
+        android:name="com.mindyapps.android.slimbo.ui.dialogs.factors.FactorsFragment"
         tools:layout="@layout/factors_fragment">
         <argument
             android:name="selected_factors"
@@ -29,11 +29,14 @@
 
     <dialog
         android:id="@+id/select_music_dialog"
-        android:name="com.mindyapps.android.slimbo.ui.music_select.SelectMusicFragment"
+        android:name="com.mindyapps.android.slimbo.ui.dialogs.music_select.SelectMusicFragment"
         tools:layout="@layout/select_music_fragment">
         <argument
             android:name="selected_music"
             app:argType="com.mindyapps.android.slimbo.data.model.Music"/>
+        <argument
+            android:name="selected_length"
+            app:argType="string"/>
     </dialog>
 
 </navigation>

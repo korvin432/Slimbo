@@ -14,4 +14,11 @@
     <string name="workout">Worked out</string>
     <string name="factors">Factors</string>
     <string name="do_not_use">Do not use</string>
+    <string name="start">Start</string>
+    <string name="five_minutes">5 mins</string>
+    <string name="ten_minutes">10 mins</string>
+    <string name="twenty_minutes">20 mins</string>
+    <string name="thirty_minutes">30 mins</string>
+    <string name="ffive_minutes">45 mins</string>
+    <string name="length">Length</string>
 </resources>

@@ -1,19 +1,25 @@
 package com.mindyapps.android.slimbo.data.db
 
 import android.content.Context
+import android.media.MediaPlayer
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.mindyapps.android.slimbo.R
+import com.mindyapps.android.slimbo.Utils
 import com.mindyapps.android.slimbo.data.model.Factor
+import com.mindyapps.android.slimbo.data.model.Music
+import com.mindyapps.android.slimbo.data.model.TYPE_MUSIC
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 
 @Database(
-    entities = [Factor::class],
-    version = 2
+    entities = [Factor::class, Music::class],
+    version = 1
 )
 abstract class SlimboDatabase : RoomDatabase() {
     abstract fun slimboDao(): SlimboDao
@@ -45,7 +51,7 @@ abstract class SlimboDatabase : RoomDatabase() {
                     .build()
                 instance.openHelper.writableDatabase
                 if (firstrun) {
-                    importData(instance)
+                    importData(instance, context)
                 }
                 INSTANCE = instance
 
@@ -53,16 +59,13 @@ abstract class SlimboDatabase : RoomDatabase() {
             }
         }
 
-        private fun importData(db: SlimboDatabase) {
-            val factors = mutableListOf<Factor>()
-            factors.add(Factor(null, "coffee", "ic_coffee"))
-            factors.add(Factor(null, "disease", "ic_ill"))
-            factors.add(Factor(null, "nose", "ic_nose"))
-            factors.add(Factor(null, "shower", "ic_showe"))
-            factors.add(Factor(null, "wine", "ic_wine"))
-            factors.add(Factor(null, "workout", "ic_workout"))
+        private fun importData(db: SlimboDatabase, context: Context) {
+            val factors = Utils(context).getFactorsList()
+            val music = Utils(context).getMusicList()
+
             CoroutineScope(IO).launch {
                 db.slimboDao().insertAllFactors(factors)
+                db.slimboDao().insertAllMusic(music)
             }
         }
     }

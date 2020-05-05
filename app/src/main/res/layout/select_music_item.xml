@@ -1,31 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
     android:paddingHorizontal="10dp"
-    android:layout_width="300dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <RadioButton
         android:id="@+id/music_select"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@id/music_duration"
         android:paddingStart="15dp"
-        android:text="Relax"
+        android:text="Relax sdm;sdgm ds;gmsdgsdg jlsdg"
         android:textColor="@color/colorWhiteText"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toStartOf="@+id/music_duration"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/music_duration"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:text="3:10"
         android:textColor="@color/colorWhiteText"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_alignParentEnd="true"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

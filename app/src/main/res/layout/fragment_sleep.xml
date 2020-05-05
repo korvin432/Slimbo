@@ -18,7 +18,8 @@
             android:id="@+id/text_clock"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="50dp"
+            android:fontFamily="sans-serif-thin"
             android:format12Hour="hh:mm"
             android:format24Hour="HH:mm"
             android:textAlignment="center"
@@ -131,6 +132,7 @@
                 android:maxHeight="140dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="8dp"
+                app:cardBackgroundColor="@color/card_bg"
                 app:cardPreventCornerOverlap="false"
                 app:cardUseCompatPadding="true"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -146,7 +148,7 @@
                         android:id="@+id/sound_linear"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/music_back_piano"
+                        android:background="@drawable/music_back"
                         android:backgroundTint="@color/colorPrimaryDark"
                         android:backgroundTintMode="multiply"
                         android:orientation="vertical">
@@ -156,7 +158,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginTop="40dp"
-                            android:gravity="center_vertical"
                             android:maxHeight="100dp"
                             android:textAlignment="center"
                             android:textColor="@color/colorWhiteText"
@@ -171,7 +172,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         blurkit:blk_blurRadius="15"
-                        blurkit:blk_downscaleFactor="0.15"
+                        blurkit:blk_downscaleFactor="0.10"
                         blurkit:blk_fps="0">
 
                         <LinearLayout
@@ -223,7 +224,7 @@
                     android:id="@+id/alarm_linear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/alarm_back"
+                    android:background="@drawable/music_bg"
                     android:backgroundTint="@color/colorPrimaryDark"
                     android:backgroundTintMode="multiply"
                     android:orientation="vertical">
@@ -232,13 +233,12 @@
                         android:id="@+id/selected_alarm_textview"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="40dp"
-                        android:gravity="center_vertical"
-                        android:maxHeight="100dp"
+                        android:layout_marginTop="30dp"
                         android:textAlignment="center"
+                        android:fontFamily="sans-serif-thin"
+                        android:maxHeight="100dp"
                         android:textColor="@color/colorWhiteText"
-                        android:textSize="16sp"
-                        android:visibility="gone" />
+                        android:textSize="35sp" />
 
                 </LinearLayout>
 
@@ -285,8 +285,9 @@
             android:layout_below="@id/alarm_card"
             android:layout_marginHorizontal="110dp"
             android:padding="15dp"
-            android:text="Start"
-            app:cornerRadius="40dp"
+            android:background="@drawable/button_gradient"
+            android:text="@string/start"
+            android:textColor="@color/colorWhiteText"
             app:icon="@drawable/ic_play"
             app:iconGravity="textStart"
             app:iconSize="30dp" />
