@@ -1,5 +1,7 @@
 package com.mindyapps.android.slimbo.ui.dialogs.factors
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,6 +41,7 @@ class FactorsFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.factors_fragment, container, false)
+        this.dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         this.dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
 
         if (requireArguments().getParcelableArray("selected_factors") != null) {

@@ -168,8 +168,6 @@ class SleepFragment : Fragment(), View.OnClickListener {
     private fun bindFactorsRecycler(factors: ArrayList<Factor>) {
         selectedFactorsRecyclerAdapter =
             SelectedFactorsRecyclerAdapter(factors, requireActivity().applicationContext)
-        recyclerView.layoutManager =
-            GridLayoutManager(requireActivity().applicationContext, 3, RecyclerView.VERTICAL, false)
         recyclerView.adapter = selectedFactorsRecyclerAdapter
     }
 

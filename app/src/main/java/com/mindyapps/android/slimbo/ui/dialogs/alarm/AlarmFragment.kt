@@ -1,6 +1,8 @@
 package com.mindyapps.android.slimbo.ui.dialogs.alarm
 
 import android.content.DialogInterface
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -52,8 +54,9 @@ class AlarmFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.alarm_fragment, container, false)
-
+        this.dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         this.dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
         viewModel = ViewModelProvider(
             this,
             AlarmViewModelFactory(repository, requireActivity().application)

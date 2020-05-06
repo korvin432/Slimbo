@@ -58,13 +58,12 @@ class FactorsRecyclerAdapter(
 
         factorsViewHolder.name.text = context.getString(stringId)
         factorsViewHolder.image.tag = factor.resource_name
-        if (selectedFactors.size == 0) {
-            val resourceId: Int = context.resources.getIdentifier(
-                factor.resource_name, "drawable",
-                context.packageName
-            )
-            factorsViewHolder.image.setImageDrawable(ContextCompat.getDrawable(context, resourceId))
-        } else {
+        val resourceId: Int = context.resources.getIdentifier(
+            factor.resource_name, "drawable",
+            context.packageName
+        )
+        factorsViewHolder.image.setImageDrawable(ContextCompat.getDrawable(context, resourceId))
+        if (selectedFactors.size != 0)  {
             if (selectedFactors.contains(factor)) {
                 val resourceId: Int = context.resources.getIdentifier(
                     factor.resource_name + "_filled", "drawable",

@@ -8,34 +8,33 @@
     android:background="@drawable/sleep_bg"
     tools:context=".ui.sleep.SleepFragment">
 
-
-    <RelativeLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true">
+        android:layout_height="wrap_content">
 
-        <TextClock
-            android:id="@+id/text_clock"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:fontFamily="sans-serif-thin"
-            android:format12Hour="hh:mm"
-            android:format24Hour="HH:mm"
-            android:textAlignment="center"
-            android:textColor="@color/colorWhiteText"
-            android:textSize="60sp" />
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraint"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/text_clock"
-            android:layout_marginTop="30dp">
+            <TextClock
+                android:id="@+id/text_clock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:fontFamily="sans-serif-thin"
+                android:format12Hour="hh:mm"
+                android:format24Hour="HH:mm"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhiteText"
+                android:textSize="55sp" />
+
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/factors_card"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/factors_back"
                 android:maxHeight="140dp"
@@ -43,15 +42,11 @@
                 app:cardCornerRadius="10dp"
                 app:cardElevation="8dp"
                 app:cardPreventCornerOverlap="false"
-                app:cardUseCompatPadding="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guideline"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="140dp"
+                    android:layout_height="100dp"
                     android:background="@drawable/factors_back"
                     android:backgroundTint="@color/colorPrimaryDark"
                     android:backgroundTintMode="multiply"
@@ -72,10 +67,12 @@
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/selected_factors_recycler"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="20dp"
-                                android:gravity="center_vertical" />
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="15dp"
+                                android:layout_gravity="center"
+                                android:orientation="horizontal"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                         </LinearLayout>
 
@@ -95,16 +92,10 @@
                                 android:orientation="horizontal"
                                 android:padding="5dp">
 
-                                <ImageView
-                                    android:layout_width="27dp"
-                                    android:layout_height="27dp"
-                                    android:padding="3dp"
-                                    android:src="@drawable/factors"
-                                    android:tint="@color/colorAccent" />
-
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
                                     android:text="@string/factors"
                                     android:textColor="@color/colorWhiteText"
                                     android:textSize="18sp" />
@@ -118,31 +109,21 @@
 
             </androidx.cardview.widget.CardView>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/sound_card"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxHeight="140dp"
+                app:cardBackgroundColor="@color/card_bg"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="8dp"
-                app:cardBackgroundColor="@color/card_bg"
                 app:cardPreventCornerOverlap="false"
-                app:cardUseCompatPadding="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/factors_card"
-                app:layout_constraintTop_toTopOf="parent">
+                app:cardUseCompatPadding="true">
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="140dp">
+                    android:layout_height="100dp">
 
                     <LinearLayout
                         android:id="@+id/sound_linear"
@@ -157,11 +138,12 @@
                             android:id="@+id/selected_music_textview"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginTop="40dp"
+                            android:layout_marginTop="20dp"
+                            android:fontFamily="sans-serif-thin"
                             android:maxHeight="100dp"
                             android:textAlignment="center"
                             android:textColor="@color/colorWhiteText"
-                            android:textSize="16sp"
+                            android:textSize="22sp"
                             android:visibility="gone" />
 
                     </LinearLayout>
@@ -182,16 +164,11 @@
                             android:orientation="horizontal"
                             android:padding="5dp">
 
-                            <ImageView
-                                android:layout_width="27dp"
-                                android:layout_height="27dp"
-                                android:src="@drawable/ic_relax"
-                                android:tint="@color/colorAccent" />
-
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
+                                android:layout_marginStart="5dp"
                                 android:text="Music"
                                 android:textColor="@color/colorWhiteText"
                                 android:textSize="18sp" />
@@ -204,95 +181,87 @@
 
             </androidx.cardview.widget.CardView>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/alarm_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/constraint"
-            app:cardBackgroundColor="@color/card_bg"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="8dp"
-            app:cardUseCompatPadding="true">
-
-            <FrameLayout
+            <androidx.cardview.widget.CardView
+                android:id="@+id/alarm_card"
                 android:layout_width="match_parent"
-                android:layout_height="140dp">
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/card_bg"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="8dp"
+                app:cardUseCompatPadding="true">
 
-                <LinearLayout
-                    android:id="@+id/alarm_linear"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/music_bg"
-                    android:backgroundTint="@color/colorPrimaryDark"
-                    android:backgroundTintMode="multiply"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/selected_alarm_textview"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="30dp"
-                        android:textAlignment="center"
-                        android:fontFamily="sans-serif-thin"
-                        android:maxHeight="100dp"
-                        android:textColor="@color/colorWhiteText"
-                        android:textSize="35sp" />
-
-                </LinearLayout>
-
-                <io.alterac.blurkit.BlurLayout xmlns:blurkit="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/blurLayoutAlarm"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    blurkit:blk_blurRadius="15"
-                    blurkit:blk_downscaleFactor="0.10"
-                    blurkit:blk_fps="0">
+                    android:layout_height="100dp">
 
                     <LinearLayout
+                        android:id="@+id/alarm_linear"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:padding="5dp">
-
-                        <ImageView
-                            android:layout_width="27dp"
-                            android:layout_height="27dp"
-                            android:padding="3dp"
-                            android:src="@drawable/ic_alarm"
-                            android:tint="@color/colorAccent" />
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/music_bg"
+                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:backgroundTintMode="multiply"
+                        android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/selected_alarm_textview"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Alarm"
+                            android:layout_height="match_parent"
+                            android:fontFamily="sans-serif-thin"
+                            android:layout_marginTop="15dp"
+                            android:maxHeight="100dp"
+                            android:textAlignment="center"
                             android:textColor="@color/colorWhiteText"
-                            android:textSize="18sp" />
+                            android:textSize="35sp" />
 
                     </LinearLayout>
 
-                </io.alterac.blurkit.BlurLayout>
+                    <io.alterac.blurkit.BlurLayout xmlns:blurkit="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/blurLayoutAlarm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        blurkit:blk_blurRadius="15"
+                        blurkit:blk_downscaleFactor="0.10"
+                        blurkit:blk_fps="0">
 
-            </FrameLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:padding="5dp">
 
-        </androidx.cardview.widget.CardView>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:text="Alarm"
+                                android:textColor="@color/colorWhiteText"
+                                android:textSize="18sp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/alarm_card"
-            android:layout_marginHorizontal="110dp"
-            android:padding="15dp"
-            android:background="@drawable/button_gradient"
-            app:backgroundTint="@null"
-            android:text="@string/start"
-            android:textColor="@color/colorWhiteText"
-            app:icon="@drawable/ic_play"
-            app:iconGravity="textStart"
-            app:iconSize="30dp" />
+                        </LinearLayout>
 
-    </RelativeLayout>
+                    </io.alterac.blurkit.BlurLayout>
+
+                </FrameLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="110dp"
+                android:background="@drawable/button_ripple"
+                android:text="@string/start"
+                android:textColor="@color/colorWhiteText"
+                app:backgroundTint="@null"
+                app:icon="@drawable/ic_play"
+                app:iconGravity="textStart"
+                app:iconSize="30dp" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </RelativeLayout>

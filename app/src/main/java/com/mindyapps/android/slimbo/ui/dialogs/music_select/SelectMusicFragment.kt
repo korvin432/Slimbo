@@ -1,6 +1,8 @@
 package com.mindyapps.android.slimbo.ui.dialogs.music_select
 
 import android.content.DialogInterface
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -43,6 +45,7 @@ class SelectMusicFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.select_music_fragment, container, false)
+        this.dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         this.dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
         viewModel = ViewModelProvider(
             this,

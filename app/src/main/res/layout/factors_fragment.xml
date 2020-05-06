@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/activity_bg"
+    android:background="@drawable/background_gradient"
+    app:backgroundTint="@null"
     android:orientation="vertical"
-    android:padding="20dp"
+    android:padding="15dp"
     tools:context=".ui.dialogs.factors.FactorsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:background="@drawable/button_ripple"
+        app:backgroundTint="@null"
         android:text="@string/confirm"
         app:cornerRadius="10dp" />
 

@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/activity_bg"
+    android:background="@drawable/background_gradient"
+    app:backgroundTint="@null"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="20dp"
+    android:padding="15dp"
     tools:context=".ui.dialogs.alarm.AlarmFragment">
 
     <TimePicker
         android:id="@+id/timePicker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:theme="@style/TimePickerStyle"
         android:timePickerMode="spinner" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -27,9 +28,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@drawable/button_gradient"
-        app:backgroundTint="@null"
+        android:background="@drawable/button_ripple"
         android:text="@string/confirm"
-        android:textColor="@color/colorWhiteText" />
+        android:textColor="@color/colorWhiteText"
+        app:backgroundTint="@null" />
 
 </LinearLayout>
