@@ -1,5 +1,6 @@
 package com.mindyapps.android.slimbo.ui.dialogs.alarm
 
+import android.app.TimePickerDialog
 import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -13,6 +14,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.CheckBox
+import android.widget.CompoundButton
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
@@ -32,20 +35,27 @@ import com.mindyapps.android.slimbo.ui.adapters.SelectedMusicAdapter
 import com.mindyapps.android.slimbo.ui.dialogs.music_select.SelectMusicViewModel
 import com.mindyapps.android.slimbo.ui.dialogs.music_select.SelectMusicViewModelFactory
 import kotlinx.coroutines.launch
+import java.text.DateFormat.getTimeInstance
+import java.text.SimpleDateFormat
+import java.util.*
 
-class AlarmFragment : DialogFragment() {
+class AlarmFragment : DialogFragment(), CompoundButton.OnCheckedChangeListener {
 
     private var repository = SlimboRepositoryImpl()
     private lateinit var viewModel: AlarmViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var confirmButton: MaterialButton
-    private lateinit var timePicker: TimePicker
+    private lateinit var firstAlarmPicker: CheckBox
+    private lateinit var secondAlarmPicker: CheckBox
+    private lateinit var thirdAlarmPicker: CheckBox
     private lateinit var selectedMusicAdapter: SelectedMusicAdapter
+    private lateinit var timeSetListener: TimePickerDialog.OnTimeSetListener
 
     private lateinit var observerMusic: Observer<List<Music>>
     private var selectedAlarm: Music? = null
-    private var selectedHour: Int? = null
-    private var selectedMinutes: Int? = null
+    private var firstAlarm: IntArray? = null
+    private var secondAlarm: IntArray? = null
+    private var thirdAlarm: IntArray? = null
     private var moved = false
     var player: MediaPlayer? = null
 
@@ -62,31 +72,53 @@ class AlarmFragment : DialogFragment() {
             AlarmViewModelFactory(repository, requireActivity().application)
         ).get(AlarmViewModel::class.java)
 
-        if (requireArguments().getParcelable<Music>("selected_alarm_sound") != null) {
-            selectedAlarm = requireArguments().getParcelable("selected_alarm_sound")
-            selectedHour = requireArguments().getInt("selected_hour")
-            selectedMinutes = requireArguments().getInt("selected_minutes")
-        }
 
         recyclerView = root.findViewById(R.id.alarm_recycler)
         confirmButton = root.findViewById(R.id.confirm_alarm_button)
-        timePicker = root.findViewById(R.id.timePicker)
-        timePicker.setIs24HourView(DateFormat.is24HourFormat(requireContext()))
+        firstAlarmPicker = root.findViewById(R.id.first_alarm_picker)
+        secondAlarmPicker = root.findViewById(R.id.second_alarm_picker)
+        thirdAlarmPicker = root.findViewById(R.id.third_alarm_picker)
 
-        timePicker.setOnTimeChangedListener { _, hour, minute ->
-            moved = true
-            selectedHour = hour
-            selectedMinutes = minute
+
+        if (requireArguments().getParcelable<Music>("selected_alarm_sound") != null) {
+            selectedAlarm = requireArguments().getParcelable("selected_alarm_sound")
+            firstAlarm = requireArguments().getIntArray("first_alarm")
+            firstAlarmPicker.isChecked = true
+            firstAlarmPicker.text = "${firstAlarm!![0]}:${firstAlarm!![1]}"
+            secondAlarmPicker.alpha = 1f
+            secondAlarmPicker.isClickable = true
+
+            secondAlarm = requireArguments().getIntArray("second_alarm")
+            if (secondAlarm != null) {
+                secondAlarmPicker.isChecked = true
+                thirdAlarmPicker.alpha = 1f
+                thirdAlarmPicker.isClickable = true
+                secondAlarmPicker.text = "${secondAlarm!![0]}:${secondAlarm!![1]}"
+            }
+            thirdAlarm = requireArguments().getIntArray("third_alarm")
+            if (thirdAlarm != null) {
+                thirdAlarmPicker.alpha = 1f
+                thirdAlarmPicker.isClickable = true
+                thirdAlarmPicker.isChecked = true
+                thirdAlarmPicker.text = "${thirdAlarm!![0]}:${thirdAlarm!![1]}"
+            }
         }
 
+        firstAlarmPicker.setOnCheckedChangeListener(this)
+        secondAlarmPicker.setOnCheckedChangeListener(this)
+        thirdAlarmPicker.setOnCheckedChangeListener(this)
+
         confirmButton.setOnClickListener {
-            if (selectedAlarm != null && moved) {
+            if (selectedAlarm != null && firstAlarm != null) {
                 lifecycleScope.launch {
                     findNavController().previousBackStackEntry?.savedStateHandle?.set(
-                        "selected_hour", selectedHour
+                        "first_alarm", firstAlarm
                     )
                     findNavController().previousBackStackEntry?.savedStateHandle?.set(
-                        "selected_minutes", selectedMinutes
+                        "second_alarm", secondAlarm
+                    )
+                    findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                        "third_alarm", thirdAlarm
                     )
                     findNavController().previousBackStackEntry?.savedStateHandle?.set(
                         "selected_alarm_sound", selectedAlarm
@@ -154,6 +186,87 @@ class AlarmFragment : DialogFragment() {
             player!!.start()
             selectedAlarm = music
         }
+    }
+
+
+    fun showPicker(cal: Calendar) {
+        if (DateFormat.is24HourFormat(requireContext())) {
+            TimePickerDialog(
+                requireContext(), timeSetListener, cal.get(Calendar.HOUR_OF_DAY),
+                cal.get(Calendar.MINUTE), true
+            ).show()
+        } else {
+            TimePickerDialog(
+                requireContext(), timeSetListener, cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE),
+                false
+            ).show()
+        }
+    }
+
+    override fun onCheckedChanged(checkBox: CompoundButton?, checked: Boolean) {
+        val cal = Calendar.getInstance()
+
+        when (checkBox!!.id) {
+            R.id.first_alarm_picker -> {
+                if (checkBox.isChecked) {
+                    timeSetListener =
+                        TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
+                            cal.set(Calendar.HOUR_OF_DAY, hour)
+                            cal.set(Calendar.MINUTE, minute)
+                            firstAlarmPicker.text = getTimeInstance().format(cal.time)
+                            firstAlarm = intArrayOf(hour, minute)
+                            secondAlarmPicker.alpha = 1f
+                            secondAlarmPicker.isClickable = true
+                        }
+                    showPicker(cal)
+                } else {
+                    secondAlarmPicker.alpha = 0.5f
+                    secondAlarmPicker.isClickable = false
+                    thirdAlarmPicker.alpha = 0.5f
+                    thirdAlarmPicker.isClickable = false
+                    firstAlarm = null
+                    secondAlarm = null
+                    thirdAlarm = null
+                }
+            }
+            R.id.second_alarm_picker -> {
+                if (checkBox.isChecked) {
+                    timeSetListener =
+                        TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
+                            cal.set(Calendar.HOUR_OF_DAY, hour)
+                            cal.set(Calendar.MINUTE, minute)
+                            secondAlarmPicker.text = getTimeInstance().format(cal.time)
+                            secondAlarm = intArrayOf(hour, minute)
+                            thirdAlarmPicker.alpha = 1f
+                            thirdAlarmPicker.isClickable = true
+                        }
+                    showPicker(cal)
+                } else {
+                    thirdAlarmPicker.alpha = 0.5f
+                    thirdAlarmPicker.isClickable = false
+                    thirdAlarmPicker.isChecked = false
+                    secondAlarm = null
+                    thirdAlarm = null
+                }
+            }
+            R.id.third_alarm_picker -> {
+                if (checkBox.isChecked) {
+                    timeSetListener =
+                        TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
+                            cal.set(Calendar.HOUR_OF_DAY, hour)
+                            cal.set(Calendar.MINUTE, minute)
+                            thirdAlarmPicker.text = getTimeInstance().format(cal.time)
+                            thirdAlarm = intArrayOf(hour, minute)
+                            thirdAlarmPicker.alpha = 1f
+                            thirdAlarmPicker.isClickable = true
+                        }
+                    showPicker(cal)
+                } else {
+                    thirdAlarm = null
+                }
+            }
+        }
+
     }
 
 }

@@ -28,7 +28,7 @@ class Utils(val context:Context) {
      fun getMusicList(): MutableList<Music>{
         val musicList = mutableListOf<Music>()
         musicList.add(
-            Music(null, context.getString(R.string.do_not_use), "", "", 0)
+            Music(null, context.getString(R.string.do_not_use), "", TYPE_MUSIC, 0)
         )
         musicList.add(
             Music(

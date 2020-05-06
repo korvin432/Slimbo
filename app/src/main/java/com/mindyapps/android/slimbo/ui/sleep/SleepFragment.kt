@@ -42,8 +42,9 @@ class SleepFragment : Fragment(), View.OnClickListener {
     private var selectedMusic: Music? = null
     private var selectedLength: String? = null
     private var selectedAlarm: Music? = null
-    private var selectedHour: Int? = null
-    private var selectedMinutes: Int? = null
+    private var firstAlarm: IntArray? = null
+    private var secondAlarm: IntArray? = null
+    private var thirdAlarm: IntArray? = null
 
 
     private var root: View? = null
@@ -137,32 +138,49 @@ class SleepFragment : Fragment(), View.OnClickListener {
             if (result != null) {
                 selectedAlarm = result
 
-                val cal = Calendar.getInstance()
-                if (!android.text.format.DateFormat.is24HourFormat(requireContext())) {
-                    cal.set(Calendar.HOUR, selectedHour!!)
-                } else {
-                    cal.set(Calendar.HOUR_OF_DAY, selectedHour!!)
+                var summaryTimeText = getAlarmTime(firstAlarm)
+
+                if (secondAlarm != null){
+                    summaryTimeText += "   " + getAlarmTime(secondAlarm)
                 }
-                cal.set(Calendar.MINUTE, selectedMinutes!!)
-                selected_alarm_textview.text = getTimeInstance(DateFormat.SHORT).format(cal.time)
+                if (thirdAlarm != null){
+                    summaryTimeText += "   " + getAlarmTime(thirdAlarm)
+                }
+
+                selected_alarm_textview.text = summaryTimeText
             }
         }
 
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>(
-            "selected_hour"
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<IntArray>(
+            "first_alarm"
         )?.observe(viewLifecycleOwner) { result ->
             if (result != null) {
-                selectedHour = result
+                firstAlarm = result
             }
         }
 
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>(
-            "selected_minutes"
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<IntArray>(
+            "second_alarm"
         )?.observe(viewLifecycleOwner) { result ->
-            if (result != null) {
-                selectedMinutes = result
-            }
+                secondAlarm = result
         }
+
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<IntArray>(
+            "third_alarm"
+        )?.observe(viewLifecycleOwner) { result ->
+                thirdAlarm = result
+        }
+    }
+
+    private fun getAlarmTime(array: IntArray?):String{
+        val cal = Calendar.getInstance()
+        if (!android.text.format.DateFormat.is24HourFormat(requireContext())) {
+            cal.set(Calendar.HOUR, array!![0])
+        } else {
+            cal.set(Calendar.HOUR_OF_DAY, array!![0])
+        }
+        cal.set(Calendar.MINUTE, array[1])
+        return getTimeInstance(DateFormat.SHORT).format(cal.time)
     }
 
     private fun bindFactorsRecycler(factors: ArrayList<Factor>) {
@@ -193,14 +211,28 @@ class SleepFragment : Fragment(), View.OnClickListener {
                 }
             }
             R.id.alarm_card -> {
-                if (selectedAlarm != null) {
+                if (selectedAlarm != null && secondAlarm != null && thirdAlarm != null) {
                     val bundle = bundleOf(
                         "selected_alarm_sound" to selectedAlarm,
-                        "selected_hour" to selectedHour,
-                        "selected_minutes" to selectedMinutes
+                        "first_alarm" to firstAlarm,
+                        "second_alarm" to secondAlarm,
+                        "third_alarm" to thirdAlarm
                     )
                     findNavController().navigate(R.id.select_alarm_dialog, bundle)
-                } else {
+                } else if(selectedAlarm != null && secondAlarm != null) {
+                    val bundle = bundleOf(
+                        "selected_alarm_sound" to selectedAlarm,
+                        "first_alarm" to firstAlarm,
+                        "second_alarm" to secondAlarm
+                    )
+                    findNavController().navigate(R.id.select_alarm_dialog, bundle)
+                } else if(selectedAlarm != null && firstAlarm != null) {
+                    val bundle = bundleOf(
+                        "selected_alarm_sound" to selectedAlarm,
+                        "first_alarm" to firstAlarm
+                    )
+                    findNavController().navigate(R.id.select_alarm_dialog, bundle)
+                }  else {
                     findNavController().navigate(R.id.select_alarm_dialog)
                 }
             }

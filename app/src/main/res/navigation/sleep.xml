@@ -50,11 +50,14 @@
             android:name="selected_alarm_sound"
             app:argType="com.mindyapps.android.slimbo.data.model.Music"/>
         <argument
-            android:name="selected_hour"
-            app:argType="integer"/>
+            android:name="first_alarm"
+            app:argType="integer[]"/>
         <argument
-            android:name="selected_minutes"
-            app:argType="integer"/>
+            android:name="second_alarm"
+            app:argType="integer[]"/>
+        <argument
+            android:name="third_alarm"
+            app:argType="integer[]"/>
     </dialog>
 
 </navigation>
