@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mindyapps.android.slimbo.R
+import com.mindyapps.android.slimbo.Utils
 import com.mindyapps.android.slimbo.data.model.Factor
 import com.mindyapps.android.slimbo.data.model.Music
 import com.mindyapps.android.slimbo.ui.adapters.SelectedFactorsRecyclerAdapter
@@ -138,13 +139,16 @@ class SleepFragment : Fragment(), View.OnClickListener {
             if (result != null) {
                 selectedAlarm = result
 
-                var summaryTimeText = getAlarmTime(firstAlarm)
+                var summaryTimeText = ""
 
+                if (firstAlarm != null){
+                    summaryTimeText = Utils(requireContext()).getAlarmTime(firstAlarm)
+                }
                 if (secondAlarm != null){
-                    summaryTimeText += "   " + getAlarmTime(secondAlarm)
+                    summaryTimeText += "   " + Utils(requireContext()).getAlarmTime(secondAlarm)
                 }
                 if (thirdAlarm != null){
-                    summaryTimeText += "   " + getAlarmTime(thirdAlarm)
+                    summaryTimeText += "   " + Utils(requireContext()).getAlarmTime(thirdAlarm)
                 }
 
                 selected_alarm_textview.text = summaryTimeText
@@ -154,9 +158,7 @@ class SleepFragment : Fragment(), View.OnClickListener {
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<IntArray>(
             "first_alarm"
         )?.observe(viewLifecycleOwner) { result ->
-            if (result != null) {
                 firstAlarm = result
-            }
         }
 
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<IntArray>(
@@ -170,17 +172,6 @@ class SleepFragment : Fragment(), View.OnClickListener {
         )?.observe(viewLifecycleOwner) { result ->
                 thirdAlarm = result
         }
-    }
-
-    private fun getAlarmTime(array: IntArray?):String{
-        val cal = Calendar.getInstance()
-        if (!android.text.format.DateFormat.is24HourFormat(requireContext())) {
-            cal.set(Calendar.HOUR, array!![0])
-        } else {
-            cal.set(Calendar.HOUR_OF_DAY, array!![0])
-        }
-        cal.set(Calendar.MINUTE, array[1])
-        return getTimeInstance(DateFormat.SHORT).format(cal.time)
     }
 
     private fun bindFactorsRecycler(factors: ArrayList<Factor>) {

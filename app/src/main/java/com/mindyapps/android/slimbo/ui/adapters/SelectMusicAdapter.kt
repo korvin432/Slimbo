@@ -53,7 +53,7 @@ class SelectedMusicAdapter(
         musicViewHolder.musicRadioButton.text = music.name
         if (music.duration!! > 1) {
             musicViewHolder.durationText.text = String.format(
-                "%d:%d",
+                "%02d:%02d",
                 TimeUnit.MILLISECONDS.toMinutes(music.duration),
                 TimeUnit.MILLISECONDS.toSeconds(music.duration) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(music.duration))

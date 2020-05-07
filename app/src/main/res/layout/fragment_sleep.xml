@@ -37,7 +37,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/factors_back"
-                android:maxHeight="140dp"
                 app:cardBackgroundColor="@color/card_bg"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="8dp"
@@ -114,7 +113,6 @@
                 android:id="@+id/sound_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxHeight="140dp"
                 app:cardBackgroundColor="@color/card_bg"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="8dp"
@@ -204,19 +202,15 @@
                         android:backgroundTintMode="multiply"
                         android:orientation="vertical">
 
-
-                        <me.grantland.widget.AutofitTextView
+                        <TextView
                             android:id="@+id/selected_alarm_textview"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:fontFamily="sans-serif-thin"
                             android:textAlignment="center"
                             android:layout_marginTop="15dp"
-                            android:singleLine="true"
-                            android:maxLines="2"
                             android:textColor="@color/colorWhiteText"
                             android:textSize="35sp"
-                            app:minTextSize="15sp"
                             />
 
                     </LinearLayout>
@@ -235,7 +229,6 @@
                             android:layout_height="match_parent"
                             android:orientation="horizontal"
                             android:padding="5dp">
-
 
                             <TextView
                                 android:layout_width="match_parent"

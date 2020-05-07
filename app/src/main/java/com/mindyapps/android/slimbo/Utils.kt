@@ -7,14 +7,27 @@ import com.mindyapps.android.slimbo.data.model.Factor
 import com.mindyapps.android.slimbo.data.model.Music
 import com.mindyapps.android.slimbo.data.model.TYPE_ALARM
 import com.mindyapps.android.slimbo.data.model.TYPE_MUSIC
+import java.text.DateFormat
+import java.util.*
 
-class Utils(val context:Context) {
+class Utils(val context: Context) {
 
-     fun minutesToMills(min: Int): Long{
-         return (min*1000).toLong()
-     }
+    fun minutesToMills(min: Int): Long {
+        return (min * 1000).toLong()
+    }
 
-     fun getFactorsList(): MutableList<Factor>{
+    fun getAlarmTime(array: IntArray?): String {
+        val cal = Calendar.getInstance()
+        if (!android.text.format.DateFormat.is24HourFormat(context)) {
+            cal.set(Calendar.HOUR, array!![0])
+        } else {
+            cal.set(Calendar.HOUR_OF_DAY, array!![0])
+        }
+        cal.set(Calendar.MINUTE, array[1])
+        return DateFormat.getTimeInstance(DateFormat.SHORT).format(cal.time)
+    }
+
+    fun getFactorsList(): MutableList<Factor> {
         val factors = mutableListOf<Factor>()
         factors.add(Factor(null, "coffee", "ic_coffee"))
         factors.add(Factor(null, "disease", "ic_ill"))
@@ -25,7 +38,7 @@ class Utils(val context:Context) {
         return factors
     }
 
-     fun getMusicList(): MutableList<Music>{
+    fun getMusicList(): MutableList<Music> {
         val musicList = mutableListOf<Music>()
         musicList.add(
             Music(null, context.getString(R.string.do_not_use), "", TYPE_MUSIC, 0)
@@ -114,30 +127,30 @@ class Utils(val context:Context) {
                 getDurationLength(context, R.raw.zen_stones)
             )
         )
-         musicList.add(
-             Music(
-                 null, "Alarm tone", "alarm_tone", TYPE_ALARM,
-                 getDurationLength(context, R.raw.alarm_tone)
-             )
-         )
-         musicList.add(
-             Music(
-                 null, "Clock sound", "clock_sound", TYPE_ALARM,
-                 getDurationLength(context, R.raw.clock_sound)
-             )
-         )
-         musicList.add(
-             Music(
-                 null, "Ringing clock", "ringing_clock", TYPE_ALARM,
-                 getDurationLength(context, R.raw.ringing_clock)
-             )
-         )
-         musicList.add(
-             Music(
-                 null, "Wake up", "wake_up", TYPE_ALARM,
-                 getDurationLength(context, R.raw.wake_up)
-             )
-         )
+        musicList.add(
+            Music(
+                null, "Alarm tone", "alarm_tone", TYPE_ALARM,
+                getDurationLength(context, R.raw.alarm_tone)
+            )
+        )
+        musicList.add(
+            Music(
+                null, "Clock sound", "clock_sound", TYPE_ALARM,
+                getDurationLength(context, R.raw.clock_sound)
+            )
+        )
+        musicList.add(
+            Music(
+                null, "Ringing clock", "ringing_clock", TYPE_ALARM,
+                getDurationLength(context, R.raw.ringing_clock)
+            )
+        )
+        musicList.add(
+            Music(
+                null, "Wake up", "wake_up", TYPE_ALARM,
+                getDurationLength(context, R.raw.wake_up)
+            )
+        )
         return musicList
     }
 
