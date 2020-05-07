@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_navigation_sleep_to_select_alarm_dialog"
             app:destination="@id/select_alarm_dialog" />
+        <action
+            android:id="@+id/action_navigation_sleep_to_sleepingTipFragment"
+            app:destination="@id/sleeping_tip_fragment" />
     </fragment>
 
     <dialog
@@ -59,5 +62,9 @@
             android:name="third_alarm"
             app:argType="integer[]"/>
     </dialog>
+    <fragment
+        android:id="@+id/sleeping_tip_fragment"
+        android:name="com.mindyapps.android.slimbo.ui.sleeping.SleepingTipFragment"
+        tools:layout="@layout/fragment_sleeping_tip" />
 
 </navigation>

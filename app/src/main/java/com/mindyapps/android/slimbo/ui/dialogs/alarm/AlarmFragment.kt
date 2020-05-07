@@ -5,19 +5,14 @@ import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.text.format.DateFormat
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.CheckBox
 import android.widget.CompoundButton
-import android.widget.TimePicker
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -29,15 +24,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 
 import com.mindyapps.android.slimbo.R
-import com.mindyapps.android.slimbo.Utils
+import com.mindyapps.android.slimbo.ui.internal.Utils
 import com.mindyapps.android.slimbo.data.model.Music
 import com.mindyapps.android.slimbo.data.repository.SlimboRepositoryImpl
 import com.mindyapps.android.slimbo.ui.adapters.SelectedMusicAdapter
-import com.mindyapps.android.slimbo.ui.dialogs.music_select.SelectMusicViewModel
-import com.mindyapps.android.slimbo.ui.dialogs.music_select.SelectMusicViewModelFactory
 import kotlinx.coroutines.launch
-import java.text.DateFormat.getTimeInstance
-import java.text.SimpleDateFormat
 import java.util.*
 
 class AlarmFragment : DialogFragment(), CompoundButton.OnCheckedChangeListener {
@@ -207,7 +198,9 @@ class AlarmFragment : DialogFragment(), CompoundButton.OnCheckedChangeListener {
                     timeSetListener =
                         TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
                             firstAlarmPicker.text =
-                                Utils(requireContext()).getAlarmTime(intArrayOf(hour, minute))
+                                Utils(
+                                    requireContext()
+                                ).getAlarmTime(intArrayOf(hour, minute))
                             firstAlarm = intArrayOf(hour, minute)
                             secondAlarmPicker.alpha = 1f
                             secondAlarmPicker.isClickable = true
@@ -228,7 +221,9 @@ class AlarmFragment : DialogFragment(), CompoundButton.OnCheckedChangeListener {
                     timeSetListener =
                         TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
                             secondAlarmPicker.text =
-                                Utils(requireContext()).getAlarmTime(intArrayOf(hour, minute))
+                                Utils(
+                                    requireContext()
+                                ).getAlarmTime(intArrayOf(hour, minute))
                             secondAlarm = intArrayOf(hour, minute)
                             thirdAlarmPicker.alpha = 1f
                             thirdAlarmPicker.isClickable = true
@@ -247,7 +242,9 @@ class AlarmFragment : DialogFragment(), CompoundButton.OnCheckedChangeListener {
                     timeSetListener =
                         TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
                             thirdAlarmPicker.text =
-                                Utils(requireContext()).getAlarmTime(intArrayOf(hour, minute))
+                                Utils(
+                                    requireContext()
+                                ).getAlarmTime(intArrayOf(hour, minute))
                             thirdAlarm = intArrayOf(hour, minute)
                             thirdAlarmPicker.alpha = 1f
                             thirdAlarmPicker.isClickable = true

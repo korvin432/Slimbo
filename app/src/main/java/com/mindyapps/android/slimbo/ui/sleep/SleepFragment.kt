@@ -1,5 +1,6 @@
 package com.mindyapps.android.slimbo.ui.sleep
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,18 +13,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
 import com.mindyapps.android.slimbo.R
-import com.mindyapps.android.slimbo.Utils
+import com.mindyapps.android.slimbo.ui.internal.Utils
 import com.mindyapps.android.slimbo.data.model.Factor
 import com.mindyapps.android.slimbo.data.model.Music
 import com.mindyapps.android.slimbo.ui.adapters.SelectedFactorsRecyclerAdapter
+import com.mindyapps.android.slimbo.ui.sleeping.SleepingActivity
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.fragment_sleep.*
-import java.text.DateFormat
-import java.text.DateFormat.getTimeInstance
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -36,6 +35,7 @@ class SleepFragment : Fragment(), View.OnClickListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var musicBlurLayout: BlurLayout
     private lateinit var factorsBlurLayout: BlurLayout
+    private lateinit var startButton: MaterialButton
 
 
     private lateinit var selectedFactorsRecyclerAdapter: SelectedFactorsRecyclerAdapter
@@ -69,11 +69,13 @@ class SleepFragment : Fragment(), View.OnClickListener {
             musicBlurLayout = root!!.findViewById(R.id.blurLayoutMusic)
             factorsBlurLayout = root!!.findViewById(R.id.blurLayoutFactors)
             recyclerView = root!!.findViewById(R.id.selected_factors_recycler)
+            startButton = root!!.findViewById(R.id.start_sleeping_button)
 
 
             factorsCard.setOnClickListener(this)
             musicCard.setOnClickListener(this)
             alarmCard.setOnClickListener(this)
+            startButton.setOnClickListener(this)
 
         } else {
             musicBlurLayout.startBlur()
@@ -141,14 +143,20 @@ class SleepFragment : Fragment(), View.OnClickListener {
 
                 var summaryTimeText = ""
 
-                if (firstAlarm != null){
-                    summaryTimeText = Utils(requireContext()).getAlarmTime(firstAlarm)
+                if (firstAlarm != null) {
+                    summaryTimeText = Utils(
+                        requireContext()
+                    ).getAlarmTime(firstAlarm)
                 }
-                if (secondAlarm != null){
-                    summaryTimeText += "   " + Utils(requireContext()).getAlarmTime(secondAlarm)
+                if (secondAlarm != null) {
+                    summaryTimeText += "   " + Utils(
+                        requireContext()
+                    ).getAlarmTime(secondAlarm)
                 }
-                if (thirdAlarm != null){
-                    summaryTimeText += "   " + Utils(requireContext()).getAlarmTime(thirdAlarm)
+                if (thirdAlarm != null) {
+                    summaryTimeText += "   " + Utils(
+                        requireContext()
+                    ).getAlarmTime(thirdAlarm)
                 }
 
                 selected_alarm_textview.text = summaryTimeText
@@ -158,19 +166,19 @@ class SleepFragment : Fragment(), View.OnClickListener {
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<IntArray>(
             "first_alarm"
         )?.observe(viewLifecycleOwner) { result ->
-                firstAlarm = result
+            firstAlarm = result
         }
 
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<IntArray>(
             "second_alarm"
         )?.observe(viewLifecycleOwner) { result ->
-                secondAlarm = result
+            secondAlarm = result
         }
 
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<IntArray>(
             "third_alarm"
         )?.observe(viewLifecycleOwner) { result ->
-                thirdAlarm = result
+            thirdAlarm = result
         }
     }
 
@@ -210,22 +218,26 @@ class SleepFragment : Fragment(), View.OnClickListener {
                         "third_alarm" to thirdAlarm
                     )
                     findNavController().navigate(R.id.select_alarm_dialog, bundle)
-                } else if(selectedAlarm != null && secondAlarm != null) {
+                } else if (selectedAlarm != null && secondAlarm != null) {
                     val bundle = bundleOf(
                         "selected_alarm_sound" to selectedAlarm,
                         "first_alarm" to firstAlarm,
                         "second_alarm" to secondAlarm
                     )
                     findNavController().navigate(R.id.select_alarm_dialog, bundle)
-                } else if(selectedAlarm != null && firstAlarm != null) {
+                } else if (selectedAlarm != null && firstAlarm != null) {
                     val bundle = bundleOf(
                         "selected_alarm_sound" to selectedAlarm,
                         "first_alarm" to firstAlarm
                     )
                     findNavController().navigate(R.id.select_alarm_dialog, bundle)
-                }  else {
+                } else {
                     findNavController().navigate(R.id.select_alarm_dialog)
                 }
+            }
+            R.id.start_sleeping_button -> {
+                startActivity(Intent(requireContext(),SleepingActivity::class.java))
+                //findNavController().navigate(R.id.sleeping_tip_fragment)
             }
         }
     }

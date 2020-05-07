@@ -1,8 +1,8 @@
-package com.mindyapps.android.slimbo
+package com.mindyapps.android.slimbo.ui.internal
 
 import android.content.Context
 import android.media.MediaPlayer
-import com.mindyapps.android.slimbo.data.db.SlimboDatabase
+import com.mindyapps.android.slimbo.R
 import com.mindyapps.android.slimbo.data.model.Factor
 import com.mindyapps.android.slimbo.data.model.Music
 import com.mindyapps.android.slimbo.data.model.TYPE_ALARM
@@ -46,109 +46,145 @@ class Utils(val context: Context) {
         musicList.add(
             Music(
                 null, "Autumn dream lullaby", "autumn_dream_lullaby", TYPE_MUSIC,
-                getDurationLength(context, R.raw.autumn_dream_lullaby)
+                getDurationLength(context,
+                    R.raw.autumn_dream_lullaby
+                )
             )
         )
         musicList.add(
             Music(
                 null, "Looking at the night sky", "looking_at_the_night_sky", TYPE_MUSIC,
-                getDurationLength(context, R.raw.looking_at_the_night_sky)
+                getDurationLength(context,
+                    R.raw.looking_at_the_night_sky
+                )
             )
         )
         musicList.add(
             Music(
                 null, "Mystic sea", "mystic_sea", TYPE_MUSIC,
-                getDurationLength(context, R.raw.mystic_sea)
+                getDurationLength(context,
+                    R.raw.mystic_sea
+                )
             )
         )
         musicList.add(
             Music(
                 null, "Ambient Background", "ambient_background", TYPE_MUSIC,
-                getDurationLength(context, R.raw.ambient_background)
+                getDurationLength(context,
+                    R.raw.ambient_background
+                )
             )
         )
         musicList.add(
             Music(
                 null, "Ambient intro", "ambient_intro", TYPE_MUSIC,
-                getDurationLength(context, R.raw.ambient_intro)
+                getDurationLength(context,
+                    R.raw.ambient_intro
+                )
             )
         )
         musicList.add(
             Music(
                 null, "Asian meditation", "asian_meditation", TYPE_MUSIC,
-                getDurationLength(context, R.raw.asian_meditation)
+                getDurationLength(context,
+                    R.raw.asian_meditation
+                )
             )
         )
         musicList.add(
             Music(
                 null, "Magic Forest", "magic_forest", TYPE_MUSIC,
-                getDurationLength(context, R.raw.magic_forest)
+                getDurationLength(context,
+                    R.raw.magic_forest
+                )
             )
         )
         musicList.add(
             Music(
                 null, "Meditation manatees", "meditation_manatees", TYPE_MUSIC,
-                getDurationLength(context, R.raw.meditation_manatees)
+                getDurationLength(context,
+                    R.raw.meditation_manatees
+                )
             )
         )
         musicList.add(
             Music(
                 null, "Nature music", "nature_music", TYPE_MUSIC,
-                getDurationLength(context, R.raw.nature_music)
+                getDurationLength(context,
+                    R.raw.nature_music
+                )
             )
         )
         musicList.add(
             Music(
                 null, "River music", "river_music", TYPE_MUSIC,
-                getDurationLength(context, R.raw.river_music)
+                getDurationLength(context,
+                    R.raw.river_music
+                )
             )
         )
         musicList.add(
             Music(
                 null, "Singing birds", "singing_birds", TYPE_MUSIC,
-                getDurationLength(context, R.raw.singing_birds)
+                getDurationLength(context,
+                    R.raw.singing_birds
+                )
             )
         )
         musicList.add(
             Music(
                 null, "The house glows", "the_house_glows", TYPE_MUSIC,
-                getDurationLength(context, R.raw.the_house_glows)
+                getDurationLength(context,
+                    R.raw.the_house_glows
+                )
             )
         )
         musicList.add(
             Music(
                 null, "Water meditation", "water_meditation", TYPE_MUSIC,
-                getDurationLength(context, R.raw.water_meditation)
+                getDurationLength(context,
+                    R.raw.water_meditation
+                )
             )
         )
         musicList.add(
             Music(
                 null, "Zen stones", "zen_stones", TYPE_MUSIC,
-                getDurationLength(context, R.raw.zen_stones)
+                getDurationLength(context,
+                    R.raw.zen_stones
+                )
             )
         )
         musicList.add(
             Music(
                 null, "Alarm tone", "alarm_tone", TYPE_ALARM,
-                getDurationLength(context, R.raw.alarm_tone)
+                getDurationLength(context,
+                    R.raw.alarm_tone
+                )
             )
         )
         musicList.add(
             Music(
                 null, "Clock sound", "clock_sound", TYPE_ALARM,
-                getDurationLength(context, R.raw.clock_sound)
+                getDurationLength(context,
+                    R.raw.clock_sound
+                )
             )
         )
         musicList.add(
             Music(
                 null, "Ringing clock", "ringing_clock", TYPE_ALARM,
-                getDurationLength(context, R.raw.ringing_clock)
+                getDurationLength(context,
+                    R.raw.ringing_clock
+                )
             )
         )
         musicList.add(
             Music(
                 null, "Wake up", "wake_up", TYPE_ALARM,
-                getDurationLength(context, R.raw.wake_up)
+                getDurationLength(context,
+                    R.raw.wake_up
+                )
             )
         )
         return musicList

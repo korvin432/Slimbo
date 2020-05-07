@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg"
+    android:paddingHorizontal="20dp"
+    tools:context=".ui.sleeping.SleepingTipFragment">
+
+    <ImageView
+        android:id="@+id/tip_image"
+        android:layout_width="215dp"
+        android:layout_height="215dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="95dp"
+        android:src="@drawable/sleep_tip_image" />
+
+    <TextView
+        android:id="@+id/tip_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tip_image"
+        android:layout_marginTop="50dp"
+        android:text="@string/sleeping_tip_text"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhiteText"
+        android:textSize="18sp" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_dont_show"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/button_continue_sleeping"
+        android:layout_marginHorizontal="80dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_ripple"
+        android:text="Don't show this message again"
+        android:textAllCaps="false"
+        android:fontFamily="sans-serif"
+
+        android:textColor="@color/colorWhiteText"
+        app:backgroundTint="@null"
+        app:iconGravity="textStart"
+        android:textSize="15sp"
+        app:iconSize="30dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_continue_sleeping"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="100dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/button_ripple"
+        android:text="@string/continue_tip"
+        android:textSize="15sp"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhiteText"
+        android:fontFamily="sans-serif"
+        app:backgroundTint="@null"
+        app:iconGravity="textStart"
+        app:iconSize="30dp" />
+
+
+</RelativeLayout>
