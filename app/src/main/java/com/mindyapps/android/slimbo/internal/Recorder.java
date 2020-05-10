@@ -1,4 +1,4 @@
-package com.mindyapps.android.slimbo.ui.internal;
+package com.mindyapps.android.slimbo.internal;
 
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -16,10 +16,11 @@ public class Recorder {
     private int RECORDER_AUDIO_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
     private int RECORDER_SAMPLERATE = 44100;
     private byte RECORDER_BPP = (byte) 16;
-    private int minVolumeLevel = 200;
+    private int minVolumeLevel = 40;
 
 
     private Boolean isActive;
+    private boolean isSaving;
 
     public Recorder() {
     }
@@ -29,7 +30,6 @@ public class Recorder {
     }
 
     public void arm() {
-        Log.d("qwwe", "arm. Active: " + isActive);
         // Get the minimum buffer size required for the successful creation of an AudioRecord object.
         int bufferSizeInBytes = AudioRecord.getMinBufferSize(RECORDER_SAMPLERATE, RECORDER_CHANNELS,
                 RECORDER_AUDIO_ENCODING);
@@ -70,19 +70,23 @@ public class Recorder {
             for (int i = 0; i < 3; ++i)
                 temp += tempFloatBuffer[i];
 
-            if ((temp >= 0 && temp <= minVolumeLevel) && !recording) {
+            if ((temp >= 0 && temp <= minVolumeLevel) && !recording && !isSaving) {
                 tempIndex++;
                 continue;
             }
 
-            if (temp > minVolumeLevel && !recording) {
-                Log.d("qwwe", "2");
+            if (temp > minVolumeLevel && !recording && !isSaving) {
                 recording = true;
             }
 
-            if ((temp >= 0 && temp <= minVolumeLevel) && recording) {
+            if (temp > minVolumeLevel && recording){
+                silentSeconds = 0;
+            }
+
+            if ((temp >= 0 && temp <= minVolumeLevel) && recording && !isSaving) {
                 silentSeconds++;
-                if (silentSeconds >= 150) {
+                if (silentSeconds >= 160) {
+                    isSaving = true;
                     Log.d("qwwe", "Save audio to file.");
                     // Save audio to file.
                     String filepath = Environment.getExternalStorageDirectory().getPath();
@@ -100,6 +104,10 @@ public class Recorder {
                     totalAudioLen = totalReadBytes;
                     totalDataLen = totalAudioLen + 36;
                     byte finalBuffer[] = new byte[totalReadBytes + 44];
+
+                    totalDataLen -= 420000;
+                    totalAudioLen -= 420000;
+                    totalReadBytes -= 420000;
 
                     finalBuffer[0] = 'R'; // RIFF/WAVE header
                     finalBuffer[1] = 'I';
@@ -167,7 +175,12 @@ public class Recorder {
 
                     // */
                     tempIndex++;
-                    break;
+                    isSaving = false;
+                    recording = false;
+                    silentSeconds = 0;
+                    numberOfReadBytes = 0;
+                    tempIndex = 0;
+                    totalReadBytes = 0;
                 }
             }
 

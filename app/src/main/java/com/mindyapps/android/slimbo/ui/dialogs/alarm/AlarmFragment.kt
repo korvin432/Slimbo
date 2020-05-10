@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 
 import com.mindyapps.android.slimbo.R
-import com.mindyapps.android.slimbo.ui.internal.Utils
+import com.mindyapps.android.slimbo.internal.Utils
 import com.mindyapps.android.slimbo.data.model.Music
 import com.mindyapps.android.slimbo.data.repository.SlimboRepositoryImpl
 import com.mindyapps.android.slimbo.ui.adapters.SelectedMusicAdapter

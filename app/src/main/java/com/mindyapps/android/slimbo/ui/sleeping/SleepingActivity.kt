@@ -1,23 +1,15 @@
 package com.mindyapps.android.slimbo.ui.sleeping
 
-import android.media.AudioFormat
-import android.media.AudioRecord
-import android.media.MediaRecorder
 import android.os.Bundle
-import android.os.Environment
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.mindyapps.android.slimbo.R
-import com.mindyapps.android.slimbo.ui.internal.Recorder
+import com.mindyapps.android.slimbo.internal.Recorder
 import kotlinx.android.synthetic.main.activity_sleeping.*
-import kotlinx.android.synthetic.main.fragment_sleep.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
-import java.io.File
-import kotlin.experimental.or
 
 
 class SleepingActivity : AppCompatActivity(), View.OnClickListener {

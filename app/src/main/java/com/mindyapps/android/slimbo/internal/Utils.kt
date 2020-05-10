@@ -1,4 +1,4 @@
-package com.mindyapps.android.slimbo.ui.internal
+package com.mindyapps.android.slimbo.internal
 
 import android.content.Context
 import android.media.MediaPlayer

@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.mindyapps.android.slimbo.ui.internal.Utils
+import com.mindyapps.android.slimbo.internal.Utils
 import com.mindyapps.android.slimbo.data.model.Factor
 import com.mindyapps.android.slimbo.data.model.Music
 import kotlinx.coroutines.CoroutineScope
