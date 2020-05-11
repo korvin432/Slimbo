@@ -2,11 +2,13 @@
 <resources>
     <color name="colorPrimary">#3f51b5</color>
     <color name="colorPrimaryDark">#303f9f</color>
-    <color name="colorAccent">#03DAC5</color>
-    <color name="colorFilled">#03DAC5</color>
+    <color name="colorAccent">#03BADA</color>
+    <color name="colorFilled">#03BADA</color>
     <color name="colorOverlay">#78ffffff</color>
+    <color name="colorChipTransparent">#16FFFFFF</color>
     <color name="colorTransparent">#00000000</color>
     <color name="colorWhiteText">#FFFFFF</color>
+    <color name="colorTextHint">#CDCDCD</color>
     <color name="activity_bg">#222B6C</color>
     <color name="bottom_navigation_bg">#131953</color>
     <color name="card_bg">#2E3671</color>
