@@ -27,7 +27,7 @@
     <string name="sleeping_tip_text">Put your phone face down next to your bed and connect it to the charge</string>
     <string name="continue_tip">Continue</string>
 
-    <string name="title_activity_sleeping">SleepingActivity</string>
+    <string name="title_activity_sleeping">Sleeping</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <!-- Preference Titles -->
@@ -47,4 +47,25 @@
     <string name="alarm_settings">Alarm settings</string>
     <string name="activate_alarm">Activate Alarm</string>
     <string name="off">Off</string>
+    <string name="stop">Stop</string>
+    <string name="repeat_after">Repeat after</string>
+    <string name="sound">Sound</string>
+    <string name="sun">Sun</string>
+    <string name="sat">Sat</string>
+    <string name="fri">Fri</string>
+    <string name="thu">Thu</string>
+    <string name="wed">Wed</string>
+    <string name="tue">Tue</string>
+    <string name="mon">Mon</string>
+    <string name="repeat">Repeat</string>
+    <string name="minutes">minutes</string>
+
+    <string-array name="repeat_minutes">
+        <item>Never</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>30</item>
+    </string-array>
 </resources>

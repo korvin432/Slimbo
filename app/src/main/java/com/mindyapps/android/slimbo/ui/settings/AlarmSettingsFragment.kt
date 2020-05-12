@@ -13,10 +13,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.CompoundButton
-import android.widget.Switch
-import android.widget.TimePicker
+import android.widget.*
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -39,6 +36,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener {
 
@@ -48,12 +46,14 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
     private lateinit var selectedMusicAdapter: SelectedMusicAdapter
     private lateinit var timePicker: TimePicker
     private lateinit var alarmSwitch: Switch
+    private lateinit var repeatSpinner: Spinner
     private lateinit var alarmStore: AlarmStore
 
     private lateinit var observerMusic: Observer<List<Music>>
+    private var AM_PM: String = ""
     private var selectedAlarm: Music? = null
     private var selectedTime: String = "00:00"
-    private var AM_PM: String = ""
+    private var selectedRepeat: Int = 0
     private var selectedDays: ArrayList<Int> = ArrayList()
     var player: MediaPlayer? = null
 
@@ -70,6 +70,7 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
         recyclerView = root.findViewById(R.id.alarm_recycler)
         timePicker = root.findViewById(R.id.alarm_time_picker)
         alarmSwitch = root.findViewById(R.id.alarm_switch)
+        repeatSpinner = root.findViewById(R.id.repeat_spinner)
         alarmStore = AlarmStore(
             androidx.preference.PreferenceManager.getDefaultSharedPreferences
                 (requireActivity().applicationContext)
@@ -77,6 +78,10 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
 
         timePicker.setIs24HourView(DateFormat.is24HourFormat(requireContext()))
 
+        val minutes = resources.getStringArray(R.array.repeat_minutes)
+
+        repeatSpinner.adapter =
+            ArrayAdapter<String>(requireContext(), R.layout.spinner_item, minutes)
         return root
     }
 
@@ -148,18 +153,18 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
                 }
             }
             calendar.set(Calendar.MINUTE, selectedTime.substringAfter(":").toInt())
+            if (System.currentTimeMillis() > calendar.getTimeInMillis()) {
+                calendar.add(Calendar.DATE, 7)
+            }
             val intent = Intent(requireContext(), AlarmReceiver::class.java)
-            val pendingIntent = PendingIntent.getBroadcast(requireContext(), it+1, intent, 0)
+            val pendingIntent = PendingIntent.getBroadcast(requireContext(), it + 1, intent, 0)
             alarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
                 calendar.timeInMillis,
                 24 * 7 * 60 * 60 * 1000,
                 pendingIntent
             )
-            Log.d(
-                "qwwe",
-                "set alarm on ${DateFormat.format("dd/MM/yyyy hh:mm:ss", calendar.timeInMillis)}"
-            )
+
         }
 
     }
@@ -167,6 +172,7 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
 
     private fun loadPreferences() {
         alarmSwitch.isChecked = alarmStore.useAlarm
+        repeatSpinner.setSelection(alarmStore.repeatMinutes)
         if (alarmStore.alarmTime != "00:00") {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 timePicker.hour = (alarmStore.alarmTime).substringBefore(":").toInt()
@@ -176,8 +182,7 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
                 timePicker.currentMinute = (alarmStore.alarmTime).substringAfter(":").toInt()
             }
         }
-        val days = stringToWords(alarmStore.repeatDays)
-        days.forEach {
+        stringToWords(alarmStore.repeatDays).forEach {
             when (it.trim()) {
                 "1" -> monCheckBox.isChecked = true
                 "2" -> tueCheckBox.isChecked = true
@@ -193,10 +198,10 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
 
     private fun savePreferences() {
         alarmStore.useAlarm = alarmSwitch.isChecked
-        alarmStore.alarmTime = selectedTime!!
+        alarmStore.alarmTime = selectedTime
         alarmStore.alarmSound = Gson().toJson(selectedAlarm)
         alarmStore.repeatDays = selectedDays.toString().replace("[", "").replace("]", "")
-
+        alarmStore.repeatMinutes = repeatSpinner.selectedItemPosition
     }
 
     private fun loadMusic() {

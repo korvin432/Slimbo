@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mindyapps.android.slimbo.R
 import com.mindyapps.android.slimbo.data.model.Factor
 import com.mindyapps.android.slimbo.data.model.Music
+import com.mindyapps.android.slimbo.data.model.TYPE_ALARM
 import kotlinx.android.synthetic.main.select_music_item.view.*
 import java.util.concurrent.TimeUnit
 
@@ -51,7 +52,7 @@ class SelectedMusicAdapter(
         music: Music
     ) {
         musicViewHolder.musicRadioButton.text = music.name
-        if (music.duration!! > 1) {
+        if (music.duration!! > 1 && music.type != TYPE_ALARM) {
             musicViewHolder.durationText.text = String.format(
                 "%02d:%02d",
                 TimeUnit.MILLISECONDS.toMinutes(music.duration),
