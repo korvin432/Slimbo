@@ -1,5 +1,9 @@
 package com.mindyapps.android.slimbo.ui.settings
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
@@ -13,6 +17,7 @@ import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.Switch
 import android.widget.TimePicker
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -22,6 +27,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.mindyapps.android.slimbo.AlarmReceiver
 
 import com.mindyapps.android.slimbo.R
 import com.mindyapps.android.slimbo.data.model.Music
@@ -31,6 +37,7 @@ import com.mindyapps.android.slimbo.ui.adapters.SelectedMusicAdapter
 import kotlinx.android.synthetic.main.fragment_alarm_settings.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.*
 
 class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener {
@@ -46,6 +53,7 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
     private lateinit var observerMusic: Observer<List<Music>>
     private var selectedAlarm: Music? = null
     private var selectedTime: String = "00:00"
+    private var AM_PM: String = ""
     private var selectedDays: ArrayList<Int> = ArrayList()
     var player: MediaPlayer? = null
 
@@ -67,10 +75,7 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
                 (requireActivity().applicationContext)
         )
 
-
         timePicker.setIs24HourView(DateFormat.is24HourFormat(requireContext()))
-
-
 
         return root
     }
@@ -93,10 +98,13 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
             }
         }
         timePicker.setOnTimeChangedListener { _, hour, min ->
+            AM_PM = if (hour < 12) {
+                "AM"
+            } else {
+                "PM"
+            }
             selectedTime = "$hour:$min"
-
-            Log.d("qwwe", "put $selectedTime")
-            findNavController()!!.previousBackStackEntry?.savedStateHandle?.set(
+            findNavController().previousBackStackEntry?.savedStateHandle?.set(
                 "alarm_time",
                 selectedTime
             )
@@ -116,9 +124,46 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
 
     override fun onDetach() {
         super.onDetach()
+        if (alarmSwitch.isChecked) {
+            setAlarm()
+        }
         stopPlaying()
         savePreferences()
     }
+
+    private fun setAlarm() {
+        val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val calendar = Calendar.getInstance()
+
+        selectedDays.forEach {
+            calendar.set(Calendar.DAY_OF_WEEK, it + 1)
+            if (DateFormat.is24HourFormat(requireContext())) {
+                calendar.set(Calendar.HOUR_OF_DAY, selectedTime.substringBefore(":").toInt())
+            } else {
+                calendar.set(Calendar.HOUR, selectedTime.substringBefore(":").toInt())
+                if (AM_PM == "AM") {
+                    calendar.set(Calendar.AM_PM, 0)
+                } else {
+                    calendar.set(Calendar.AM_PM, 1)
+                }
+            }
+            calendar.set(Calendar.MINUTE, selectedTime.substringAfter(":").toInt())
+            val intent = Intent(requireContext(), AlarmReceiver::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(requireContext(), it+1, intent, 0)
+            alarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                24 * 7 * 60 * 60 * 1000,
+                pendingIntent
+            )
+            Log.d(
+                "qwwe",
+                "set alarm on ${DateFormat.format("dd/MM/yyyy hh:mm:ss", calendar.timeInMillis)}"
+            )
+        }
+
+    }
+
 
     private fun loadPreferences() {
         alarmSwitch.isChecked = alarmStore.useAlarm
