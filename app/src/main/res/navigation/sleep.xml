@@ -17,11 +17,11 @@
             android:id="@+id/action_navigation_sleep_to_select_music_dialog"
             app:destination="@id/select_music_dialog" />
         <action
-            android:id="@+id/action_navigation_sleep_to_select_alarm_dialog"
-            app:destination="@id/select_alarm_dialog" />
-        <action
             android:id="@+id/action_navigation_sleep_to_sleepingTipFragment"
             app:destination="@id/sleeping_tip_fragment" />
+        <action
+            android:id="@+id/action_navigation_sleep_to_alarmSettingsFragment"
+            app:destination="@id/alarmSettingsFragment" />
     </fragment>
 
     <dialog
@@ -45,26 +45,22 @@
             app:argType="string"/>
     </dialog>
 
-    <dialog
-        android:id="@+id/select_alarm_dialog"
-        android:name="com.mindyapps.android.slimbo.ui.dialogs.alarm.AlarmFragment"
-        tools:layout="@layout/select_music_fragment">
-        <argument
-            android:name="selected_alarm_sound"
-            app:argType="com.mindyapps.android.slimbo.data.model.Music"/>
-        <argument
-            android:name="first_alarm"
-            app:argType="integer[]"/>
-        <argument
-            android:name="second_alarm"
-            app:argType="integer[]"/>
-        <argument
-            android:name="third_alarm"
-            app:argType="integer[]"/>
-    </dialog>
+
     <fragment
         android:id="@+id/sleeping_tip_fragment"
         android:name="com.mindyapps.android.slimbo.ui.sleeping.SleepingTipFragment"
         tools:layout="@layout/fragment_sleeping_tip" />
+    <fragment
+        android:id="@+id/alarmSettingsFragment"
+        android:name="com.mindyapps.android.slimbo.ui.settings.AlarmSettingsFragment"
+        android:label="@string/alarm_settings"
+        tools:layout="@layout/fragment_alarm_settings">
+        <argument
+            android:name="alarm_time"
+            app:argType="string"/>
+        <argument
+            android:name="use_alarm"
+            app:argType="boolean"/>
+    </fragment>
 
 </navigation>

@@ -76,12 +76,6 @@ class SelectedMusicAdapter(
         }
     }
 
-    fun setFactors(newMusic: List<Music>) {
-        music.clear()
-        music.addAll(newMusic)
-        notifyDataSetChanged()
-    }
-
     inner class MusicHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         val musicRadioButton: RadioButton by lazy { view.music_select }
         val durationText: TextView by lazy { view.music_duration }

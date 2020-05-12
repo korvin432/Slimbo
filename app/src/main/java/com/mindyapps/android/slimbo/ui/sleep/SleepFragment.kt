@@ -3,6 +3,7 @@ package com.mindyapps.android.slimbo.ui.sleep
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ import com.mindyapps.android.slimbo.R
 import com.mindyapps.android.slimbo.internal.Utils
 import com.mindyapps.android.slimbo.data.model.Factor
 import com.mindyapps.android.slimbo.data.model.Music
+import com.mindyapps.android.slimbo.internal.AlarmStore
 import com.mindyapps.android.slimbo.ui.adapters.SelectedFactorsRecyclerAdapter
 import com.mindyapps.android.slimbo.ui.sleeping.SleepingActivity
 import io.alterac.blurkit.BlurLayout
@@ -37,12 +39,15 @@ class SleepFragment : Fragment(), View.OnClickListener {
     private lateinit var factorsBlurLayout: BlurLayout
     private lateinit var startButton: MaterialButton
     private lateinit var alarmChip: Chip
+    private lateinit var alarmStore: AlarmStore
 
 
     private lateinit var selectedFactorsRecyclerAdapter: SelectedFactorsRecyclerAdapter
     private var selectedFactors: ArrayList<Factor>? = ArrayList()
     private var selectedMusic: Music? = null
     private var selectedLength: String? = null
+    private var alarmChipText: String? = null
+    private var useAlarm: Boolean? = null
 
     private var root: View? = null
 
@@ -66,7 +71,14 @@ class SleepFragment : Fragment(), View.OnClickListener {
             recyclerView = root!!.findViewById(R.id.selected_factors_recycler)
             startButton = root!!.findViewById(R.id.start_sleeping_button)
             alarmChip = root!!.findViewById(R.id.alarm_chip)
+            alarmStore = AlarmStore(
+                androidx.preference.PreferenceManager.getDefaultSharedPreferences
+                    (requireActivity().applicationContext)
+            )
 
+            if (alarmStore.useAlarm) {
+                alarmChip.text = alarmStore.alarmTime
+            }
 
             factorsCard.setOnClickListener(this)
             musicCard.setOnClickListener(this)
@@ -91,7 +103,6 @@ class SleepFragment : Fragment(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
         musicBlurLayout.startBlur()
-        factorsBlurLayout.startBlur()
     }
 
     override fun onPause() {
@@ -131,6 +142,35 @@ class SleepFragment : Fragment(), View.OnClickListener {
             }
         }
 
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
+            "use_alarm"
+        )?.observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                useAlarm = result
+                if (!useAlarm!!) {
+                    alarmChip.text = getString(R.string.off)
+                } else {
+                    alarmChip.text = alarmChipText
+                }
+            }
+        }
+
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(
+            "alarm_time"
+        )?.observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                try {
+                    if (useAlarm!!) {
+                        alarmChipText = result
+                        alarmChip.text = alarmChipText
+                    } else {
+                        alarmChip.text = getString(R.string.off)
+                    }
+                } catch(ex: Exception){}
+            }
+        }
+
+
     }
 
     private fun bindFactorsRecycler(factors: ArrayList<Factor>) {
@@ -161,10 +201,10 @@ class SleepFragment : Fragment(), View.OnClickListener {
                 }
             }
             R.id.alarm_chip -> {
-                //findNavController().navigate(R.id.alarmSettingsFragment)
+                findNavController().navigate(R.id.alarmSettingsFragment)
             }
             R.id.start_sleeping_button -> {
-                startActivity(Intent(requireContext(),SleepingActivity::class.java))
+                startActivity(Intent(requireContext(), SleepingActivity::class.java))
             }
         }
     }

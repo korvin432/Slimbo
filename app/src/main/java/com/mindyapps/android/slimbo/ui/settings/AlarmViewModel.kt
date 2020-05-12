@@ -1,4 +1,4 @@
-package com.mindyapps.android.slimbo.ui.dialogs.alarm
+package com.mindyapps.android.slimbo.ui.settings
 
 import android.app.Application
 import androidx.lifecycle.LiveData

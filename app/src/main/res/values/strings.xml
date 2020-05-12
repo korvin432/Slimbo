@@ -45,4 +45,6 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="alarm_settings">Alarm settings</string>
+    <string name="activate_alarm">Activate Alarm</string>
+    <string name="off">Off</string>
 </resources>

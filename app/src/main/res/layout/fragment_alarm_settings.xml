@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg"
+    android:orientation="vertical"
+    tools:context=".ui.settings.AlarmSettingsFragment">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TimePicker
+            android:id="@+id/alarm_time_picker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numbersTextColor="@color/colorWhiteText"
+            android:theme="@style/TimePickerStyle"
+            android:timePickerMode="spinner" />
+
+        <Switch
+            android:id="@+id/alarm_switch"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/card_bg"
+            android:padding="10dp"
+            android:text="@string/activate_alarm"
+            android:textColor="@color/colorWhiteText"
+            android:textSize="16sp" />
+
+        <include layout="@layout/alarm_divider" />
+
+        <LinearLayout
+            android:id="@+id/repeat_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/card_bg"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/repeat_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Repeat"
+                android:textColor="@color/colorWhiteText"
+                android:textSize="16sp" />
+
+
+            <LinearLayout
+                android:id="@+id/repeat_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/monCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+                    android:text="Mon"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhiteText" />
+
+                <CheckBox
+                    android:id="@+id/tueCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+                    android:text="Tue"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhiteText" />
+
+                <CheckBox
+                    android:id="@+id/wedCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+                    android:text="Wed"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhiteText" />
+
+                <CheckBox
+                    android:id="@+id/thuCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+                    android:text="Thu"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhiteText" />
+
+                <CheckBox
+                    android:id="@+id/friCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+                    android:text="Fri"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhiteText" />
+
+                <CheckBox
+                    android:id="@+id/satCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+                    android:text="Sat"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhiteText" />
+
+                <CheckBox
+                    android:id="@+id/sunCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+                    android:text="Sun"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhiteText" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <include layout="@layout/alarm_divider" />
+
+        <LinearLayout
+            android:id="@+id/sound_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/card_bg"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/sound_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sound"
+                android:textColor="@color/colorWhiteText"
+                android:textSize="16sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/alarm_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>
