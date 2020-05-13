@@ -53,7 +53,6 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
     private var AM_PM: String = ""
     private var selectedAlarm: Music? = null
     private var selectedTime: String = "00:00"
-    private var selectedRepeat: Int = 0
     private var selectedDays: ArrayList<Int> = ArrayList()
     var player: MediaPlayer? = null
 
@@ -102,13 +101,19 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
                 )
             }
         }
-        timePicker.setOnTimeChangedListener { _, hour, min ->
+        timePicker.setOnTimeChangedListener { b, hour, min ->
             AM_PM = if (hour < 12) {
                 "AM"
             } else {
                 "PM"
             }
-            selectedTime = "$hour:$min"
+            selectedTime = String.format("%02d:%02d", hour, min)
+            if (!b.is24HourView) {
+                val _24HourSDF = SimpleDateFormat("HH:mm")
+                val _12HourSDF = SimpleDateFormat("hh:mm a")
+                val _24HourDt = _24HourSDF.parse(selectedTime)
+                selectedTime = _12HourSDF.format(_24HourDt)
+            }
             findNavController().previousBackStackEntry?.savedStateHandle?.set(
                 "alarm_time",
                 selectedTime
@@ -138,9 +143,9 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
 
     private fun setAlarm() {
         val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val calendar = Calendar.getInstance()
 
         selectedDays.forEach {
+            val calendar = Calendar.getInstance()
             calendar.set(Calendar.DAY_OF_WEEK, it + 1)
             if (DateFormat.is24HourFormat(requireContext())) {
                 calendar.set(Calendar.HOUR_OF_DAY, selectedTime.substringBefore(":").toInt())
@@ -152,12 +157,20 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
                     calendar.set(Calendar.AM_PM, 1)
                 }
             }
-            calendar.set(Calendar.MINUTE, selectedTime.substringAfter(":").toInt())
-            if (System.currentTimeMillis() > calendar.getTimeInMillis()) {
+            val min = selectedTime.substringBefore(" ")
+            calendar.set(Calendar.MINUTE, min.substringAfter(":").toInt())
+            if (Calendar.getInstance().get(Calendar.DAY_OF_YEAR) >= calendar.get(Calendar.DAY_OF_YEAR)) {
                 calendar.add(Calendar.DATE, 7)
             }
             val intent = Intent(requireContext(), AlarmReceiver::class.java)
             val pendingIntent = PendingIntent.getBroadcast(requireContext(), it + 1, intent, 0)
+            Log.d(
+                "qwwe",
+                "set alarm on ${DateFormat.format(
+                    "dd/MM/yyyy hh:mm:ss a",
+                    calendar.timeInMillis
+                )}"
+            )
             alarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
                 calendar.timeInMillis,
@@ -178,8 +191,17 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
                 timePicker.hour = (alarmStore.alarmTime).substringBefore(":").toInt()
                 timePicker.minute = (alarmStore.alarmTime).substringAfter(":").toInt()
             } else {
-                timePicker.currentHour = (alarmStore.alarmTime).substringBefore(":").toInt()
-                timePicker.currentMinute = (alarmStore.alarmTime).substringAfter(":").toInt()
+                if (!DateFormat.is24HourFormat(requireContext())) {
+                    val h_mm_a = SimpleDateFormat("hh:mm a");
+                    val hh_mm_ss = SimpleDateFormat("HH:mm")
+                    val d1 = h_mm_a.parse(alarmStore.alarmTime)
+                    val time24 = hh_mm_ss.format(d1)
+                    timePicker.currentHour = (time24).substringBefore(":").toInt()
+                    timePicker.currentMinute = (time24).substringAfter(":").toInt()
+                } else {
+                    timePicker.currentHour = (alarmStore.alarmTime).substringBefore(":").toInt()
+                    timePicker.currentMinute = (alarmStore.alarmTime).substringAfter(":").toInt()
+                }
             }
         }
         stringToWords(alarmStore.repeatDays).forEach {

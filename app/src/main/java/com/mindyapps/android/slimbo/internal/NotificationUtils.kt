@@ -47,10 +47,9 @@ class  NotificationUtils(base: Context) : ContextWrapper(base) {
         }
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
         return NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-            .setContentTitle("Alarm!")
-            .setContentText("Your AlarmManager is working.")
+            .setContentTitle("Alarm")
+            .setContentText("Wake up!")
             .setSmallIcon(R.drawable.ic_alarm)
-            .setColor(Color.YELLOW)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
     }

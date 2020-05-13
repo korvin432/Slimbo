@@ -10,12 +10,6 @@ import com.google.gson.Gson
 import com.mindyapps.android.slimbo.R
 import com.mindyapps.android.slimbo.data.model.Music
 import com.mindyapps.android.slimbo.internal.AlarmStore
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class AlarmActivity : AppCompatActivity() {
@@ -27,11 +21,11 @@ class AlarmActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("qwwe", "oncreate")
         setContentView(R.layout.activity_alarm)
 
         alarmStore = AlarmStore(
-            androidx.preference.PreferenceManager.getDefaultSharedPreferences
-                (applicationContext)
+            androidx.preference.PreferenceManager.getDefaultSharedPreferences(applicationContext)
         )
 
         when (alarmStore.repeatMinutes) {
