@@ -56,7 +56,7 @@ class StartUpReceiver : BroadcastReceiver() {
                 }
                 val min = selectedTime.substringBefore(" ")
                 calendar.set(Calendar.MINUTE, min.substringAfter(":").toInt())
-                if (Calendar.getInstance().get(Calendar.DAY_OF_YEAR) > calendar.get(Calendar.DAY_OF_YEAR)) {
+                if (Calendar.getInstance().timeInMillis > calendar.timeInMillis) {
                     calendar.add(Calendar.DATE, 7)
                 }
                 val intent = Intent(context, AlarmReceiver::class.java)

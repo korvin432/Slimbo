@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 class SleepingActivity : AppCompatActivity(), View.OnClickListener {
 
-    var recorder = Recorder()
+    var recorder: Recorder = Recorder.getInstance()
 
     lateinit var startButton: Button
     lateinit var stopButton: Button

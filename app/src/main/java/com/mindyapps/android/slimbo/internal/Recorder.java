@@ -22,10 +22,17 @@ public class Recorder {
     private Boolean isActive;
     private boolean isSaving;
 
+    private static final Recorder INSTANCE = new Recorder();
+
     public Recorder() {
     }
 
+    public static Recorder getInstance(){
+        return INSTANCE;
+    }
+
     public void setActive(boolean isActive) {
+        Log.d("qwwe", "setting to " + isActive);
         this.isActive = isActive;
     }
 

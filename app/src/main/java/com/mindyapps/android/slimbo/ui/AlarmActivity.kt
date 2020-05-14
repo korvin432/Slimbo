@@ -10,6 +10,7 @@ import com.google.gson.Gson
 import com.mindyapps.android.slimbo.R
 import com.mindyapps.android.slimbo.data.model.Music
 import com.mindyapps.android.slimbo.internal.AlarmStore
+import com.mindyapps.android.slimbo.internal.Recorder
 
 
 class AlarmActivity : AppCompatActivity() {
@@ -22,6 +23,7 @@ class AlarmActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("qwwe", "oncreate")
+        Recorder.getInstance().setActive(false)
         setContentView(R.layout.activity_alarm)
 
         alarmStore = AlarmStore(

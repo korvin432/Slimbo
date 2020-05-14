@@ -159,7 +159,7 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
             }
             val min = selectedTime.substringBefore(" ")
             calendar.set(Calendar.MINUTE, min.substringAfter(":").toInt())
-            if (Calendar.getInstance().get(Calendar.DAY_OF_YEAR) >= calendar.get(Calendar.DAY_OF_YEAR)) {
+            if (Calendar.getInstance().timeInMillis >= calendar.timeInMillis) {
                 calendar.add(Calendar.DATE, 7)
             }
             val intent = Intent(requireContext(), AlarmReceiver::class.java)
@@ -192,7 +192,7 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
                 timePicker.minute = (alarmStore.alarmTime).substringAfter(":").toInt()
             } else {
                 if (!DateFormat.is24HourFormat(requireContext())) {
-                    val h_mm_a = SimpleDateFormat("hh:mm a");
+                    val h_mm_a = SimpleDateFormat("hh:mm a")
                     val hh_mm_ss = SimpleDateFormat("HH:mm")
                     val d1 = h_mm_a.parse(alarmStore.alarmTime)
                     val time24 = hh_mm_ss.format(d1)
