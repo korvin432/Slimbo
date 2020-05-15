@@ -203,7 +203,10 @@ class SleepFragment : Fragment(), View.OnClickListener {
                 findNavController().navigate(R.id.alarmSettingsFragment)
             }
             R.id.start_sleeping_button -> {
-                startActivity(Intent(requireContext(), SleepingActivity::class.java))
+                val intent = Intent(requireContext(), SleepingActivity::class.java)
+                intent.putExtra("music", selectedMusic)
+                intent.putExtra("duration", selectedLength)
+                startActivity(intent)
             }
         }
     }

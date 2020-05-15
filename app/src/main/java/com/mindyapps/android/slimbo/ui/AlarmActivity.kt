@@ -52,8 +52,6 @@ class AlarmActivity : AppCompatActivity() {
         stopButton.setOnClickListener {
             player.stop()
         }
-
-
     }
 
     var stopPlayerTask = Runnable {
