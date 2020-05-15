@@ -23,20 +23,12 @@
         android:textColor="@color/colorWhiteText"
         android:textSize="70sp" />
 
-    <TextView
-        android:id="@+id/snoring_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_clock"
-        android:textColor="@color/colorWhiteText"
-        android:textSize="19sp" />
-
     <Button
-        android:id="@+id/start_listen"
+        android:id="@+id/music_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/stop_listen"
-        android:text="@string/start" />
+        android:layout_centerVertical="true"
+        android:text="Play" />
 
     <Button
         android:id="@+id/stop_listen"
@@ -44,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="100dp"
-        android:text="stop" />
+        android:text="Stop" />
 
 </RelativeLayout>
 

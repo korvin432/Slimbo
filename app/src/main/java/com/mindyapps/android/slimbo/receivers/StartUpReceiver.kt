@@ -1,4 +1,4 @@
-package com.mindyapps.android.slimbo
+package com.mindyapps.android.slimbo.receivers
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -7,8 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.text.format.DateFormat
 import android.util.Log
-import com.mindyapps.android.slimbo.internal.AlarmStore
-import java.text.SimpleDateFormat
+import androidx.preference.PreferenceManager
+import com.mindyapps.android.slimbo.preferences.AlarmStore
 import java.util.*
 
 
@@ -27,7 +27,7 @@ class StartUpReceiver : BroadcastReceiver() {
         Log.d("qwwe", "setAlarm")
         try {
             alarmStore = AlarmStore(
-                androidx.preference.PreferenceManager
+                PreferenceManager
                     .getDefaultSharedPreferences(context.applicationContext)
             )
 

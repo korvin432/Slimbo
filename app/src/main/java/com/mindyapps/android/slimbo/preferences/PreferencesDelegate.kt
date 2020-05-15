@@ -1,4 +1,4 @@
-package com.mindyapps.android.slimbo.internal
+package com.mindyapps.android.slimbo.preferences
 
 import android.content.SharedPreferences
 import kotlin.properties.ReadWriteProperty
@@ -19,7 +19,9 @@ class PreferencesDelegate<TValue>(
                 is Float -> (getFloat(name, defValue) as TValue) ?: defValue
                 is Long -> (getLong(name, defValue) as TValue) ?: defValue
                 is String -> (getString(name, defValue) as TValue) ?: defValue
-                else -> throw NotFoundRealizationException(defValue)
+                else -> throw NotFoundRealizationException(
+                    defValue
+                )
             }
         }
     }
@@ -32,7 +34,9 @@ class PreferencesDelegate<TValue>(
                 is Float -> putFloat(name, value)
                 is Long -> putLong(name, value)
                 is String -> putString(name, value)
-                else -> throw NotFoundRealizationException(value)
+                else -> throw NotFoundRealizationException(
+                    value
+                )
             }
             apply()
         }

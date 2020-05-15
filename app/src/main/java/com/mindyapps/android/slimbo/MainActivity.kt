@@ -1,5 +1,6 @@
 package com.mindyapps.android.slimbo
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
@@ -11,18 +12,28 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.mindyapps.android.slimbo.preferences.SleepingStore
+import com.mindyapps.android.slimbo.ui.sleeping.SleepingActivity
 
 
 class MainActivity : AppCompatActivity() {
 
     private var currentNavController: LiveData<NavController>? = null
+    private lateinit var sleepingStore: SleepingStore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        sleepingStore = SleepingStore(
+            PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        )
         if (savedInstanceState == null) {
             setupBottomNavigationBar()
+        }
+        if (sleepingStore.isWorking) {
+            startActivity(Intent(this, SleepingActivity::class.java))
         }
     }
 

@@ -14,7 +14,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -24,15 +23,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
-import com.mindyapps.android.slimbo.AlarmReceiver
+import com.mindyapps.android.slimbo.receivers.AlarmReceiver
 
 import com.mindyapps.android.slimbo.R
 import com.mindyapps.android.slimbo.data.model.Music
 import com.mindyapps.android.slimbo.data.repository.SlimboRepositoryImpl
-import com.mindyapps.android.slimbo.internal.AlarmStore
+import com.mindyapps.android.slimbo.preferences.AlarmStore
 import com.mindyapps.android.slimbo.ui.adapters.SelectedMusicAdapter
 import kotlinx.android.synthetic.main.fragment_alarm_settings.*
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -71,7 +69,7 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
         alarmSwitch = root.findViewById(R.id.alarm_switch)
         repeatSpinner = root.findViewById(R.id.repeat_spinner)
         alarmStore = AlarmStore(
-            androidx.preference.PreferenceManager.getDefaultSharedPreferences
+            PreferenceManager.getDefaultSharedPreferences
                 (requireActivity().applicationContext)
         )
 

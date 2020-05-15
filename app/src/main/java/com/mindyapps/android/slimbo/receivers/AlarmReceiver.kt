@@ -1,4 +1,4 @@
-package com.mindyapps.android.slimbo
+package com.mindyapps.android.slimbo.receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context
