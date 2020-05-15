@@ -1,13 +1,18 @@
 package com.mindyapps.android.slimbo.ui.sleeping
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceManager
 import com.mindyapps.android.slimbo.R
 import com.mindyapps.android.slimbo.RecorderService
@@ -23,6 +28,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var musicButton: Button
     private lateinit var stopButton: Button
     private lateinit var sleepingStore: SleepingStore
+    private lateinit var broadcastReceiver: BroadcastReceiver
     private var music: Music? = null
     private var lastPlayerPosition = 0
     private var duration: String? = null
@@ -54,6 +60,16 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener {
         if (!sleepingStore.isWorking && music == null) {
             startService()
         }
+
+        broadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent) {
+                val message = intent.getStringExtra(RECEIVER_MESSAGE)
+                if (message == "stop"){
+                    Log.d("qwwe", "GOT STOP MESSAGE")
+                    finish()
+                }
+            }
+        }
     }
 
     private var stopPlayerTask = Runnable {
@@ -83,7 +99,6 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener {
         val stopIntent = Intent(this, RecorderService::class.java)
         stopIntent.action = STOP_ACTION
         startService(stopIntent)
-        sleepingStore.isWorking = false
         finish()
         //todo open details fragment
     }
@@ -105,13 +120,27 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        LocalBroadcastManager.getInstance(this).registerReceiver((broadcastReceiver),
+             IntentFilter(RECEIVER_INTENT)
+        )
+    }
+
     override fun onStop() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver)
         super.onStop()
+        sleepingStore.isWorking = false
         if (player != null){
             player!!.stop()
         }
     }
 
     override fun onBackPressed() { }
+
+    companion object {
+        const val RECEIVER_INTENT = "RECEIVER_INTENT"
+        const val RECEIVER_MESSAGE = "RECEIVER_MESSAGE"
+    }
 
 }

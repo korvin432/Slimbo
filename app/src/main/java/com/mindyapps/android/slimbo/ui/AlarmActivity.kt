@@ -1,5 +1,6 @@
 package com.mindyapps.android.slimbo.ui
 
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
@@ -9,6 +10,7 @@ import androidx.preference.PreferenceManager
 import com.google.android.material.button.MaterialButton
 import com.google.gson.Gson
 import com.mindyapps.android.slimbo.R
+import com.mindyapps.android.slimbo.RecorderService
 import com.mindyapps.android.slimbo.data.model.Music
 import com.mindyapps.android.slimbo.preferences.AlarmStore
 import com.mindyapps.android.slimbo.internal.Recorder
@@ -24,8 +26,11 @@ class AlarmActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("qwwe", "oncreate")
-        Recorder.getInstance().setActive(false)
         setContentView(R.layout.activity_alarm)
+
+        val stopIntent = Intent(this, RecorderService::class.java)
+        stopIntent.action = RecorderService.STOP_ACTION
+        startService(stopIntent)
 
         alarmStore = AlarmStore(
             PreferenceManager.getDefaultSharedPreferences(applicationContext)

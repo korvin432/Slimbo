@@ -254,6 +254,7 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
             val resID =
                 resources.getIdentifier(music.fileName, "raw", requireContext().packageName)
             player = MediaPlayer.create(requireContext(), resID)
+            player!!.isLooping = true
             player!!.start()
             selectedAlarm = music
         }

@@ -12,6 +12,9 @@ import android.os.IBinder;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.mindyapps.android.slimbo.ui.sleeping.SleepingActivity;
 
 public class RecorderService extends Service {
 
@@ -52,6 +55,9 @@ public class RecorderService extends Service {
 
         } else if (intent.getAction().equals(STOP_ACTION)){
             isActive = false;
+            Intent sleepingIntent = new Intent(SleepingActivity.RECEIVER_INTENT);
+            sleepingIntent.putExtra(SleepingActivity.RECEIVER_MESSAGE, "stop");
+            LocalBroadcastManager.getInstance(this).sendBroadcast(sleepingIntent);
             stopForeground(true);
             stopSelf();
         }
@@ -63,7 +69,7 @@ public class RecorderService extends Service {
         while (isActive) {
             Log.d("qwwe", "active");
             try {
-                Thread.sleep(5000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
