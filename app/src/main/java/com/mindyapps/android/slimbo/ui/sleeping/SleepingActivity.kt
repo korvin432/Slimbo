@@ -13,6 +13,9 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.preference.PreferenceManager
 import com.mindyapps.android.slimbo.R
 import com.mindyapps.android.slimbo.RecorderService
@@ -23,7 +26,6 @@ import com.mindyapps.android.slimbo.preferences.SleepingStore
 
 
 class SleepingActivity : AppCompatActivity(), View.OnClickListener {
-
 
     private lateinit var musicButton: Button
     private lateinit var stopButton: Button
@@ -66,6 +68,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener {
                 val message = intent.getStringExtra(RECEIVER_MESSAGE)
                 if (message == "stop"){
                     Log.d("qwwe", "GOT STOP MESSAGE")
+                    sleepingStore.isWorking = false
                     finish()
                 }
             }
@@ -99,6 +102,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener {
         val stopIntent = Intent(this, RecorderService::class.java)
         stopIntent.action = STOP_ACTION
         startService(stopIntent)
+        sleepingStore.isWorking = false
         finish()
         //todo open details fragment
     }
@@ -130,7 +134,6 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener {
     override fun onStop() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver)
         super.onStop()
-        sleepingStore.isWorking = false
         if (player != null){
             player!!.stop()
         }

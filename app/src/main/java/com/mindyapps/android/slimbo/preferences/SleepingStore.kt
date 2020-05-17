@@ -5,20 +5,11 @@ import android.content.SharedPreferences
 
 class SleepingStore(preferences: SharedPreferences) {
 
-    var lullaby: String by PreferencesDelegate(
-        preferences,
-        LULLABY,
-        ""
-    )
-    var isWorking: Boolean by PreferencesDelegate(
-        preferences,
-        IS_WORKING,
-        false
-    )
-
+    var isWorking: Boolean by PreferencesDelegate(preferences,IS_WORKING,false)
+    var showTip: Boolean by PreferencesDelegate(preferences,SHOW_TIP,true)
 
     companion object {
-        private const val LULLABY = "lullaby"
         private const val IS_WORKING = "is_working"
+        private const val SHOW_TIP = "show_tip"
     }
 }

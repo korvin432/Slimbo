@@ -18,7 +18,9 @@
             app:destination="@id/select_music_dialog" />
         <action
             android:id="@+id/action_navigation_sleep_to_sleepingTipFragment"
-            app:destination="@id/sleeping_tip_fragment" />
+            app:destination="@id/sleeping_tip_fragment"
+            app:popUpTo="@id/navigation_sleep"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_navigation_sleep_to_alarmSettingsFragment"
             app:destination="@id/alarmSettingsFragment" />
@@ -49,7 +51,13 @@
     <fragment
         android:id="@+id/sleeping_tip_fragment"
         android:name="com.mindyapps.android.slimbo.ui.sleeping.SleepingTipFragment"
-        tools:layout="@layout/fragment_sleeping_tip" />
+        tools:layout="@layout/fragment_sleeping_tip" >
+        <action
+            android:id="@+id/action_sleeping_tip_fragment_to_sleepingActivity"
+            app:destination="@id/sleepingActivity"
+            app:popUpTo="@id/navigation_sleep"
+            app:popUpToInclusive="false" />
+    </fragment>
     <fragment
         android:id="@+id/alarmSettingsFragment"
         android:name="com.mindyapps.android.slimbo.ui.settings.AlarmSettingsFragment"
@@ -62,5 +70,10 @@
             android:name="use_alarm"
             app:argType="boolean"/>
     </fragment>
+    <activity
+        android:id="@+id/sleepingActivity"
+        android:name="com.mindyapps.android.slimbo.ui.sleeping.SleepingActivity"
+        android:label="activity_sleeping"
+        tools:layout="@layout/activity_sleeping" />
 
 </navigation>

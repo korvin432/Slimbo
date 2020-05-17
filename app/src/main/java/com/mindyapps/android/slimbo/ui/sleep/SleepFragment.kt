@@ -21,6 +21,7 @@ import com.mindyapps.android.slimbo.R
 import com.mindyapps.android.slimbo.data.model.Factor
 import com.mindyapps.android.slimbo.data.model.Music
 import com.mindyapps.android.slimbo.preferences.AlarmStore
+import com.mindyapps.android.slimbo.preferences.SleepingStore
 import com.mindyapps.android.slimbo.ui.adapters.SelectedFactorsRecyclerAdapter
 import com.mindyapps.android.slimbo.ui.sleeping.SleepingActivity
 import io.alterac.blurkit.BlurLayout
@@ -165,7 +166,7 @@ class SleepFragment : Fragment(), View.OnClickListener {
                     } else {
                         alarmChip.text = getString(R.string.off)
                     }
-                } catch(ex: Exception){}
+                } catch (ex: Exception) { }
             }
         }
 
@@ -203,10 +204,18 @@ class SleepFragment : Fragment(), View.OnClickListener {
                 findNavController().navigate(R.id.alarmSettingsFragment)
             }
             R.id.start_sleeping_button -> {
-                val intent = Intent(requireContext(), SleepingActivity::class.java)
-                intent.putExtra("music", selectedMusic)
-                intent.putExtra("duration", selectedLength)
-                startActivity(intent)
+                if (SleepingStore(PreferenceManager.getDefaultSharedPreferences(requireContext())).showTip) {
+                    val bundle = bundleOf(
+                        "selected_music" to selectedMusic,
+                        "selected_length" to selectedLength
+                    )
+                    findNavController().navigate(R.id.sleeping_tip_fragment, bundle)
+                } else {
+                    val intent = Intent(requireContext(), SleepingActivity::class.java)
+                    intent.putExtra("music", selectedMusic)
+                    intent.putExtra("duration", selectedLength)
+                    startActivity(intent)
+                }
             }
         }
     }
