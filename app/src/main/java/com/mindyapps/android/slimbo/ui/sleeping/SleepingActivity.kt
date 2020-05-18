@@ -10,13 +10,13 @@ import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.preference.PreferenceManager
+import com.gauravbhola.ripplepulsebackground.RipplePulseLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mindyapps.android.slimbo.R
 import com.mindyapps.android.slimbo.RecorderService
 import com.mindyapps.android.slimbo.RecorderService.START_ACTION
@@ -27,10 +27,12 @@ import com.mindyapps.android.slimbo.preferences.SleepingStore
 
 class SleepingActivity : AppCompatActivity(), View.OnClickListener {
 
-    private lateinit var musicButton: Button
     private lateinit var stopButton: Button
+    private lateinit var musicButton: FloatingActionButton
+    private lateinit var musicText: TextView
     private lateinit var sleepingStore: SleepingStore
     private lateinit var broadcastReceiver: BroadcastReceiver
+    private lateinit var ripplePulseLayout : RipplePulseLayout
     private var music: Music? = null
     private var lastPlayerPosition = 0
     private var duration: String? = null
@@ -42,8 +44,12 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener {
         sleepingStore =
             SleepingStore(PreferenceManager.getDefaultSharedPreferences(applicationContext))
 
-        musicButton = findViewById(R.id.music_button)
         stopButton = findViewById(R.id.stop_listen)
+        musicText = findViewById(R.id.music_text)
+        musicButton = findViewById(R.id.music_button)
+        ripplePulseLayout = findViewById(R.id.layout_ripplepulse)
+        ripplePulseLayout.startRippleAnimation()
+
         musicButton.setOnClickListener(this)
         stopButton.setOnClickListener(this)
 
@@ -51,7 +57,8 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener {
         duration = intent.getStringExtra("duration")
 
         if (music != null && music!!.name != getString(R.string.do_not_use)) {
-            musicButton.visibility = View.VISIBLE
+            musicText.text = music!!.name
+            ripplePulseLayout.visibility = View.VISIBLE
             val resID = resources.getIdentifier(music!!.fileName, "raw", packageName)
             player = MediaPlayer.create(this, resID)
             player!!.isLooping = true
@@ -112,8 +119,10 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener {
             R.id.music_button -> {
                 if (player!!.isPlaying){
                     player!!.pause()
+                    ripplePulseLayout.stopRippleAnimation()
                     lastPlayerPosition = player!!.currentPosition
                 } else {
+                    ripplePulseLayout.startRippleAnimation()
                     player!!.seekTo(lastPlayerPosition)
                     player!!.start()
                 }
