@@ -13,36 +13,44 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/stars_bg"
+        android:background="@drawable/sleeping_bg"
         android:padding="20dp">
 
-        <TextClock
-            android:id="@+id/text_clock"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="50dp"
-            android:fontFamily="sans-serif-thin"
-            android:format12Hour="hh:mm"
-            android:format24Hour="HH:mm"
-            android:textAlignment="center"
-            android:textColor="@color/colorWhiteText"
-            android:textSize="70sp" />
+                <TextClock
+                    android:id="@+id/text_clock"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="50dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:format12Hour="hh:mm"
+                    android:format24Hour="HH:mm"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhiteText"
+                    android:textSize="70sp" />
 
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/stop_listen"
-            style="@style/Base.Widget.AppCompat.Button.Borderless"
+        <ProgressBar
+            android:id="@+id/long_click_progress"
+            style="@style/tallerBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginHorizontal="50dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/button_ripple"
-            android:text="@string/stop"
-            android:textColor="@color/colorWhiteText"
-            app:backgroundTint="@null" />
+            android:max="100" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/long_click_progress"
+            android:layout_alignBottom="@id/long_click_progress"
+            android:background="#00000000"
+            android:gravity="center"
+            android:text="@string/long_press_to_stop"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhiteText" />
 
         <com.gauravbhola.ripplepulsebackground.RipplePulseLayout
             android:id="@+id/layout_ripplepulse"
@@ -52,17 +60,18 @@
             android:layout_centerVertical="true"
             android:clipChildren="false"
             android:visibility="gone"
+            app:duration="1900"
+            app:endRadius="77dp"
             app:rippleColor="@color/colorRippleButton"
             app:rippleType="stroke"
-            app:strokeWidth="1dp"
             app:startRadius="57dp"
-            app:endRadius="77dp"
-            app:duration="1900">
+            app:strokeWidth="1dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <androidx.coordinatorlayout.widget.CoordinatorLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -77,14 +86,14 @@
 
                     <TextView
                         android:id="@+id/music_text"
-                        android:layout_height="wrap_content"
                         android:layout_width="100dp"
+                        android:layout_height="wrap_content"
                         android:elevation="6dp"
                         android:fontFamily="sans-serif-light"
                         android:textAlignment="center"
                         android:textColor="@color/colorWhiteText"
                         app:layout_anchor="@id/music_button"
-                        app:layout_anchorGravity="center"/>
+                        app:layout_anchorGravity="center" />
 
                 </androidx.coordinatorlayout.widget.CoordinatorLayout>
             </RelativeLayout>

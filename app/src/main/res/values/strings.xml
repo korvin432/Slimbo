@@ -60,6 +60,7 @@
     <string name="repeat">Repeat</string>
     <string name="minutes">minutes</string>
     <string name="hold_to_stop">Hold to stop</string>
+    <string name="long_press_to_stop">Long press to stop</string>
 
     <string-array name="repeat_minutes">
         <item>Never</item>

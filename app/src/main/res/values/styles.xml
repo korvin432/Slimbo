@@ -33,6 +33,14 @@
         <item name="android:statusBarColor">@color/colorTransparent</item>
     </style>
 
+    <style name="tallerBarStyle" parent="@android:style/Widget.SeekBar">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/progress_button_horizontal</item>
+        <item name="android:indeterminateDrawable">@drawable/progress_button_horizontal</item>
+        <item name="android:minHeight">50dip</item>
+        <item name="android:maxHeight">100dip</item>
+    </style>
+
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/black_overlay</item>
     </style>

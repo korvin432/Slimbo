@@ -1,5 +1,6 @@
 package com.mindyapps.android.slimbo.ui.sleeping
 
+import android.animation.ObjectAnimator
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -8,8 +9,13 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.MotionEvent
+import android.view.MotionEvent.ACTION_DOWN
+import android.view.MotionEvent.ACTION_UP
 import android.view.View
+import android.view.animation.DecelerateInterpolator
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -23,16 +29,19 @@ import com.mindyapps.android.slimbo.RecorderService.START_ACTION
 import com.mindyapps.android.slimbo.RecorderService.STOP_ACTION
 import com.mindyapps.android.slimbo.data.model.Music
 import com.mindyapps.android.slimbo.preferences.SleepingStore
+import kotlinx.coroutines.*
+import java.lang.Runnable
 
 
-class SleepingActivity : AppCompatActivity(), View.OnClickListener {
+class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouchListener {
 
-    private lateinit var stopButton: Button
     private lateinit var musicButton: FloatingActionButton
     private lateinit var musicText: TextView
+    private lateinit var progressBar: ProgressBar
     private lateinit var sleepingStore: SleepingStore
     private lateinit var broadcastReceiver: BroadcastReceiver
-    private lateinit var ripplePulseLayout : RipplePulseLayout
+    private lateinit var ripplePulseLayout: RipplePulseLayout
+    private lateinit var handler: Handler
     private var music: Music? = null
     private var lastPlayerPosition = 0
     private var duration: String? = null
@@ -44,14 +53,14 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener {
         sleepingStore =
             SleepingStore(PreferenceManager.getDefaultSharedPreferences(applicationContext))
 
-        stopButton = findViewById(R.id.stop_listen)
         musicText = findViewById(R.id.music_text)
         musicButton = findViewById(R.id.music_button)
+        progressBar = findViewById(R.id.long_click_progress)
         ripplePulseLayout = findViewById(R.id.layout_ripplepulse)
         ripplePulseLayout.startRippleAnimation()
 
         musicButton.setOnClickListener(this)
-        stopButton.setOnClickListener(this)
+        progressBar.setOnTouchListener(this)
 
         music = intent.getParcelableExtra("music")
         duration = intent.getStringExtra("duration")
@@ -63,7 +72,8 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener {
             player = MediaPlayer.create(this, resID)
             player!!.isLooping = true
             player!!.start()
-            Handler().postDelayed(stopPlayerTask, getLength(duration))
+            handler = Handler()
+            handler.postDelayed(stopPlayerTask, getLength(duration))
         }
 
         if (!sleepingStore.isWorking && music == null) {
@@ -73,7 +83,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener {
         broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent) {
                 val message = intent.getStringExtra(RECEIVER_MESSAGE)
-                if (message == "stop"){
+                if (message == "stop") {
                     Log.d("qwwe", "GOT STOP MESSAGE")
                     sleepingStore.isWorking = false
                     finish()
@@ -87,8 +97,8 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener {
         startService()
     }
 
-    private fun getLength(length: String?): Long{
-        return when(length){
+    private fun getLength(length: String?): Long {
+        return when (length) {
             getString(R.string.five_minutes) -> 300000
             getString(R.string.ten_minutes) -> 600000
             getString(R.string.twenty_minutes) -> 20 * 60000
@@ -114,10 +124,16 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener {
         //todo open details fragment
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacksAndMessages(null)
+        stopService()
+    }
+
     override fun onClick(v: View?) {
         when (v!!.id) {
             R.id.music_button -> {
-                if (player!!.isPlaying){
+                if (player!!.isPlaying) {
                     player!!.pause()
                     ripplePulseLayout.stopRippleAnimation()
                     lastPlayerPosition = player!!.currentPosition
@@ -127,32 +143,50 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener {
                     player!!.start()
                 }
             }
-            R.id.stop_listen -> {
-                stopService()
-            }
         }
     }
 
     override fun onStart() {
         super.onStart()
-        LocalBroadcastManager.getInstance(this).registerReceiver((broadcastReceiver),
-             IntentFilter(RECEIVER_INTENT)
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            (broadcastReceiver),
+            IntentFilter(RECEIVER_INTENT)
         )
     }
 
     override fun onStop() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver)
         super.onStop()
-        if (player != null){
+        if (player != null) {
             player!!.stop()
         }
     }
 
-    override fun onBackPressed() { }
+    override fun onBackPressed() {}
 
     companion object {
         const val RECEIVER_INTENT = "RECEIVER_INTENT"
         const val RECEIVER_MESSAGE = "RECEIVER_MESSAGE"
+    }
+
+    override fun onTouch(p0: View?, event: MotionEvent?): Boolean {
+        var animation = ObjectAnimator.ofInt(progressBar, "progress", 100)
+        if (event!!.action == ACTION_DOWN) {
+            animation.duration = 2000
+            animation.interpolator = DecelerateInterpolator()
+            animation.start()
+        } else if (event.action == ACTION_UP) {
+            if (progressBar.progress == 100){
+                animation.pause()
+                stopService()
+            }
+            animation = ObjectAnimator.ofInt(progressBar, "progress", 0)
+            animation.duration = 2000
+            animation.interpolator = DecelerateInterpolator()
+            animation.start()
+
+        }
+        return true
     }
 
 }
