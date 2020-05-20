@@ -8,7 +8,9 @@ import android.app.Service;
 import android.content.Intent;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
@@ -216,13 +218,18 @@ public class RecorderService extends Service {
                         try {
                             out.write(finalBuffer);
                             out.close();
+                            MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+                            mediaMetadataRetriever.setDataSource(fn);
+                            String duration = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                            if (Long.parseLong(duration) < 5000){
+                                File fdelete = new File(fn);
+                                fdelete.delete();
+                            }
                         } catch (IOException e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
 
                     } catch (FileNotFoundException e1) {
-                        // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
 

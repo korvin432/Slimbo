@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 
 import com.mindyapps.android.slimbo.R
+import com.mindyapps.android.slimbo.data.model.Factor
 import com.mindyapps.android.slimbo.data.model.Music
 import com.mindyapps.android.slimbo.preferences.SleepingStore
 import kotlinx.android.synthetic.main.fragment_sleeping_tip.*
@@ -20,6 +21,7 @@ class SleepingTipFragment : Fragment() {
 
     private var selectedMusic: Music? = null
     private var selectedLength: String? = null
+    private var selectedFactors: ArrayList<Factor>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,13 +31,16 @@ class SleepingTipFragment : Fragment() {
             selectedMusic = requireArguments().getParcelable("selected_music")
             selectedLength = requireArguments().getString("selected_length")
         }
+        selectedFactors = requireArguments().getParcelableArrayList("selected_factors")
+
         return inflater.inflate(R.layout.fragment_sleeping_tip, container, false)
     }
 
     private fun startSleeping(){
         val bundle = bundleOf(
             "music" to selectedMusic,
-            "duration" to selectedLength
+            "duration" to selectedLength,
+            "factors" to selectedFactors
         )
         findNavController().navigate(R.id.sleepingActivity, bundle)
         requireActivity().onBackPressed()

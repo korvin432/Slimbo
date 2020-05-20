@@ -207,13 +207,15 @@ class SleepFragment : Fragment(), View.OnClickListener {
                 if (SleepingStore(PreferenceManager.getDefaultSharedPreferences(requireContext())).showTip) {
                     val bundle = bundleOf(
                         "selected_music" to selectedMusic,
-                        "selected_length" to selectedLength
+                        "selected_length" to selectedLength,
+                        "selected_factors" to selectedFactors!!
                     )
                     findNavController().navigate(R.id.sleeping_tip_fragment, bundle)
                 } else {
                     val intent = Intent(requireContext(), SleepingActivity::class.java)
                     intent.putExtra("music", selectedMusic)
                     intent.putExtra("duration", selectedLength)
+                    intent.putExtra("factors", selectedFactors)
                     startActivity(intent)
                 }
             }

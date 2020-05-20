@@ -27,6 +27,7 @@ import com.mindyapps.android.slimbo.R
 import com.mindyapps.android.slimbo.RecorderService
 import com.mindyapps.android.slimbo.RecorderService.START_ACTION
 import com.mindyapps.android.slimbo.RecorderService.STOP_ACTION
+import com.mindyapps.android.slimbo.data.model.Factor
 import com.mindyapps.android.slimbo.data.model.Music
 import com.mindyapps.android.slimbo.preferences.SleepingStore
 import kotlinx.coroutines.*
@@ -44,6 +45,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
     private lateinit var ripplePulseLayout: RipplePulseLayout
     private lateinit var handler: Handler
     private var music: Music? = null
+    private var factors: ArrayList<Factor>? = null
     private var lastPlayerPosition = 0
     private var duration: String? = null
     private var player: MediaPlayer? = null
@@ -67,6 +69,11 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
 
         music = intent.getParcelableExtra("music")
         duration = intent.getStringExtra("duration")
+        factors = intent.getParcelableArrayListExtra("factors")
+
+        if (factors != null){
+            Log.d("qwwe", "factors: ${factors}")
+        }
 
         if (music != null && music!!.name != getString(R.string.do_not_use) && !sleepingStore.isWorking) {
             musicText.text = music!!.name
@@ -83,7 +90,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
 
         if (!sleepingStore.isWorking && music == null) {
             handler = Handler()
-            handler.postDelayed(stopPlayerTask, 600000)
+            handler.postDelayed(stopPlayerTask, 0)
             hideTip()
         }
 
@@ -100,7 +107,9 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
     }
 
     private var stopPlayerTask = Runnable {
-        player!!.stop()
+        if (player != null) {
+            player!!.stop()
+        }
         startService()
     }
 

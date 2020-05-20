@@ -4,19 +4,23 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.mindyapps.android.slimbo.data.model.AudioRecord
 import com.mindyapps.android.slimbo.internal.Utils
 import com.mindyapps.android.slimbo.data.model.Factor
 import com.mindyapps.android.slimbo.data.model.Music
+import com.mindyapps.android.slimbo.data.model.Note
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
 
 @Database(
-    entities = [Factor::class, Music::class],
+    entities = [Factor::class, Music::class, AudioRecord::class, Note::class],
     version = 1
 )
+@TypeConverters(ListConverter::class)
 abstract class SlimboDatabase : RoomDatabase() {
     abstract fun slimboDao(): SlimboDao
 
