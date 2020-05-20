@@ -61,6 +61,8 @@
     <string name="minutes">minutes</string>
     <string name="hold_to_stop">Hold to stop</string>
     <string name="long_press_to_stop">Long press to stop</string>
+    <string name="monitoring_will_start_in_10_minutes">Monitoring will start in 10 minutes</string>
+    <string name="monitoring_will_start">Monitoring will start in </string>
 
     <string-array name="repeat_minutes">
         <item>Never</item>

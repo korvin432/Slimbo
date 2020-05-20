@@ -37,6 +37,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
 
     private lateinit var musicButton: FloatingActionButton
     private lateinit var musicText: TextView
+    private lateinit var tipText: TextView
     private lateinit var progressBar: ProgressBar
     private lateinit var sleepingStore: SleepingStore
     private lateinit var broadcastReceiver: BroadcastReceiver
@@ -55,9 +56,11 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
 
         musicText = findViewById(R.id.music_text)
         musicButton = findViewById(R.id.music_button)
+        tipText = findViewById(R.id.sleeping_tip_text)
         progressBar = findViewById(R.id.long_click_progress)
         ripplePulseLayout = findViewById(R.id.layout_ripplepulse)
         ripplePulseLayout.startRippleAnimation()
+        handler = Handler()
 
         musicButton.setOnClickListener(this)
         progressBar.setOnTouchListener(this)
@@ -65,7 +68,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
         music = intent.getParcelableExtra("music")
         duration = intent.getStringExtra("duration")
 
-        if (music != null && music!!.name != getString(R.string.do_not_use)) {
+        if (music != null && music!!.name != getString(R.string.do_not_use) && !sleepingStore.isWorking) {
             musicText.text = music!!.name
             ripplePulseLayout.visibility = View.VISIBLE
             val resID = resources.getIdentifier(music!!.fileName, "raw", packageName)
@@ -74,10 +77,14 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
             player!!.start()
             handler = Handler()
             handler.postDelayed(stopPlayerTask, getLength(duration))
+            tipText.text = getString(R.string.monitoring_will_start) + " $duration"
+            hideTip()
         }
 
         if (!sleepingStore.isWorking && music == null) {
-            startService()
+            handler = Handler()
+            handler.postDelayed(stopPlayerTask, 600000)
+            hideTip()
         }
 
         broadcastReceiver = object : BroadcastReceiver() {
@@ -95,6 +102,13 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
     private var stopPlayerTask = Runnable {
         player!!.stop()
         startService()
+    }
+
+    private fun hideTip(){
+        val handlerText =  Handler()
+        handlerText.postDelayed({
+            tipText.animate().alpha(0.0f)
+        }, 5000)
     }
 
     private fun getLength(length: String?): Long {
@@ -120,6 +134,10 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
         stopIntent.action = STOP_ACTION
         startService(stopIntent)
         sleepingStore.isWorking = false
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver)
+        if (player != null) {
+            player!!.stop()
+        }
         finish()
         //todo open details fragment
     }
@@ -127,7 +145,6 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacksAndMessages(null)
-        stopService()
     }
 
     override fun onClick(v: View?) {
@@ -154,14 +171,6 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
         )
     }
 
-    override fun onStop() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver)
-        super.onStop()
-        if (player != null) {
-            player!!.stop()
-        }
-    }
-
     override fun onBackPressed() {}
 
     companion object {
@@ -170,18 +179,18 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
     }
 
     override fun onTouch(p0: View?, event: MotionEvent?): Boolean {
-        var animation = ObjectAnimator.ofInt(progressBar, "progress", 100)
+        var animation = ObjectAnimator.ofInt(progressBar, "progress", 70)
         if (event!!.action == ACTION_DOWN) {
-            animation.duration = 2000
+            animation.duration = 1000
             animation.interpolator = DecelerateInterpolator()
             animation.start()
         } else if (event.action == ACTION_UP) {
-            if (progressBar.progress == 100){
+            if (progressBar.progress == 70) {
                 animation.pause()
                 stopService()
             }
             animation = ObjectAnimator.ofInt(progressBar, "progress", 0)
-            animation.duration = 2000
+            animation.duration = 1000
             animation.interpolator = DecelerateInterpolator()
             animation.start()
 
