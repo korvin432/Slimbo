@@ -52,6 +52,7 @@ public class RecorderService extends Service {
     private Boolean forceSave = false;
     private List<String> savedFileNames = new ArrayList<>();
     private boolean isSaving;
+    private Handler timeHandler;
     private SleepingStore sleepingStore;
 
     public RecorderService() {
@@ -80,12 +81,13 @@ public class RecorderService extends Service {
                     .build();
             startForeground(1, notification);
 
-            new Handler().postDelayed(minTimeTask, 120000);
             new Thread() {
                 public void run() {
                     arm();
                 }
             }.start();
+            timeHandler = new Handler();
+            timeHandler.postDelayed(minTimeTask, 120000);
 
         } else if (intent.getAction().equals(STOP_ACTION)) {
             isActive = false;
@@ -101,6 +103,7 @@ public class RecorderService extends Service {
 
     Runnable minTimeTask = new Runnable() {
         public void run() {
+            Log.d("qwwe", "minTask");
             sleepingStore.setMinimalTimeReached(true);
         }
     };
@@ -108,14 +111,17 @@ public class RecorderService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        timeHandler.removeCallbacksAndMessages(null);
         Log.d("qwwe", "destroying service");
         Log.d("qwwe", "Time is reached: " + sleepingStore.getMinimalTimeReached());
         Log.d("qwwe", "savedFiles: " + savedFileNames);
-        for (int i = 0; i < savedFileNames.size(); i++) {
-            String filePath = savedFileNames.get(i);
-            Log.d("qwwe", "deleting " + filePath);
-            File fdelete = new File(filePath);
-            fdelete.delete();
+        if (!sleepingStore.getMinimalTimeReached()) {
+            for (int i = 0; i < savedFileNames.size(); i++) {
+                String filePath = savedFileNames.get(i);
+                Log.d("qwwe", "deleting " + filePath);
+                File fdelete = new File(filePath);
+                fdelete.delete();
+            }
         }
         sleepingStore.setMinimalTimeReached(false);
     }

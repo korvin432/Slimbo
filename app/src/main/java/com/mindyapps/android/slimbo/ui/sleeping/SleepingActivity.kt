@@ -137,9 +137,6 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
         serviceIntent.action = START_ACTION
         ContextCompat.startForegroundService(this, serviceIntent)
         sleepingStore.isWorking = true
-//        Handler().postDelayed({
-//            sleepingStore.minimalTimeReached = true
-//        }, 20000)
     }
 
     private fun stopService() {
