@@ -215,12 +215,12 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
             animation.start()
         } else if (event.action == ACTION_UP) {
             if (progressBar.progress == 70) {
-//                if (!sleepingStore.minimalTimeReached) {
-//                    showDialog()
-//                } else {
+                if (!sleepingStore.minimalTimeReached) {
+                    showDialog()
+                } else {
                     animation.pause()
                     stopService()
-//                }
+                }
             }
             animation = ObjectAnimator.ofInt(progressBar, "progress", 0)
             animation.duration = 1000
