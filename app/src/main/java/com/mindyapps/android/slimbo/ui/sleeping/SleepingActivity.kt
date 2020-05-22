@@ -17,6 +17,7 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -30,8 +31,6 @@ import com.mindyapps.android.slimbo.RecorderService.STOP_ACTION
 import com.mindyapps.android.slimbo.data.model.Factor
 import com.mindyapps.android.slimbo.data.model.Music
 import com.mindyapps.android.slimbo.preferences.SleepingStore
-import kotlinx.coroutines.*
-import java.lang.Runnable
 
 
 class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouchListener {
@@ -71,7 +70,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
         duration = intent.getStringExtra("duration")
         factors = intent.getParcelableArrayListExtra("factors")
 
-        if (factors != null){
+        if (factors != null) {
             Log.d("qwwe", "factors: ${factors}")
         }
 
@@ -88,9 +87,11 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
             hideTip()
         }
 
+
+
         if (!sleepingStore.isWorking && music == null) {
-            handler = Handler()
-            handler.postDelayed(stopPlayerTask, 0)
+            Handler().postDelayed(stopPlayerTask, 0)
+            Handler().postDelayed(stopPlayerTask, 1000)
             hideTip()
         }
 
@@ -113,8 +114,8 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
         startService()
     }
 
-    private fun hideTip(){
-        val handlerText =  Handler()
+    private fun hideTip() {
+        val handlerText = Handler()
         handlerText.postDelayed({
             tipText.animate().alpha(0.0f)
         }, 5000)
@@ -136,6 +137,9 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
         serviceIntent.action = START_ACTION
         ContextCompat.startForegroundService(this, serviceIntent)
         sleepingStore.isWorking = true
+//        Handler().postDelayed({
+//            sleepingStore.minimalTimeReached = true
+//        }, 20000)
     }
 
     private fun stopService() {
@@ -149,6 +153,22 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
         }
         finish()
         //todo open details fragment
+    }
+
+    private fun showDialog() {
+        val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
+        with(builder)
+        {
+            setTitle(getString(R.string.title_alert))
+            setMessage(getString(R.string.sleep_quit_text))
+            setPositiveButton(android.R.string.yes) { _, _ ->
+                stopService()
+            }
+            setNegativeButton(android.R.string.no) { dialog, _ ->
+                dialog.dismiss()
+            }
+            show()
+        }
     }
 
     override fun onDestroy() {
@@ -195,8 +215,12 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
             animation.start()
         } else if (event.action == ACTION_UP) {
             if (progressBar.progress == 70) {
-                animation.pause()
-                stopService()
+//                if (!sleepingStore.minimalTimeReached) {
+//                    showDialog()
+//                } else {
+                    animation.pause()
+                    stopService()
+//                }
             }
             animation = ObjectAnimator.ofInt(progressBar, "progress", 0)
             animation.duration = 1000

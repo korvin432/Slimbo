@@ -63,6 +63,8 @@
     <string name="long_press_to_stop">Long press to stop</string>
     <string name="monitoring_will_start_in_10_minutes">Monitoring will start in 10 minutes</string>
     <string name="monitoring_will_start">Monitoring will start in </string>
+    <string name="sleep_quit_text">Monitoring should work at least 30 minutes. All reports will be deleted if you quit now. Are you sure?</string>
+    <string name="title_alert">Alert</string>
 
     <string-array name="repeat_minutes">
         <item>Never</item>

@@ -12,6 +12,7 @@ import android.media.MediaMetadataRetriever;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
@@ -19,13 +20,16 @@ import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.preference.PreferenceManager;
 
+import com.mindyapps.android.slimbo.preferences.SleepingStore;
 import com.mindyapps.android.slimbo.ui.sleeping.SleepingActivity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class RecorderService extends Service {
 
@@ -34,12 +38,18 @@ public class RecorderService extends Service {
     public static final String STOP_ACTION = "StartRecording";
     private int RECORDER_CHANNELS = AudioFormat.CHANNEL_CONFIGURATION_MONO;
     private int RECORDER_AUDIO_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
-    private int RECORDER_SAMPLERATE = 44100;
+    private int RECORDER_SAMPLERATE = 23100;
+    private int FIVE_MIN_BYTES = 26460000;
+    private int THREE_MIN_BYTES = 8700000;
+    private int ONE_MIN_BYTES = 5292000;
+    private int THIRTY_SEC_BYTES = 2646000;
     private byte RECORDER_BPP = (byte) 16;
-    private int minVolumeLevel = 20;
+    private int minVolumeLevel = 15;
 
     private Boolean isActive;
+    private Boolean forceSave = false;
     private boolean isSaving;
+    private SleepingStore sleepingStore;
 
     public RecorderService() {
     }
@@ -54,6 +64,7 @@ public class RecorderService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent.getAction().equals(START_ACTION)) {
             isActive = true;
+
             createNotificationChannel();
             Intent notificationIntent = new Intent(this, MainActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(this,
@@ -71,7 +82,7 @@ public class RecorderService extends Service {
                 }
             }.start();
 
-        } else if (intent.getAction().equals(STOP_ACTION)){
+        } else if (intent.getAction().equals(STOP_ACTION)) {
             isActive = false;
             Intent sleepingIntent = new Intent(SleepingActivity.RECEIVER_INTENT);
             sleepingIntent.putExtra(SleepingActivity.RECEIVER_MESSAGE, "stop");
@@ -83,6 +94,16 @@ public class RecorderService extends Service {
         return START_STICKY;
     }
 
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        Log.d("qwwe", "destroying service");
+//        Log.d("qwwe", "Time is reached: " + sleepingStore.getMinimalTimeReached());
+//        //TODO: CREATE ARRAY OF FILES (OR FILENAMES) AND PUT ALL CREATED FILES IN THERE
+//        // IF MINIMAL TIMER IS NOT REACHED, DELETE THESE FILES ONE BY ONE
+//        timer.cancel();
+//        sleepingStore.setMinimalTimeReached(false);
+//    }
 
     public void arm() {
         // Get the minimum buffer size required for the successful creation of an AudioRecord object.
@@ -104,10 +125,11 @@ public class RecorderService extends Service {
         float tempFloatBuffer[] = new float[3];
         int tempIndex = 0;
         int totalReadBytes = 0;
-        byte totalByteBuffer[] = new byte[60 * 44100 * 2];
+        byte totalByteBuffer[] = new byte[60 * 6 * 44100 * 2];
 
         // While data come from microphone.
         while (isActive) {
+
             float totalAbsValue = 0.0f;
             short sample = 0;
 
@@ -118,6 +140,7 @@ public class RecorderService extends Service {
                 sample = (short) ((audioBuffer[i]) | audioBuffer[i + 1] << 8);
                 totalAbsValue += Math.abs(sample) / (numberOfReadBytes / 2);
             }
+
 
             // Analyze temp buffer.
             tempFloatBuffer[tempIndex % 3] = totalAbsValue;
@@ -134,13 +157,18 @@ public class RecorderService extends Service {
                 recording = true;
             }
 
-            if (temp > minVolumeLevel && recording){
+            if (totalReadBytes >= (THREE_MIN_BYTES)) {
+                Log.d("qwwe", "totalReadBytes " + totalReadBytes);
+                forceSave = true;
+            }
+
+            if (temp > minVolumeLevel && recording) {
                 silentSeconds = 0;
             }
 
-            if ((temp >= 0 && temp <= minVolumeLevel) && recording && !isSaving) {
+            if (((temp >= 0 && temp <= minVolumeLevel) && recording && !isSaving) || forceSave) {
                 silentSeconds++;
-                if (silentSeconds >= 160) {
+                if (silentSeconds >= 160 || forceSave) {
                     isSaving = true;
                     Log.d("qwwe", "Save audio to file.");
                     // Save audio to file.
@@ -216,15 +244,17 @@ public class RecorderService extends Service {
                     try {
                         out = new FileOutputStream(fn);
                         try {
+                            Log.d("qwwe", "totalReadBytes: " + totalReadBytes);
                             out.write(finalBuffer);
                             out.close();
                             MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
                             mediaMetadataRetriever.setDataSource(fn);
                             String duration = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-                            if (Long.parseLong(duration) < 5000){
+                            if (duration == null || Long.parseLong(duration) < 5000) {
                                 File fdelete = new File(fn);
                                 fdelete.delete();
                             }
+                            forceSave = false;
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -244,7 +274,8 @@ public class RecorderService extends Service {
                 }
             }
 
-            // -> Recording sound here.
+            // -> Recording sound here
+            Log.d("qwwe", "active");
             Log.d("qwwe", "Recording Sound.");
             for (int i = 0; i < numberOfReadBytes; i++)
                 totalByteBuffer[totalReadBytes + i] = audioBuffer[i];

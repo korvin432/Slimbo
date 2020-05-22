@@ -5,10 +5,10 @@
     android:id="@+id/sleeping_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:background="@color/bottom_navigation_bg"
     android:keepScreenOn="true"
     android:orientation="vertical"
-    android:animateLayoutChanges="true"
     tools:context=".ui.sleeping.SleepingActivity">
 
     <RelativeLayout
@@ -17,30 +17,30 @@
         android:background="@drawable/sleeping_bg"
         android:padding="20dp">
 
-                <TextClock
-                    android:id="@+id/text_clock"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="50dp"
-                    android:fontFamily="sans-serif-thin"
-                    android:format12Hour="hh:mm"
-                    android:format24Hour="HH:mm"
-                    android:textAlignment="center"
-                    android:textColor="@color/colorWhiteText"
-                    android:textSize="70sp" />
+        <TextClock
+            android:id="@+id/text_clock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="50dp"
+            android:fontFamily="sans-serif-thin"
+            android:format12Hour="hh:mm"
+            android:format24Hour="HH:mm"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhiteText"
+            android:textSize="70sp" />
 
         <TextView
             android:id="@+id/sleeping_tip_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/monitoring_will_start_in_10_minutes"
-            android:textColor="@color/colorTextHint"
             android:layout_below="@+id/text_clock"
             android:layout_marginTop="50dp"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/monitoring_will_start_in_10_minutes"
             android:textAlignment="center"
-            android:textSize="18sp"
-            android:fontFamily="sans-serif-light"/>
+            android:textColor="@color/colorTextHint"
+            android:textSize="18sp" />
 
         <ProgressBar
             android:id="@+id/long_click_progress"
@@ -58,8 +58,8 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/long_click_progress"
             android:layout_alignBottom="@id/long_click_progress"
-            android:background="#00000000"
             android:layout_marginHorizontal="85dp"
+            android:background="#00000000"
             android:gravity="center"
             android:text="@string/long_press_to_stop"
             android:textAlignment="center"

@@ -33,6 +33,13 @@
         <item name="android:statusBarColor">@color/colorTransparent</item>
     </style>
 
+    <style name="AlertDialogCustom" parent="@android:style/Theme.Material.Dialog">
+        <item name="android:textColor">@color/colorWhiteText</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:headerDividersEnabled">false</item>
+        <item name="android:background">@color/card_bg</item>
+    </style>
+
     <style name="tallerBarStyle" parent="@android:style/Widget.SeekBar">
         <item name="android:indeterminateOnly">false</item>
         <item name="android:progressDrawable">@drawable/progress_button_horizontal</item>
