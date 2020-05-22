@@ -65,6 +65,11 @@
     <string name="monitoring_will_start">Monitoring will start in </string>
     <string name="sleep_quit_text">Monitoring should work at least 30 minutes. All reports will be deleted if you quit now. Are you sure?</string>
     <string name="title_alert">Alert</string>
+    <string name="activate_anti_snore">Activate anti-snore</string>
+    <string name="anti_snore_tip">The selected signal will be played for 3 second when any sounds are detected. \nYour snoring will not be recorded if you use this feature.</string>
+    <string name="signal">Signal</string>
+    <string name="on">On</string>
+    <string name="anti_snore">Anti-snore</string>
 
     <string-array name="repeat_minutes">
         <item>Never</item>

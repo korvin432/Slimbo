@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaMetadataRetriever;
+import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
@@ -22,6 +23,8 @@ import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 
+import com.google.gson.Gson;
+import com.mindyapps.android.slimbo.data.model.Music;
 import com.mindyapps.android.slimbo.preferences.SleepingStore;
 import com.mindyapps.android.slimbo.ui.sleeping.SleepingActivity;
 
@@ -53,7 +56,9 @@ public class RecorderService extends Service {
     private List<String> savedFileNames = new ArrayList<>();
     private boolean isSaving;
     private Handler timeHandler;
+    private MediaPlayer player;
     private SleepingStore sleepingStore;
+    private Music selectedSignal;
 
     public RecorderService() {
     }
@@ -70,6 +75,8 @@ public class RecorderService extends Service {
             isActive = true;
             sleepingStore = new SleepingStore(PreferenceManager
                     .getDefaultSharedPreferences(getApplicationContext()));
+            selectedSignal = new Gson().fromJson(sleepingStore.getAntiSnoreSound(), Music.class);
+
             createNotificationChannel();
             Intent notificationIntent = new Intent(this, MainActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(this,
@@ -81,6 +88,11 @@ public class RecorderService extends Service {
                     .build();
             startForeground(1, notification);
 
+            int resID =
+                    getApplicationContext().getResources()
+                            .getIdentifier(selectedSignal.getFileName(), "raw",
+                                    getApplicationContext().getPackageName());
+            player = MediaPlayer.create(getApplicationContext(), resID);
             new Thread() {
                 public void run() {
                     arm();
@@ -111,7 +123,8 @@ public class RecorderService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        timeHandler.removeCallbacksAndMessages(null);
+        timeHandler.removeCallbacks(minTimeTask);
+        player.stop();
         Log.d("qwwe", "destroying service");
         Log.d("qwwe", "Time is reached: " + sleepingStore.getMinimalTimeReached());
         Log.d("qwwe", "savedFiles: " + savedFileNames);
@@ -175,7 +188,14 @@ public class RecorderService extends Service {
             }
 
             if (temp > minVolumeLevel && !recording && !isSaving) {
-                recording = true;
+                Log.d("qwwe", "got sound");
+                if (sleepingStore.getUseAntiSnore()) {
+                    player.setLooping(false);
+                    player.start();
+                    //todo add 3 second handler to stop player
+                } else {
+                    recording = true;
+                }
             }
 
             if (totalReadBytes >= (THREE_MIN_BYTES)) {
@@ -298,12 +318,14 @@ public class RecorderService extends Service {
             }
 
             // -> Recording sound here
-            Log.d("qwwe", "active");
-            Log.d("qwwe", "Recording Sound.");
-            for (int i = 0; i < numberOfReadBytes; i++)
-                totalByteBuffer[totalReadBytes + i] = audioBuffer[i];
-            totalReadBytes += numberOfReadBytes;
+            if (!sleepingStore.getUseAntiSnore()) {
+                Log.d("qwwe", "Recording Sound.");
+                for (int i = 0; i < numberOfReadBytes; i++)
+                    totalByteBuffer[totalReadBytes + i] = audioBuffer[i];
+                totalReadBytes += numberOfReadBytes;
+            }
             // */
+
 
             tempIndex++;
         }

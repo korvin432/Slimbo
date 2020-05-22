@@ -39,8 +39,9 @@ class SleepFragment : Fragment(), View.OnClickListener {
     private lateinit var factorsBlurLayout: BlurLayout
     private lateinit var startButton: MaterialButton
     private lateinit var alarmChip: Chip
+    private lateinit var snoreChip: Chip
     private lateinit var alarmStore: AlarmStore
-
+    private lateinit var sleepingStore: SleepingStore
 
     private lateinit var selectedFactorsRecyclerAdapter: SelectedFactorsRecyclerAdapter
     private var selectedFactors: ArrayList<Factor>? = ArrayList()
@@ -48,6 +49,7 @@ class SleepFragment : Fragment(), View.OnClickListener {
     private var selectedLength: String? = null
     private var alarmChipText: String? = null
     private var useAlarm: Boolean? = null
+    private var useAntiSnore: Boolean? = null
 
     private var root: View? = null
 
@@ -71,7 +73,12 @@ class SleepFragment : Fragment(), View.OnClickListener {
             recyclerView = root!!.findViewById(R.id.selected_factors_recycler)
             startButton = root!!.findViewById(R.id.start_sleeping_button)
             alarmChip = root!!.findViewById(R.id.alarm_chip)
+            snoreChip = root!!.findViewById(R.id.snore_chip)
             alarmStore = AlarmStore(
+                PreferenceManager.getDefaultSharedPreferences
+                    (requireActivity().applicationContext)
+            )
+            sleepingStore = SleepingStore(
                 PreferenceManager.getDefaultSharedPreferences
                     (requireActivity().applicationContext)
             )
@@ -80,10 +87,15 @@ class SleepFragment : Fragment(), View.OnClickListener {
                 alarmChip.text = alarmStore.alarmTime
             }
 
+            if (sleepingStore.useAntiSnore) {
+                snoreChip.text = getString(R.string.on)
+            }
+
             factorsCard.setOnClickListener(this)
             musicCard.setOnClickListener(this)
             startButton.setOnClickListener(this)
             alarmChip.setOnClickListener(this)
+            snoreChip.setOnClickListener(this)
 
         } else {
             musicBlurLayout.startBlur()
@@ -113,7 +125,6 @@ class SleepFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<ArrayList<Factor>>(
             "factors"
@@ -171,6 +182,18 @@ class SleepFragment : Fragment(), View.OnClickListener {
         }
 
 
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
+            "use_anti_snore"
+        )?.observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                useAntiSnore = result
+                if (!useAntiSnore!!) {
+                    snoreChip.text = getString(R.string.off)
+                } else {
+                    snoreChip.text = getString(R.string.on)
+                }
+            }
+        }
     }
 
     private fun bindFactorsRecycler(factors: ArrayList<Factor>) {
@@ -202,6 +225,9 @@ class SleepFragment : Fragment(), View.OnClickListener {
             }
             R.id.alarm_chip -> {
                 findNavController().navigate(R.id.alarmSettingsFragment)
+            }
+            R.id.snore_chip -> {
+                findNavController().navigate(R.id.antiSnoreFragment)
             }
             R.id.start_sleeping_button -> {
                 if (SleepingStore(PreferenceManager.getDefaultSharedPreferences(requireContext())).showTip) {

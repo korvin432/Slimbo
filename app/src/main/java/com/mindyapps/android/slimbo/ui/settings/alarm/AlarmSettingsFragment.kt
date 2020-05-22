@@ -1,4 +1,4 @@
-package com.mindyapps.android.slimbo.ui.settings
+package com.mindyapps.android.slimbo.ui.settings.alarm
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -61,7 +61,10 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
         val root = inflater.inflate(R.layout.fragment_alarm_settings, container, false)
         viewModel = ViewModelProvider(
             this,
-            AlarmViewModelFactory(repository, requireActivity().application)
+            AlarmViewModelFactory(
+                repository,
+                requireActivity().application
+            )
         ).get(AlarmViewModel::class.java)
 
         recyclerView = root.findViewById(R.id.alarm_recycler)

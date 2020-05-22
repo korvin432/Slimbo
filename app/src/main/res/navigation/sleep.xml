@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_navigation_sleep_to_alarmSettingsFragment"
             app:destination="@id/alarmSettingsFragment" />
+        <action
+            android:id="@+id/action_navigation_sleep_to_antiSnoreFragment"
+            app:destination="@id/antiSnoreFragment" />
     </fragment>
 
     <dialog
@@ -60,7 +63,7 @@
     </fragment>
     <fragment
         android:id="@+id/alarmSettingsFragment"
-        android:name="com.mindyapps.android.slimbo.ui.settings.AlarmSettingsFragment"
+        android:name="com.mindyapps.android.slimbo.ui.settings.alarm.AlarmSettingsFragment"
         android:label="@string/alarm_settings"
         tools:layout="@layout/fragment_alarm_settings">
         <argument
@@ -75,5 +78,10 @@
         android:name="com.mindyapps.android.slimbo.ui.sleeping.SleepingActivity"
         android:label="activity_sleeping"
         tools:layout="@layout/activity_sleeping" />
+    <fragment
+        android:id="@+id/antiSnoreFragment"
+        android:name="com.mindyapps.android.slimbo.ui.settings.snore.AntiSnoreFragment"
+        android:label="@string/anti_snore"
+        tools:layout="@layout/anti_snore_fragment" />
 
 </navigation>

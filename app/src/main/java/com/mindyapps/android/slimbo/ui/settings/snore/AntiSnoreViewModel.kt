@@ -1,4 +1,4 @@
-package com.mindyapps.android.slimbo.ui.settings
+package com.mindyapps.android.slimbo.ui.settings.snore
 
 import android.app.Application
 import androidx.lifecycle.LiveData
@@ -7,7 +7,7 @@ import com.mindyapps.android.slimbo.data.db.SlimboDatabase
 import com.mindyapps.android.slimbo.data.model.Music
 import com.mindyapps.android.slimbo.data.repository.SlimboRepository
 
-class AlarmViewModel(
+class AntiSnoreViewModel(
     slimboRepository: SlimboRepository,
     application: Application
 ) : ViewModel() {
