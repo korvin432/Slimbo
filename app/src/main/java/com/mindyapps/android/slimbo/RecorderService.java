@@ -29,7 +29,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class RecorderService extends Service {
 
@@ -48,6 +50,7 @@ public class RecorderService extends Service {
 
     private Boolean isActive;
     private Boolean forceSave = false;
+    private List<String> savedFileNames = new ArrayList<>();
     private boolean isSaving;
     private SleepingStore sleepingStore;
 
@@ -77,7 +80,7 @@ public class RecorderService extends Service {
                     .build();
             startForeground(1, notification);
 
-            new Handler().postDelayed(minTimeTask, 15000);
+            new Handler().postDelayed(minTimeTask, 120000);
             new Thread() {
                 public void run() {
                     arm();
@@ -107,8 +110,13 @@ public class RecorderService extends Service {
         super.onDestroy();
         Log.d("qwwe", "destroying service");
         Log.d("qwwe", "Time is reached: " + sleepingStore.getMinimalTimeReached());
-        //TODO: CREATE ARRAY OF FILES (OR FILENAMES) AND PUT ALL CREATED FILES IN THERE
-        // IF MINIMAL TIMER IS NOT REACHED, DELETE THESE FILES ONE BY ONE
+        Log.d("qwwe", "savedFiles: " + savedFileNames);
+        for (int i = 0; i < savedFileNames.size(); i++) {
+            String filePath = savedFileNames.get(i);
+            Log.d("qwwe", "deleting " + filePath);
+            File fdelete = new File(filePath);
+            fdelete.delete();
+        }
         sleepingStore.setMinimalTimeReached(false);
     }
 
@@ -260,6 +268,8 @@ public class RecorderService extends Service {
                             if (duration == null || Long.parseLong(duration) < 5000) {
                                 File fdelete = new File(fn);
                                 fdelete.delete();
+                            } else {
+                                savedFileNames.add(fn);
                             }
                             forceSave = false;
                         } catch (IOException e) {
