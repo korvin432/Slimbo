@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_history"
-        android:name="com.mindyapps.android.slimbo.ui.history.HistoryFragment"
+        android:name="com.mindyapps.slimbo.ui.history.HistoryFragment"
         tools:layout="@layout/fragment_history"
         android:label="@string/title_history" />
 </navigation>

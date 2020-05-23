@@ -71,6 +71,7 @@
     <string name="on">On</string>
     <string name="anti_snore">Anti-snore</string>
     <string name="duration">Duration</string>
+    <string name="error">Error</string>
 
     <string-array name="repeat_minutes">
         <item>Never</item>

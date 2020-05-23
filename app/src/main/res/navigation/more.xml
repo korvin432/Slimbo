@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_more"
-        android:name="com.mindyapps.android.slimbo.ui.more.MoreFragment"
+        android:name="com.mindyapps.slimbo.ui.more.MoreFragment"
         tools:layout="@layout/fragment_more"
         android:label="@string/title_more" />
 
