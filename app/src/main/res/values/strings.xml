@@ -70,6 +70,7 @@
     <string name="signal">Signal</string>
     <string name="on">On</string>
     <string name="anti_snore">Anti-snore</string>
+    <string name="duration">Duration</string>
 
     <string-array name="repeat_minutes">
         <item>Never</item>

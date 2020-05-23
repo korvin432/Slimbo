@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
         android:padding="10dp">
 
         <TextView
@@ -37,7 +37,6 @@
 
         <include layout="@layout/alarm_divider" />
 
-
         <LinearLayout
             android:id="@+id/sound_container"
             android:layout_width="match_parent"
@@ -59,6 +58,43 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp" />
+
+        </LinearLayout>
+
+        <include layout="@layout/alarm_divider" />
+
+        <LinearLayout
+            android:id="@+id/signal_duration_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/card_bg"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/signal_duration_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/duration"
+                android:textColor="@color/colorWhiteText"
+                android:textSize="16sp" />
+
+            <com.xw.repo.BubbleSeekBar
+                android:id="@+id/duration_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:bsb_auto_adjust_section_mark="true"
+                app:bsb_max="10"
+                app:bsb_bubble_color="@color/colorPrimary"
+                app:bsb_thumb_color="@color/colorAccent"
+                app:bsb_bubble_text_color="@color/colorWhiteText"
+                app:bsb_thumb_text_color="@color/colorWhiteText"
+                app:bsb_is_float_type="false"
+                app:bsb_show_progress_in_float="false"
+                app:bsb_section_text_position="below_section_mark"
+                app:bsb_show_thumb_text="true"
+                app:bsb_thumb_text_size="18sp"
+                app:bsb_touch_to_seek="true"/>
 
         </LinearLayout>
 

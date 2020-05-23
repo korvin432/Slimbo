@@ -50,12 +50,15 @@ public class RecorderService extends Service {
     private int THIRTY_SEC_BYTES = 2646000;
     private byte RECORDER_BPP = (byte) 16;
     private int minVolumeLevel = 15;
+    private int  resID;
 
     private Boolean isActive;
+    private Boolean signalCompleted = true;
     private Boolean forceSave = false;
     private List<String> savedFileNames = new ArrayList<>();
     private boolean isSaving;
     private Handler timeHandler;
+    private Handler signalHandler;
     private MediaPlayer player;
     private SleepingStore sleepingStore;
     private Music selectedSignal;
@@ -88,17 +91,17 @@ public class RecorderService extends Service {
                     .build();
             startForeground(1, notification);
 
-            int resID =
+             resID =
                     getApplicationContext().getResources()
                             .getIdentifier(selectedSignal.getFileName(), "raw",
                                     getApplicationContext().getPackageName());
-            player = MediaPlayer.create(getApplicationContext(), resID);
             new Thread() {
                 public void run() {
                     arm();
                 }
             }.start();
             timeHandler = new Handler();
+            signalHandler = new Handler();
             timeHandler.postDelayed(minTimeTask, 120000);
 
         } else if (intent.getAction().equals(STOP_ACTION)) {
@@ -115,16 +118,27 @@ public class RecorderService extends Service {
 
     Runnable minTimeTask = new Runnable() {
         public void run() {
-            Log.d("qwwe", "minTask");
             sleepingStore.setMinimalTimeReached(true);
+        }
+    };
+
+    Runnable stopPlayerTask = new Runnable() {
+        public void run() {
+            player.stop();
+            signalCompleted = true;
         }
     };
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        timeHandler.removeCallbacks(minTimeTask);
-        player.stop();
+        if (timeHandler != null) {
+            timeHandler.removeCallbacks(minTimeTask);
+            signalHandler.removeCallbacks(stopPlayerTask);
+            if (player != null) {
+                player.stop();
+            }
+        }
         Log.d("qwwe", "destroying service");
         Log.d("qwwe", "Time is reached: " + sleepingStore.getMinimalTimeReached());
         Log.d("qwwe", "savedFiles: " + savedFileNames);
@@ -189,10 +203,13 @@ public class RecorderService extends Service {
 
             if (temp > minVolumeLevel && !recording && !isSaving) {
                 Log.d("qwwe", "got sound");
-                if (sleepingStore.getUseAntiSnore()) {
-                    player.setLooping(false);
+                if (sleepingStore.getUseAntiSnore() && sleepingStore.getMinimalTimeReached() && signalCompleted) {
+                    player = MediaPlayer.create(getApplicationContext(), resID);
+                    player.setLooping(true);
                     player.start();
-                    //todo add 3 second handler to stop player
+                    Log.d("qwwe", "setting handler");
+                    signalHandler.postDelayed(stopPlayerTask, sleepingStore.getAntiSnoreDuration() * 1000);
+                    signalCompleted = false;
                 } else {
                     recording = true;
                 }

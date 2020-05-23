@@ -24,14 +24,16 @@ import com.mindyapps.android.slimbo.data.repository.SlimboRepositoryImpl
 import com.mindyapps.android.slimbo.preferences.AlarmStore
 import com.mindyapps.android.slimbo.preferences.SleepingStore
 import com.mindyapps.android.slimbo.ui.adapters.SelectedMusicAdapter
+import com.xw.repo.BubbleSeekBar
 import kotlinx.android.synthetic.main.fragment_alarm_settings.*
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 
-class AntiSnoreFragment : Fragment() {
+class AntiSnoreFragment : Fragment(), BubbleSeekBar.OnProgressChangedListener {
 
     private lateinit var viewModel: AntiSnoreViewModel
     private lateinit var recyclerView: RecyclerView
+    private lateinit var durationSeekBar: BubbleSeekBar
     private lateinit var selectedMusicAdapter: SelectedMusicAdapter
     private lateinit var observerMusic: Observer<List<Music>>
     private lateinit var snoreSwitch: Switch
@@ -56,6 +58,8 @@ class AntiSnoreFragment : Fragment() {
         ).get(AntiSnoreViewModel::class.java)
 
         recyclerView = root.findViewById(R.id.alarm_recycler)
+        durationSeekBar = root.findViewById(R.id.duration_seekbar)
+        durationSeekBar.onProgressChangedListener = this
         snoreSwitch = root.findViewById(R.id.snore_switch)
         sleepingStore = SleepingStore(
             PreferenceManager.getDefaultSharedPreferences
@@ -97,11 +101,13 @@ class AntiSnoreFragment : Fragment() {
     private fun loadPreferences() {
         snoreSwitch.isChecked = sleepingStore.useAntiSnore
         selectedSignal = Gson().fromJson(sleepingStore.antiSnoreSound, Music::class.java)
+        durationSeekBar.setProgress(sleepingStore.antiSnoreDuration.toFloat())
     }
 
     private fun savePreferences() {
         sleepingStore.useAntiSnore = snoreSwitch.isChecked
         sleepingStore.antiSnoreSound = Gson().toJson(selectedSignal)
+        sleepingStore.antiSnoreDuration = durationSeekBar.progress
     }
 
     private fun loadMusic() {
@@ -139,5 +145,27 @@ class AntiSnoreFragment : Fragment() {
             selectedSignal = music
         }
     }
+
+    override fun onProgressChanged(
+        bubbleSeekBar: BubbleSeekBar?,
+        progress: Int,
+        progressFloat: Float,
+        fromUser: Boolean
+    ) {
+        sleepingStore.antiSnoreDuration = progress * 1000
+    }
+
+    override fun getProgressOnActionUp(
+        bubbleSeekBar: BubbleSeekBar?,
+        progress: Int,
+        progressFloat: Float
+    ) { }
+
+    override fun getProgressOnFinally(
+        bubbleSeekBar: BubbleSeekBar?,
+        progress: Int,
+        progressFloat: Float,
+        fromUser: Boolean
+    ) { }
 
 }
