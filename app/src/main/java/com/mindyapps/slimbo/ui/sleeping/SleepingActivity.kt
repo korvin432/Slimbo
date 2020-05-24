@@ -99,8 +99,6 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
             hideTip()
         }
 
-
-
         if (!sleepingStore.isWorking && music == null) {
             Handler().postDelayed(stopPlayerTask, 0)
             Handler().postDelayed(stopPlayerTask, 1000)
@@ -113,6 +111,10 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
                 if (message == "stop") {
                     Log.d("qwwe", "GOT STOP MESSAGE")
                     sleepingStore.isWorking = false
+                    factors = intent.getParcelableArrayListExtra(SELECTED_FACTORS)
+                    Log.d("qwwe", "factors: $factors")
+                    Log.d("qwwe", "started at : ${intent.getLongExtra(START_TIME, 0)}")
+                    Log.d("qwwe", "ended at : ${intent.getLongExtra(END_TIME, 0)}")
                     finish()
                 }
             }
@@ -147,11 +149,12 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
     private fun startService() {
         val serviceIntent = Intent(this, RecorderService::class.java)
         serviceIntent.action = START_ACTION
+        serviceIntent.putExtra(SELECTED_FACTORS, factors)
         ContextCompat.startForegroundService(this, serviceIntent)
         sleepingStore.isWorking = true
     }
 
-    private fun stopService() {
+    private fun stopService(openDetails: Boolean) {
         val stopIntent = Intent(this, RecorderService::class.java)
         stopIntent.action = STOP_ACTION
         startService(stopIntent)
@@ -161,7 +164,10 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
             player!!.stop()
         }
         finish()
-        //todo open details fragment
+        if (openDetails) {
+            //todo open details fragment
+
+        }
     }
 
     private fun showDialog() {
@@ -171,7 +177,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
             setTitle(getString(R.string.title_alert))
             setMessage(getString(R.string.sleep_quit_text))
             setPositiveButton(android.R.string.yes) { _, _ ->
-                stopService()
+                stopService(false)
             }
             setNegativeButton(android.R.string.no) { dialog, _ ->
                 dialog.dismiss()
@@ -214,6 +220,9 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
     companion object {
         const val RECEIVER_INTENT = "RECEIVER_INTENT"
         const val RECEIVER_MESSAGE = "RECEIVER_MESSAGE"
+        const val SELECTED_FACTORS = "SELECTED_FACTORS"
+        const val START_TIME = "START_TIME"
+        const val END_TIME = "END_TIME"
     }
 
     override fun onTouch(p0: View?, event: MotionEvent?): Boolean {
@@ -228,7 +237,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
                     showDialog()
                 } else {
                     animation.pause()
-                    stopService()
+                    stopService(true)
                 }
             }
             animation = ObjectAnimator.ofInt(progressBar, "progress", 0)

@@ -23,6 +23,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 
 import com.google.gson.Gson;
+import com.mindyapps.slimbo.data.model.Factor;
 import com.mindyapps.slimbo.data.model.Music;
 import com.mindyapps.slimbo.preferences.SleepingStore;
 import com.mindyapps.slimbo.ui.sleeping.SleepingActivity;
@@ -33,6 +34,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.mindyapps.slimbo.ui.sleeping.SleepingActivity.END_TIME;
+import static com.mindyapps.slimbo.ui.sleeping.SleepingActivity.SELECTED_FACTORS;
+import static com.mindyapps.slimbo.ui.sleeping.SleepingActivity.START_TIME;
 
 public class RecorderService extends Service {
 
@@ -50,16 +55,17 @@ public class RecorderService extends Service {
     private int minVolumeLevel = 15;
     private int resID;
 
-    private Boolean isActive;
-    private Boolean signalCompleted = true;
-    private Boolean forceSave = false;
+    private boolean isActive;
+    private boolean signalCompleted = true;
+    private boolean forceSave = false;
     private List<String> savedFileNames = new ArrayList<>();
     private boolean isSaving;
-    private Handler timeHandler;
-    private Handler signalHandler;
+    private Handler timeHandler, signalHandler;
     private MediaPlayer player;
     private SleepingStore sleepingStore;
     private Music selectedSignal;
+    private ArrayList<Factor> factors;
+    private long startSleepingTime;
 
     public RecorderService() {
     }
@@ -81,6 +87,8 @@ public class RecorderService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent.getAction().equals(START_ACTION)) {
             isActive = true;
+            factors = intent.getParcelableArrayListExtra(SELECTED_FACTORS);
+            startSleepingTime = System.currentTimeMillis();
 
             createNotificationChannel();
             Intent notificationIntent = new Intent(this, MainActivity.class);
@@ -106,6 +114,9 @@ public class RecorderService extends Service {
             isActive = false;
             Intent sleepingIntent = new Intent(SleepingActivity.RECEIVER_INTENT);
             sleepingIntent.putExtra(SleepingActivity.RECEIVER_MESSAGE, "stop");
+            sleepingIntent.putExtra(SELECTED_FACTORS, factors);
+            sleepingIntent.putExtra(START_TIME, startSleepingTime);
+            sleepingIntent.putExtra(END_TIME, System.currentTimeMillis());
             LocalBroadcastManager.getInstance(this).sendBroadcast(sleepingIntent);
             stopForeground(true);
             stopSelf();
