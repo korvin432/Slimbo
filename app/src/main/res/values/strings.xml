@@ -72,6 +72,11 @@
     <string name="anti_snore">Anti-snore</string>
     <string name="duration">Duration</string>
     <string name="error">Error</string>
+    <string name="how_do_you_feel">How do you feel?</string>
+    <string name="sleep_at">Sleep at</string>
+    <string name="wake_up">Wake up</string>
+    <string name="sleep_time">Sleep time</string>
+    <string name="noise">Noise</string>
 
     <string-array name="repeat_minutes">
         <item>Never</item>

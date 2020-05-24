@@ -60,10 +60,7 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
     ): View? {
         val root = inflater.inflate(R.layout.fragment_alarm_settings, container, false)
         viewModel = ViewModelProvider(
-            this,
-            AlarmViewModelFactory(
-                repository,
-                requireActivity().application
+            this,AlarmViewModelFactory(repository,requireActivity().application
             )
         ).get(AlarmViewModel::class.java)
 

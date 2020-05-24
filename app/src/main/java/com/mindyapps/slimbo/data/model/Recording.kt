@@ -7,15 +7,18 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.mindyapps.slimbo.data.db.ListConverter
 
-@Entity(tableName = "notes")
+@Entity(tableName = "recordings")
 @TypeConverters(ListConverter::class)
-data class Note(
+data class Recording(
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
-    val recordings: List<AudioRecord>,
-    val factors: List<Factor>
+    val recordings: List<AudioRecord>?,
+    val factors: List<Factor>?,
+    val rating: Int?,
+    val duration: Long?,
+    val wake_up_time: Long?,
+    val sleep_at_time: Long?
 ) : Parcelable {
-
     constructor(parcel: Parcel) : this(
         parcel.readValue(Int::class.java.classLoader) as? Int,
         listOf<AudioRecord>().apply {
@@ -23,7 +26,11 @@ data class Note(
         },
         listOf<Factor>().apply {
             parcel.readList(this, Factor::class.java.classLoader)
-        }
+        },
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readLong(),
+        parcel.readLong(),
+        parcel.readLong()
     ) {
     }
 
@@ -31,18 +38,22 @@ data class Note(
         parcel.writeValue(id)
         parcel.writeList(recordings)
         parcel.writeList(factors)
+        parcel.writeValue(rating)
+        parcel.writeLong(duration!!)
+        parcel.writeLong(wake_up_time!!)
+        parcel.writeLong(sleep_at_time!!)
     }
 
     override fun describeContents(): Int {
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<Note> {
-        override fun createFromParcel(parcel: Parcel): Note {
-            return Note(parcel)
+    companion object CREATOR : Parcelable.Creator<Recording> {
+        override fun createFromParcel(parcel: Parcel): Recording {
+            return Recording(parcel)
         }
 
-        override fun newArray(size: Int): Array<Note?> {
+        override fun newArray(size: Int): Array<Recording?> {
             return arrayOfNulls(size)
         }
     }

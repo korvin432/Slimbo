@@ -3,6 +3,7 @@ package com.mindyapps.slimbo.ui.sleep
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
+import com.mindyapps.slimbo.MainActivity
 import com.mindyapps.slimbo.R
 import com.mindyapps.slimbo.data.model.Factor
 import com.mindyapps.slimbo.data.model.Music
@@ -26,7 +28,6 @@ import com.mindyapps.slimbo.ui.adapters.SelectedFactorsRecyclerAdapter
 import com.mindyapps.slimbo.ui.sleeping.SleepingActivity
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.fragment_sleep.*
-import kotlin.collections.ArrayList
 
 
 class SleepFragment : Fragment(), View.OnClickListener {
@@ -52,6 +53,16 @@ class SleepFragment : Fragment(), View.OnClickListener {
     private var useAntiSnore: Boolean? = null
 
     private var root: View? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if ((activity as MainActivity?)!!.recording != null) {
+            Log.d("qwwe", "gor rec from activity ${(activity as MainActivity?)!!.recording}")
+            val bundle = bundleOf(
+                "recording" to ((activity as MainActivity?)!!.recording))
+                        findNavController().navigate(R.id.recordingFragment, bundle)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -177,7 +188,8 @@ class SleepFragment : Fragment(), View.OnClickListener {
                     } else {
                         alarmChip.text = getString(R.string.off)
                     }
-                } catch (ex: Exception) { }
+                } catch (ex: Exception) {
+                }
             }
         }
 

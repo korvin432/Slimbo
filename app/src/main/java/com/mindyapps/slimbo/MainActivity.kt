@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
@@ -12,6 +13,7 @@ import androidx.navigation.NavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.mindyapps.slimbo.data.model.Recording
 import com.mindyapps.slimbo.preferences.SleepingStore
 import com.mindyapps.slimbo.ui.sleeping.SleepingActivity
 
@@ -20,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     private var currentNavController: LiveData<NavController>? = null
     private lateinit var sleepingStore: SleepingStore
+    var recording: Recording? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,4 +73,15 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return currentNavController?.value?.navigateUp() ?: false
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+Log.d("qwwe", "onresilt: $requestCode $resultCode")
+        if (resultCode == 1 || requestCode == 1) {
+            Log.d("qwwe", "got data: ${data!!}")
+                recording = data.getParcelableExtra("recording")
+            Log.d("qwwe", "rec: $recording")
+        }
+    }
+
 }

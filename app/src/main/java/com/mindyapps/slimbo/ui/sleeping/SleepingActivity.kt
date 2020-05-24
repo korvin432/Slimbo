@@ -19,18 +19,23 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceManager
 import com.gauravbhola.ripplepulsebackground.RipplePulseLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.mindyapps.slimbo.MainActivity
 import com.mindyapps.slimbo.R
 import com.mindyapps.slimbo.RecorderService
 import com.mindyapps.slimbo.RecorderService.START_ACTION
 import com.mindyapps.slimbo.RecorderService.STOP_ACTION
+import com.mindyapps.slimbo.data.model.AudioRecord
 import com.mindyapps.slimbo.data.model.Factor
 import com.mindyapps.slimbo.data.model.Music
+import com.mindyapps.slimbo.data.model.Recording
 import com.mindyapps.slimbo.preferences.SleepingStore
+import com.mindyapps.slimbo.ui.recording.RecordingFragment
 import java.io.File
 
 
@@ -49,6 +54,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
     private var lastPlayerPosition = 0
     private var duration: String? = null
     private var player: MediaPlayer? = null
+    private var openDetails: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,6 +121,19 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
                     Log.d("qwwe", "factors: $factors")
                     Log.d("qwwe", "started at : ${intent.getLongExtra(START_TIME, 0)}")
                     Log.d("qwwe", "ended at : ${intent.getLongExtra(END_TIME, 0)}")
+
+
+                    val recording = Recording(null, null, factors, null,
+                        intent.getLongExtra(END_TIME, 0) - intent.getLongExtra(START_TIME, 0),
+                        intent.getLongExtra(START_TIME, 0),
+                        intent.getLongExtra(END_TIME, 0))
+
+                    //if (openDetails){
+                        val intent = Intent(context!!, MainActivity::class.java)
+                        intent.putExtra("recording", recording)
+                        startActivityForResult(intent, 1)
+                    //}
+                    LocalBroadcastManager.getInstance(context).unregisterReceiver(broadcastReceiver)
                     finish()
                 }
             }
@@ -154,19 +173,14 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
         sleepingStore.isWorking = true
     }
 
-    private fun stopService(openDetails: Boolean) {
+    private fun stopService(openDetailsFragment: Boolean) {
+        openDetails = openDetailsFragment
         val stopIntent = Intent(this, RecorderService::class.java)
         stopIntent.action = STOP_ACTION
         startService(stopIntent)
         sleepingStore.isWorking = false
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver)
         if (player != null) {
             player!!.stop()
-        }
-        finish()
-        if (openDetails) {
-            //todo open details fragment
-
         }
     }
 

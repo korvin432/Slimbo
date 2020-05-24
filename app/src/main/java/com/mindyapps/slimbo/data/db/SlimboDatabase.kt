@@ -10,14 +10,14 @@ import com.mindyapps.slimbo.data.model.AudioRecord
 import com.mindyapps.slimbo.internal.Utils
 import com.mindyapps.slimbo.data.model.Factor
 import com.mindyapps.slimbo.data.model.Music
-import com.mindyapps.slimbo.data.model.Note
+import com.mindyapps.slimbo.data.model.Recording
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
 
 @Database(
-    entities = [Factor::class, Music::class, AudioRecord::class, Note::class],
+    entities = [Factor::class, Music::class, AudioRecord::class, Recording::class],
     version = 1
 )
 @TypeConverters(ListConverter::class)

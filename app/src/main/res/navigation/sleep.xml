@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_navigation_sleep_to_antiSnoreFragment"
             app:destination="@id/antiSnoreFragment" />
+        <action
+            android:id="@+id/action_navigation_sleep_to_recordingFragment"
+            app:destination="@id/recordingFragment" />
     </fragment>
 
     <dialog
@@ -83,5 +86,10 @@
         android:name="com.mindyapps.slimbo.ui.settings.snore.AntiSnoreFragment"
         android:label="@string/anti_snore"
         tools:layout="@layout/anti_snore_fragment" />
+    <fragment
+        android:id="@+id/recordingFragment"
+        android:name="com.mindyapps.slimbo.ui.recording.RecordingFragment"
+        android:label="Recording"
+        tools:layout="@layout/recording_fragment" />
 
 </navigation>
