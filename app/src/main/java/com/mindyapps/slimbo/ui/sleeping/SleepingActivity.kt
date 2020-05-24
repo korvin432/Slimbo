@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -30,6 +31,7 @@ import com.mindyapps.slimbo.RecorderService.STOP_ACTION
 import com.mindyapps.slimbo.data.model.Factor
 import com.mindyapps.slimbo.data.model.Music
 import com.mindyapps.slimbo.preferences.SleepingStore
+import java.io.File
 
 
 class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouchListener {
@@ -76,8 +78,19 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
         if (music != null && music!!.name != getString(R.string.do_not_use) && !sleepingStore.isWorking) {
             musicText.text = music!!.name
             ripplePulseLayout.visibility = View.VISIBLE
-            val resID = resources.getIdentifier(music!!.fileName, "raw", packageName)
-            player = MediaPlayer.create(this, resID)
+            if (!music!!.free!!) {
+                val storagePath = File(externalCacheDir!!.absolutePath, "Music")
+                if (!storagePath.exists()) {
+                    storagePath.mkdirs()
+                }
+                val audioFile = File(storagePath, "${music!!.fileName}.mp3")
+                    player = MediaPlayer.create(this, Uri.parse(audioFile.path))
+                    player!!.start()
+            } else {
+                val resID = resources.getIdentifier(music!!.fileName, "raw", packageName)
+                player = MediaPlayer.create(this, resID)
+                player!!.start()
+            }
             player!!.isLooping = true
             player!!.start()
             handler = Handler()

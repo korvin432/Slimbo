@@ -11,6 +11,7 @@ import android.media.AudioRecord;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
@@ -47,7 +48,7 @@ public class RecorderService extends Service {
     private int THIRTY_SEC_BYTES = 2646000;
     private byte RECORDER_BPP = (byte) 16;
     private int minVolumeLevel = 15;
-    private int  resID;
+    private int resID;
 
     private Boolean isActive;
     private Boolean signalCompleted = true;
@@ -92,10 +93,6 @@ public class RecorderService extends Service {
                     .build();
             startForeground(1, notification);
 
-             resID =
-                    getApplicationContext().getResources()
-                            .getIdentifier(selectedSignal.getFileName(), "raw",
-                                    getApplicationContext().getPackageName());
             new Thread() {
                 public void run() {
                     arm();
@@ -140,9 +137,6 @@ public class RecorderService extends Service {
                 player.stop();
             }
         }
-        Log.d("qwwe", "destroying service");
-        Log.d("qwwe", "Time is reached: " + sleepingStore.getMinimalTimeReached());
-        Log.d("qwwe", "savedFiles: " + savedFileNames);
         if (!sleepingStore.getMinimalTimeReached()) {
             for (int i = 0; i < savedFileNames.size(); i++) {
                 String filePath = savedFileNames.get(i);
@@ -205,6 +199,9 @@ public class RecorderService extends Service {
             if (temp > minVolumeLevel && !recording && !isSaving) {
                 Log.d("qwwe", "got sound");
                 if (sleepingStore.getUseAntiSnore() && sleepingStore.getMinimalTimeReached() && signalCompleted) {
+                    resID = getApplicationContext().getResources()
+                            .getIdentifier(selectedSignal.getFileName(), "raw",
+                                    getApplicationContext().getPackageName());
                     player = MediaPlayer.create(getApplicationContext(), resID);
                     player.setLooping(true);
                     player.start();

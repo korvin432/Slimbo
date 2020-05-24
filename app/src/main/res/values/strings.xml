@@ -4,14 +4,7 @@
     <string name="title_history">History</string>
     <string name="title_relax">Relax</string>
     <string name="title_more">More</string>
-    <string name="statistics">Statistics</string>
     <string name="confirm">Confirm</string>
-    <string name="coffee">Coffee</string>
-    <string name="disease">Disease</string>
-    <string name="nose">Runny nose</string>
-    <string name="shower">Shower</string>
-    <string name="wine">Alcohol</string>
-    <string name="workout">Worked out</string>
     <string name="factors">Factors</string>
     <string name="do_not_use">Do not use</string>
     <string name="start">Start</string>
@@ -20,30 +13,16 @@
     <string name="twenty_minutes">20 mins</string>
     <string name="thirty_minutes">30 mins</string>
     <string name="ffive_minutes">45 mins</string>
-    <string name="length">Length</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="sleeping_tip_text">Put your phone face down next to your bed and connect it to the charge</string>
     <string name="continue_tip">Continue</string>
 
-    <string name="title_activity_sleeping">Sleeping</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
     <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
 
     <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
 
     <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="alarm_settings">Alarm settings</string>
     <string name="activate_alarm">Activate Alarm</string>
     <string name="off">Off</string>
@@ -59,7 +38,6 @@
     <string name="mon">Mon</string>
     <string name="repeat">Repeat</string>
     <string name="minutes">minutes</string>
-    <string name="hold_to_stop">Hold to stop</string>
     <string name="long_press_to_stop">Long press to stop</string>
     <string name="monitoring_will_start_in_10_minutes">Monitoring will start in 10 minutes</string>
     <string name="monitoring_will_start">Monitoring will start in </string>

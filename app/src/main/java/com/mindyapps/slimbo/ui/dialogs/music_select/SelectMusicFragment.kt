@@ -189,7 +189,6 @@ class SelectMusicFragment : DialogFragment() {
             stopPlaying()
             if (music.name != requireContext().getString(R.string.do_not_use)) {
                 if (!music.free!!) {
-                    Log.d("qwwe", "not free")
                     val storagePath = File(requireContext().externalCacheDir!!.absolutePath, "Music")
                     if (!storagePath.exists()) {
                         storagePath.mkdirs()
