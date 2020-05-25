@@ -51,6 +51,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
     private lateinit var handler: Handler
     private var music: Music? = null
     private var factors: ArrayList<Factor>? = null
+    private var audioRecords: ArrayList<AudioRecord>? = null
     private var lastPlayerPosition = 0
     private var duration: String? = null
     private var player: MediaPlayer? = null
@@ -118,22 +119,25 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
                     Log.d("qwwe", "GOT STOP MESSAGE")
                     sleepingStore.isWorking = false
                     factors = intent.getParcelableArrayListExtra(SELECTED_FACTORS)
+                    audioRecords = intent.getParcelableArrayListExtra(AUDIO_RECORDS)
                     Log.d("qwwe", "factors: $factors")
+                    Log.d("qwwe", "records: $audioRecords")
                     Log.d("qwwe", "started at : ${intent.getLongExtra(START_TIME, 0)}")
                     Log.d("qwwe", "ended at : ${intent.getLongExtra(END_TIME, 0)}")
 
-                    val recording = Recording(
-                        null, null, factors, null,
+
+                    val recording = Recording(null, audioRecords, factors, null,
                         intent.getLongExtra(END_TIME, 0) - intent.getLongExtra(START_TIME, 0),
-                        intent.getLongExtra(START_TIME, 0),
-                        intent.getLongExtra(END_TIME, 0)
+                        intent.getLongExtra(END_TIME, 0),
+                        intent.getLongExtra(START_TIME, 0)
                     )
 
-                    //if (openDetails){
-                    openRecording(recording)
-                    //}
-                    LocalBroadcastManager.getInstance(context!!)
-                        .unregisterReceiver(broadcastReceiver)
+                    Log.d("qwwe", "recording: $recording")
+
+                    if (openDetails){
+                        openRecording(recording)
+                    }
+                    LocalBroadcastManager.getInstance(context!!).unregisterReceiver(broadcastReceiver)
                     finish()
                 }
             }
@@ -241,6 +245,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
         const val RECEIVER_INTENT = "RECEIVER_INTENT"
         const val RECEIVER_MESSAGE = "RECEIVER_MESSAGE"
         const val SELECTED_FACTORS = "SELECTED_FACTORS"
+        const val AUDIO_RECORDS = "AUDIO_RECORDS"
         const val START_TIME = "START_TIME"
         const val END_TIME = "END_TIME"
     }

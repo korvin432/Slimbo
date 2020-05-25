@@ -11,7 +11,6 @@ import android.media.AudioRecord;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
@@ -35,6 +34,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.mindyapps.slimbo.ui.sleeping.SleepingActivity.AUDIO_RECORDS;
 import static com.mindyapps.slimbo.ui.sleeping.SleepingActivity.END_TIME;
 import static com.mindyapps.slimbo.ui.sleeping.SleepingActivity.SELECTED_FACTORS;
 import static com.mindyapps.slimbo.ui.sleeping.SleepingActivity.START_TIME;
@@ -58,13 +58,13 @@ public class RecorderService extends Service {
     private boolean isActive;
     private boolean signalCompleted = true;
     private boolean forceSave = false;
-    private List<String> savedFileNames = new ArrayList<>();
     private boolean isSaving;
     private Handler timeHandler, signalHandler;
     private MediaPlayer player;
     private SleepingStore sleepingStore;
     private Music selectedSignal;
     private ArrayList<Factor> factors;
+    private ArrayList<com.mindyapps.slimbo.data.model.AudioRecord> audioRecords = new ArrayList<>();
     private long startSleepingTime;
 
     public RecorderService() {
@@ -108,13 +108,14 @@ public class RecorderService extends Service {
             }.start();
             timeHandler = new Handler();
             signalHandler = new Handler();
-            timeHandler.postDelayed(minTimeTask, 120000);
+            timeHandler.postDelayed(minTimeTask, 5000);
 
         } else if (intent.getAction().equals(STOP_ACTION)) {
             isActive = false;
             Intent sleepingIntent = new Intent(SleepingActivity.RECEIVER_INTENT);
             sleepingIntent.putExtra(SleepingActivity.RECEIVER_MESSAGE, "stop");
             sleepingIntent.putExtra(SELECTED_FACTORS, factors);
+            sleepingIntent.putExtra(AUDIO_RECORDS, audioRecords);
             sleepingIntent.putExtra(START_TIME, startSleepingTime);
             sleepingIntent.putExtra(END_TIME, System.currentTimeMillis());
             LocalBroadcastManager.getInstance(this).sendBroadcast(sleepingIntent);
@@ -149,8 +150,8 @@ public class RecorderService extends Service {
             }
         }
         if (!sleepingStore.getMinimalTimeReached()) {
-            for (int i = 0; i < savedFileNames.size(); i++) {
-                String filePath = savedFileNames.get(i);
+            for (int i = 0; i < audioRecords.size(); i++) {
+                String filePath = audioRecords.get(i).getFile_name();
                 Log.d("qwwe", "deleting " + filePath);
                 File fdelete = new File(filePath);
                 fdelete.delete();
@@ -321,7 +322,10 @@ public class RecorderService extends Service {
                                 File fdelete = new File(fn);
                                 fdelete.delete();
                             } else {
-                                savedFileNames.add(fn);
+                                com.mindyapps.slimbo.data.model.AudioRecord audioRecord =
+                                        new com.mindyapps.slimbo.data.model.AudioRecord(null,
+                                                fn, Long.parseLong(duration), System.currentTimeMillis());
+                                audioRecords.add(audioRecord);
                             }
                             forceSave = false;
                         } catch (IOException e) {

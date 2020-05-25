@@ -12,7 +12,7 @@ import com.mindyapps.slimbo.data.db.ListConverter
 data class Recording(
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
-    val recordings: List<AudioRecord>?,
+    val recordings: MutableList<AudioRecord>?,
     val factors: List<Factor>?,
     val rating: Int?,
     val duration: Long?,
@@ -21,8 +21,8 @@ data class Recording(
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readValue(Int::class.java.classLoader) as? Int,
-        listOf<AudioRecord>().apply {
-            parcel.readList(this, AudioRecord::class.java.classLoader)
+        mutableListOf<AudioRecord>().apply {
+            parcel.readList(this as List<AudioRecord>, AudioRecord::class.java.classLoader)
         },
         listOf<Factor>().apply {
             parcel.readList(this, Factor::class.java.classLoader)
@@ -36,7 +36,7 @@ data class Recording(
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeValue(id)
-        parcel.writeList(recordings)
+        parcel.writeList(recordings as List<AudioRecord>?)
         parcel.writeList(factors)
         parcel.writeValue(rating)
         parcel.writeLong(duration!!)
