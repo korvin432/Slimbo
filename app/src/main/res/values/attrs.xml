@@ -9,4 +9,10 @@
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 
+
+    <declare-styleable name="DottedSeekBar">
+        <attr name="dots_positions" format="reference"/>
+        <attr name="dots_drawable" format="reference"/>
+    </declare-styleable>
+
 </resources>

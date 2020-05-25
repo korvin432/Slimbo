@@ -6,11 +6,12 @@
     <color name="colorAccent">#03BADA</color>
     <color name="colorAccentTransparent">#7200D9FF</color>
     <color name="colorFilled">#05DAFF</color>
+    <color name="colorOrange">#FF7105</color>
     <color name="colorChipTransparent">#16FFFFFF</color>
     <color name="colorTransparent">#00000000</color>
     <color name="colorWhiteText">#FFFFFF</color>
     <color name="colorTextHint">#CDCDCD</color>
-    <color name="colorLightHint">#8085A6</color>
+    <color name="colorLightHint">#5CFFFFFF</color>
     <color name="activity_bg">#222B6C</color>
     <color name="bottom_navigation_bg">#131953</color>
     <color name="card_bg">#2E3671</color>

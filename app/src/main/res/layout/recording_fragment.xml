@@ -17,10 +17,9 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="8dp"
             app:cardBackgroundColor="@color/card_bg"
             app:cardCornerRadius="8dp"
-            app:cardElevation="8dp"
+            app:cardElevation="2dp"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true">
 
@@ -72,20 +71,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
+                    android:fontFamily="sans-serif-light"
                     android:text="@string/how_do_you_feel"
                     android:textAlignment="center"
                     android:textColor="@color/colorWhiteText"
-                    android:textSize="19sp" />
+                    android:textSize="17sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="8dp"
             app:cardBackgroundColor="@color/card_bg"
             app:cardCornerRadius="8dp"
-            app:cardElevation="8dp"
+            app:cardElevation="2dp"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true">
 
@@ -108,6 +107,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
+                    android:fontFamily="sans-serif-light"
                     android:text="@string/factors"
                     android:textAlignment="viewStart"
                     android:textColor="@color/colorLightHint"
@@ -118,24 +118,22 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="8dp"
             app:cardBackgroundColor="@color/card_bg"
             app:cardCornerRadius="8dp"
-            app:cardElevation="8dp"
+            app:cardElevation="2dp"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:layout_margin="10dp">
 
                 <LinearLayout
                     android:id="@+id/sleep_at_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
                     android:layout_marginEnd="20dp"
                     android:orientation="vertical">
 
@@ -143,44 +141,18 @@
                         android:id="@+id/sleep_at_textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
                         android:text="@string/sleep_at"
                         android:textAlignment="center"
                         android:textColor="@color/colorLightHint"
-                        android:textSize="19sp" />
+                        android:textSize="17sp" />
 
                     <TextView
                         android:id="@+id/sleep_at"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="19:30"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorWhiteText"
-                        android:textSize="19sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/wake_up_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/wake_up_textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/wake_up"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorLightHint"
-                        android:textSize="19sp" />
-
-                    <TextView
-                        android:id="@+id/wake_up"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="7:35"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorWhiteText"
+                        android:textColor="@color/colorFilled"
                         android:textSize="19sp" />
                 </LinearLayout>
 
@@ -188,16 +160,18 @@
                     android:id="@+id/sleep_time_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/sleep_time_textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
                         android:text="@string/sleep_time"
                         android:textAlignment="center"
                         android:textColor="@color/colorLightHint"
-                        android:textSize="19sp" />
+                        android:textSize="17sp" />
 
                     <TextView
                         android:id="@+id/sleep_time"
@@ -205,20 +179,82 @@
                         android:layout_height="wrap_content"
                         android:text="7:35"
                         android:textAlignment="center"
-                        android:textColor="@color/colorWhiteText"
+                        android:textColor="@color/colorFilled"
                         android:textSize="19sp" />
                 </LinearLayout>
 
-            </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/wake_up_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/wake_up_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="@string/wake_up"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorLightHint"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/wake_up"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="7:35"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/colorFilled"
+                        android:textSize="19sp" />
+                </LinearLayout>
+
+
+            </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="8dp"
             app:cardBackgroundColor="@color/card_bg"
             app:cardCornerRadius="8dp"
-            app:cardElevation="8dp"
+            app:cardElevation="2dp"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <LinearLayout
+                    android:id="@+id/progress_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginEnd="20dp"
+                    android:orientation="vertical"/>
+
+                <com.mindyapps.slimbo.internal.DottedSeekBar
+                    android:id="@+id/sleep_progress"
+                    android:progressDrawable="@drawable/custom_seekbar_progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:splitTrack="false"
+                    android:clickable="false"
+                    android:maxHeight="10dp"
+                    />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/card_bg"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true">
 
@@ -238,6 +274,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
+                    android:fontFamily="sans-serif-light"
                     android:text="@string/noise"
                     android:textAlignment="viewStart"
                     android:textColor="@color/colorLightHint"

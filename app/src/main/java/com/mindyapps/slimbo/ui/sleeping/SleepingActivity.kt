@@ -90,8 +90,8 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
                     storagePath.mkdirs()
                 }
                 val audioFile = File(storagePath, "${music!!.fileName}.mp3")
-                    player = MediaPlayer.create(this, Uri.parse(audioFile.path))
-                    player!!.start()
+                player = MediaPlayer.create(this, Uri.parse(audioFile.path))
+                player!!.start()
             } else {
                 val resID = resources.getIdentifier(music!!.fileName, "raw", packageName)
                 player = MediaPlayer.create(this, resID)
@@ -122,22 +122,28 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
                     Log.d("qwwe", "started at : ${intent.getLongExtra(START_TIME, 0)}")
                     Log.d("qwwe", "ended at : ${intent.getLongExtra(END_TIME, 0)}")
 
-
-                    val recording = Recording(null, null, factors, null,
+                    val recording = Recording(
+                        null, null, factors, null,
                         intent.getLongExtra(END_TIME, 0) - intent.getLongExtra(START_TIME, 0),
                         intent.getLongExtra(START_TIME, 0),
-                        intent.getLongExtra(END_TIME, 0))
+                        intent.getLongExtra(END_TIME, 0)
+                    )
 
                     //if (openDetails){
-                        val intent = Intent(context!!, MainActivity::class.java)
-                        intent.putExtra("recording", recording)
-                        startActivityForResult(intent, 1)
+                    openRecording(recording)
                     //}
-                    LocalBroadcastManager.getInstance(context).unregisterReceiver(broadcastReceiver)
+                    LocalBroadcastManager.getInstance(context!!)
+                        .unregisterReceiver(broadcastReceiver)
                     finish()
                 }
             }
         }
+    }
+
+    private fun openRecording(recording: Recording) {
+        val intentRec = Intent(this, MainActivity::class.java)
+        intentRec.putExtra("recording", recording)
+        startActivity(intentRec)
     }
 
     private var stopPlayerTask = Runnable {

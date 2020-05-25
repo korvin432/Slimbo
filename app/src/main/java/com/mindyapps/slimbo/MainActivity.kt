@@ -36,6 +36,10 @@ class MainActivity : AppCompatActivity() {
         if (sleepingStore.isWorking) {
             startActivity(Intent(this, SleepingActivity::class.java))
         }
+
+        if (intent.getParcelableExtra<Recording>("recording") != null){
+            recording = intent.getParcelableExtra("recording")
+        }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -72,16 +76,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         return currentNavController?.value?.navigateUp() ?: false
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-Log.d("qwwe", "onresilt: $requestCode $resultCode")
-        if (resultCode == 1 || requestCode == 1) {
-            Log.d("qwwe", "got data: ${data!!}")
-                recording = data.getParcelableExtra("recording")
-            Log.d("qwwe", "rec: $recording")
-        }
     }
 
 }
