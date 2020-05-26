@@ -13,7 +13,7 @@ data class Recording(
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null,
     val recordings: MutableList<AudioRecord>?,
-    val factors: List<Factor>?,
+    val factors: MutableList<Factor>?,
     val rating: Int?,
     val duration: Long?,
     val wake_up_time: Long?,
@@ -24,8 +24,8 @@ data class Recording(
         mutableListOf<AudioRecord>().apply {
             parcel.readList(this as List<AudioRecord>, AudioRecord::class.java.classLoader)
         },
-        listOf<Factor>().apply {
-            parcel.readList(this, Factor::class.java.classLoader)
+        mutableListOf<Factor>().apply {
+            parcel.readList(this as List<Factor>, Factor::class.java.classLoader)
         },
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readLong(),
@@ -37,7 +37,7 @@ data class Recording(
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeValue(id)
         parcel.writeList(recordings as List<AudioRecord>?)
-        parcel.writeList(factors)
+        parcel.writeList(factors as List<Factor>?)
         parcel.writeValue(rating)
         parcel.writeLong(duration!!)
         parcel.writeLong(wake_up_time!!)

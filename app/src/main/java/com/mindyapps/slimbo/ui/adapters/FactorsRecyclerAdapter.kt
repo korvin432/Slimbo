@@ -19,6 +19,7 @@ class FactorsRecyclerAdapter(
     private var context: Context
 ) : RecyclerView.Adapter<FactorsRecyclerAdapter.FactorsHolder>() {
 
+    var isClickable = true
     var onItemClick: ((Factor, Boolean) -> Unit)? = null
 
     override fun onCreateViewHolder(
@@ -90,26 +91,28 @@ class FactorsRecyclerAdapter(
 
         init {
             itemView.setOnClickListener {
-                var name = factors[adapterPosition].resource_name
-                var selected = false
-                val tint: Int
-                if (!image.tag.toString().contains("filled")) {
-                    name = factors[adapterPosition].resource_name + "_filled"
-                    tint = ContextCompat.getColor(context, R.color.colorFilled)
-                    selected = true
-                } else {
-                    name!!.replace("_filled", "")
-                    tint = ContextCompat.getColor(context, R.color.factor_tint)
-                }
+                if (isClickable) {
+                    var name = factors[adapterPosition].resource_name
+                    var selected = false
+                    val tint: Int
+                    if (!image.tag.toString().contains("filled")) {
+                        name = factors[adapterPosition].resource_name + "_filled"
+                        tint = ContextCompat.getColor(context, R.color.colorFilled)
+                        selected = true
+                    } else {
+                        name!!.replace("_filled", "")
+                        tint = ContextCompat.getColor(context, R.color.factor_tint)
+                    }
 
-                val resourceId: Int = context.resources.getIdentifier(
-                    name, "drawable",
-                    context.packageName
-                )
-                image.setImageDrawable(ContextCompat.getDrawable(context, resourceId))
-                image.setColorFilter(tint)
-                image.tag = name
-                onItemClick?.invoke(factors[adapterPosition], selected)
+                    val resourceId: Int = context.resources.getIdentifier(
+                        name, "drawable",
+                        context.packageName
+                    )
+                    image.setImageDrawable(ContextCompat.getDrawable(context, resourceId))
+                    image.setColorFilter(tint)
+                    image.tag = name
+                    onItemClick?.invoke(factors[adapterPosition], selected)
+                }
             }
         }
     }
