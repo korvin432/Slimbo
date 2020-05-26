@@ -38,10 +38,10 @@
                         android:id="@+id/sleep_rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:isIndicator="true"
                         android:numStars="5"
                         android:progressTint="@color/colorFilled"
-                        android:isIndicator="true"
-                        android:stepSize="1"/>
+                        android:stepSize="1" />
                 </LinearLayout>
 
                 <TextView
@@ -76,35 +76,38 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:orientation="vertical">
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
                         <com.mindyapps.slimbo.internal.DottedSeekBar
                             android:id="@+id/sleep_progress"
-                            android:progressDrawable="@drawable/custom_seekbar_progress"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
-                            android:splitTrack="false"
                             android:clickable="false"
-                            android:maxHeight="10dp" />
+                            android:maxHeight="10dp"
+                            android:progressDrawable="@drawable/custom_seekbar_progress"
+                            android:splitTrack="false" />
+
                         <TextView
                             android:id="@+id/avg_start"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="23:39"
+                            android:layout_below="@id/sleep_progress"
                             android:layout_alignParentStart="true"
-                            android:textColor="@color/colorLightHint"
-                            android:layout_below="@id/sleep_progress"/>
+                            android:text="23:39"
+                            android:textColor="@color/colorLightHint" />
+
                         <TextView
                             android:id="@+id/avg_end"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="8:00"
+                            android:layout_below="@id/sleep_progress"
                             android:layout_alignParentEnd="true"
-                            android:textColor="@color/colorLightHint"
-                            android:layout_below="@id/sleep_progress"/>
+                            android:text="8:00"
+                            android:textColor="@color/colorLightHint" />
                     </RelativeLayout>
 
                     <LinearLayout
@@ -117,14 +120,15 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:src="@drawable/vertical_line"/>
+                            android:src="@drawable/vertical_line" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
+                            android:text="@string/snore"
                             android:textColor="@color/colorLightHint"
-                            android:textSize="12sp"
-                            android:text="@string/snore"/>
+                            android:textSize="12sp" />
                     </LinearLayout>
 
 
@@ -189,8 +193,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="5dp"
-                android:layout_margin="10dp">
+                android:layout_margin="10dp"
+                android:paddingHorizontal="5dp">
 
                 <LinearLayout
                     android:id="@+id/sleep_at_layout"
@@ -294,10 +298,29 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
-                <androidx.recyclerview.widget.RecyclerView
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical" />-->
+
+                <rm.com.audiowave.AudioWaveView
+                    android:id="@+id/wave"
                     android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    app:animateExpansion="false"
+                    app:chunkWidth="3dp"
+                    app:chunkHeight="18dp"
+                    app:minChunkHeight="2dp"
+                    app:chunkSpacing="1dp"
+                    app:chunkRadius="1dp"
+                    app:touchable="true"
+                    app:waveColor="@android:color/white"/>
+
+                <Button
+                    android:id="@+id/play_btn"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" />
+                    android:text="play"/>
 
                 <TextView
                     android:layout_width="match_parent"
