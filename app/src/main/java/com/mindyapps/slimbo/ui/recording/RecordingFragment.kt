@@ -6,6 +6,7 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.text.format.DateFormat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mindyapps.slimbo.R
 import com.mindyapps.slimbo.data.model.AudioRecord
@@ -24,6 +26,7 @@ import com.mindyapps.slimbo.data.model.Recording
 import com.mindyapps.slimbo.data.repository.SlimboRepositoryImpl
 import com.mindyapps.slimbo.internal.DottedSeekBar
 import com.mindyapps.slimbo.ui.adapters.FactorsRecyclerAdapter
+import com.mindyapps.slimbo.ui.adapters.SnoreAdapter
 import kotlinx.android.synthetic.main.recording_fragment.*
 import rm.com.audiowave.AudioWaveView
 import rm.com.audiowave.OnProgressListener
@@ -38,7 +41,9 @@ class RecordingFragment : Fragment(), OnProgressListener {
     private lateinit var sleepRatingBar: RatingBar
     private lateinit var recording: Recording
     private lateinit var factorsRecycler: RecyclerView
+    private lateinit var snoreRecycler: RecyclerView
     private lateinit var factorsRecyclerAdapter: FactorsRecyclerAdapter
+    private lateinit var snoreAdapter: SnoreAdapter
     private var audioRecords: MutableList<AudioRecord>? = null
     private lateinit var progress: DottedSeekBar
     private var mediaPlayer: MediaPlayer? = null
@@ -66,6 +71,7 @@ class RecordingFragment : Fragment(), OnProgressListener {
 
         progress = root.findViewById(R.id.sleep_progress)
         factorsRecycler = root.findViewById(R.id.selected_factors_recycler)
+        snoreRecycler = root.findViewById(R.id.snore_recycler)
         sleepRatingBar = root.findViewById(R.id.sleep_rating)
         wave = root.findViewById(R.id.wave)
 
@@ -78,7 +84,8 @@ class RecordingFragment : Fragment(), OnProgressListener {
         }
 
 
-        bindRecyclerView()
+        bindFactorsRecyclerView()
+        bindSnoreRecyclerView()
         setUpSnoreProgress()
 
         return root
@@ -160,7 +167,7 @@ class RecordingFragment : Fragment(), OnProgressListener {
                 factorsRecyclerAdapter.setFactors(selectedFactors)
     }
 
-    private fun bindRecyclerView() {
+    private fun bindFactorsRecyclerView() {
         factorsRecyclerAdapter = FactorsRecyclerAdapter(
                 selectedFactors.toMutableList(),
                 selectedFactors.toMutableList(),
@@ -171,6 +178,13 @@ class RecordingFragment : Fragment(), OnProgressListener {
             GridLayoutManager(requireActivity().applicationContext, 3, RecyclerView.VERTICAL, false)
         factorsRecycler.adapter = factorsRecyclerAdapter
 
+    }
+
+    private fun bindSnoreRecyclerView() {
+        Log.d("qwwe", "binding snore: ${recording.recordings!!}")
+        snoreAdapter = SnoreAdapter(recording.recordings!!,requireContext())
+        snoreRecycler.layoutManager = LinearLayoutManager(requireContext())
+        snoreRecycler.adapter = snoreAdapter
     }
 
     override fun onProgressChanged(progress: Float, byUser: Boolean) {

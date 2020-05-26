@@ -298,10 +298,11 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="vertical" />-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/snore_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
 
                 <rm.com.audiowave.AudioWaveView
                     android:id="@+id/wave"

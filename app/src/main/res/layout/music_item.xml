@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/play_snore_btn"
+        android:layout_width="45dp"
+        android:layout_height="32dp"/>
+
+    <rm.com.audiowave.AudioWaveView
+        android:id="@+id/waveView"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        app:animateExpansion="false"
+        app:chunkWidth="3dp"
+        app:chunkHeight="17dp"
+        app:minChunkHeight="2dp"
+        app:chunkSpacing="1dp"
+        app:chunkRadius="1dp"
+        app:touchable="true"
+        app:waveColor="@android:color/white"/>
+
+
+</LinearLayout>
