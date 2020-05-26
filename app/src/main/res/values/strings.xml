@@ -77,6 +77,7 @@
     <string name="wake_up">Wake up</string>
     <string name="sleep_time">Sleep time</string>
     <string name="noise">Noise</string>
+    <string name="snore">Snore</string>
 
     <string-array name="repeat_minutes">
         <item>Never</item>

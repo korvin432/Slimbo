@@ -1,14 +1,19 @@
 package com.mindyapps.slimbo.ui.sleep
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.RelativeLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -62,6 +67,8 @@ class SleepFragment : Fragment(), View.OnClickListener {
                 "recording" to ((activity as MainActivity?)!!.recording))
                         findNavController().navigate(R.id.recordingFragment, bundle)
         }
+
+
     }
 
     override fun onCreateView(
@@ -126,12 +133,17 @@ class SleepFragment : Fragment(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
         musicBlurLayout.startBlur()
+        requireContext().theme.applyStyle(R.style.AppThemeTransparent, true)
+        (requireActivity() as AppCompatActivity).supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 
     override fun onPause() {
         super.onPause()
         musicBlurLayout.pauseBlur()
         factorsBlurLayout.pauseBlur()
+        (requireActivity() as AppCompatActivity).supportActionBar!!.setBackgroundDrawable(
+            ColorDrawable(ContextCompat.getColor(requireContext(), R.color.activity_bg))
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

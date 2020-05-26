@@ -32,45 +32,22 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
                     android:gravity="center">
 
-                    <ImageView
-                        android:id="@+id/image_sad"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginEnd="25dp"
-                        android:src="@drawable/sad"
-                        android:tint="@color/colorTextHint" />
-
-                    <ImageView
-                        android:id="@+id/image_neutral"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginEnd="25dp"
-                        android:src="@drawable/neutral"
-                        android:tint="@color/colorTextHint" />
-
-                    <ImageView
-                        android:id="@+id/image_smile"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginEnd="25dp"
-                        android:src="@drawable/smile"
-                        android:tint="@color/colorTextHint" />
-
-                    <ImageView
-                        android:id="@+id/image_happy"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/happy"
-                        android:tint="@color/colorTextHint" />
+                    <RatingBar
+                        android:id="@+id/sleep_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:numStars="5"
+                        android:progressTint="@color/colorFilled"
+                        android:isIndicator="true"
+                        android:stepSize="1"/>
                 </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="sans-serif-light"
                     android:text="@string/how_do_you_feel"
                     android:textAlignment="center"
@@ -127,6 +104,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingHorizontal="5dp"
                 android:layout_margin="10dp">
 
                 <LinearLayout
@@ -188,7 +166,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="20dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -234,18 +211,48 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_marginEnd="20dp"
-                    android:orientation="vertical"/>
+                    android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <com.mindyapps.slimbo.internal.DottedSeekBar
-                    android:id="@+id/sleep_progress"
-                    android:progressDrawable="@drawable/custom_seekbar_progress"
+                    <com.mindyapps.slimbo.internal.DottedSeekBar
+                        android:id="@+id/sleep_progress"
+                        android:progressDrawable="@drawable/custom_seekbar_progress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:splitTrack="false"
+                        android:clickable="false"
+                        android:maxHeight="10dp" />
+                    <TextView
+                        android:id="@+id/avg_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="23:39"
+                        android:layout_alignParentStart="true"
+                        android:textColor="@color/colorLightHint"
+                        android:layout_below="@id/sleep_progress"/>
+                    <TextView
+                        android:id="@+id/avg_end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="8:00"
+                        android:layout_alignParentEnd="true"
+                        android:textColor="@color/colorLightHint"
+                        android:layout_below="@id/sleep_progress"/>
+                </RelativeLayout>
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:splitTrack="false"
-                    android:clickable="false"
-                    android:maxHeight="10dp"
-                    />
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Average snoring"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorLightHint"
+                    android:textSize="19sp" />
+                </LinearLayout>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
@@ -275,7 +282,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:fontFamily="sans-serif-light"
-                    android:text="@string/noise"
+                    android:text="@string/snore"
                     android:textAlignment="viewStart"
                     android:textColor="@color/colorLightHint"
                     android:textSize="19sp" />

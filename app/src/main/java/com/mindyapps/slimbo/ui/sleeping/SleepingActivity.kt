@@ -30,17 +30,25 @@ import com.mindyapps.slimbo.R
 import com.mindyapps.slimbo.RecorderService
 import com.mindyapps.slimbo.RecorderService.START_ACTION
 import com.mindyapps.slimbo.RecorderService.STOP_ACTION
+import com.mindyapps.slimbo.data.db.SlimboDatabase
 import com.mindyapps.slimbo.data.model.AudioRecord
 import com.mindyapps.slimbo.data.model.Factor
 import com.mindyapps.slimbo.data.model.Music
 import com.mindyapps.slimbo.data.model.Recording
+import com.mindyapps.slimbo.data.repository.SlimboRepositoryImpl
 import com.mindyapps.slimbo.preferences.SleepingStore
 import com.mindyapps.slimbo.ui.recording.RecordingFragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 
 class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouchListener {
 
+    private var repository = SlimboRepositoryImpl()
     private lateinit var musicButton: FloatingActionButton
     private lateinit var musicText: TextView
     private lateinit var tipText: TextView
@@ -49,6 +57,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
     private lateinit var broadcastReceiver: BroadcastReceiver
     private lateinit var ripplePulseLayout: RipplePulseLayout
     private lateinit var handler: Handler
+    private lateinit var newRec: Recording
     private var music: Music? = null
     private var factors: ArrayList<Factor>? = null
     private var audioRecords: ArrayList<AudioRecord>? = null
@@ -120,13 +129,9 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
                     sleepingStore.isWorking = false
                     factors = intent.getParcelableArrayListExtra(SELECTED_FACTORS)
                     audioRecords = intent.getParcelableArrayListExtra(AUDIO_RECORDS)
-                    Log.d("qwwe", "factors: $factors")
-                    Log.d("qwwe", "records: $audioRecords")
-                    Log.d("qwwe", "started at : ${intent.getLongExtra(START_TIME, 0)}")
-                    Log.d("qwwe", "ended at : ${intent.getLongExtra(END_TIME, 0)}")
 
-
-                    val recording = Recording(null, audioRecords, factors, null,
+                    val recording = Recording(
+                        null, audioRecords, factors, null,
                         intent.getLongExtra(END_TIME, 0) - intent.getLongExtra(START_TIME, 0),
                         intent.getLongExtra(END_TIME, 0),
                         intent.getLongExtra(START_TIME, 0)
@@ -134,10 +139,11 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
 
                     Log.d("qwwe", "recording: $recording")
 
-                    if (openDetails){
+                    if (openDetails) {
                         openRecording(recording)
                     }
-                    LocalBroadcastManager.getInstance(context!!).unregisterReceiver(broadcastReceiver)
+                    LocalBroadcastManager.getInstance(context!!)
+                        .unregisterReceiver(broadcastReceiver)
                     finish()
                 }
             }
@@ -145,9 +151,25 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
     }
 
     private fun openRecording(recording: Recording) {
-        val intentRec = Intent(this, MainActivity::class.java)
-        intentRec.putExtra("recording", recording)
-        startActivity(intentRec)
+        CoroutineScope(IO).launch {
+            val slimboDao = SlimboDatabase.getDatabase(application).slimboDao()
+            val id = repository.insertRecording(slimboDao, recording).toInt()
+
+            withContext(Main){
+                newRec = Recording(
+                    id,
+                    recording.recordings,
+                    recording.factors,
+                    null,
+                    recording.duration,
+                    recording.wake_up_time,
+                    recording.sleep_at_time
+                )
+                val intentRec = Intent(this@SleepingActivity, MainActivity::class.java)
+                intentRec.putExtra("recording", newRec)
+                startActivity(intentRec)
+            }
+        }
     }
 
     private var stopPlayerTask = Runnable {

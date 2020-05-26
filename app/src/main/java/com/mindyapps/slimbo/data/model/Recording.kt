@@ -11,7 +11,7 @@ import com.mindyapps.slimbo.data.db.ListConverter
 @TypeConverters(ListConverter::class)
 data class Recording(
     @PrimaryKey(autoGenerate = true)
-    val id: Int? = null,
+    var id: Int? = null,
     val recordings: MutableList<AudioRecord>?,
     val factors: List<Factor>?,
     val rating: Int?,

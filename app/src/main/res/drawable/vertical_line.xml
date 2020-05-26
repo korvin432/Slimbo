@@ -9,7 +9,7 @@
             android:height="15dp" />
         <stroke
             android:width="5dp"
-            android:color="@color/colorOrange"
+            android:color="@color/colorGreen"
             android:dashGap="2dp" />
     </shape>
 </rotate>

@@ -70,8 +70,7 @@ class MainActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
             WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION
         )
-        supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
+        supportActionBar!!.setElevation(0f)
     }
 
     override fun onSupportNavigateUp(): Boolean {

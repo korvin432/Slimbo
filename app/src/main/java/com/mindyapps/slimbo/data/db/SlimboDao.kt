@@ -1,10 +1,7 @@
 package com.mindyapps.slimbo.data.db
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.mindyapps.slimbo.data.model.*
 
 @Dao
@@ -14,6 +11,12 @@ interface SlimboDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllMusic(music: MutableList<Music>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertRecording(recording: Recording): Long
+
+    @Query("UPDATE recordings SET rating = :newRating WHERE id = :recId")
+    fun updateRecording(recId: Int, newRating: Int)
 
     @Query("SELECT * FROM factors ORDER BY id")
     fun getFactors(): LiveData<List<Factor>>
