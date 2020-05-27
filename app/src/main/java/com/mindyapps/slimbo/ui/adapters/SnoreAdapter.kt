@@ -3,11 +3,13 @@ package com.mindyapps.slimbo.ui.adapters
 import android.content.Context
 import android.media.MediaPlayer
 import android.net.Uri
+import android.text.format.DateFormat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mindyapps.slimbo.R
 import com.mindyapps.slimbo.data.model.AudioRecord
@@ -32,6 +34,7 @@ class SnoreAdapter(
     var onItemClick: ((AudioRecord) -> Unit)? = null
     private var timer: Timer? = null
     private var snoreHolder: SnoreHolder? = null
+    private var timeFormat = "HH:mm"
 
     override fun onCreateViewHolder(
         viewGroup: ViewGroup,
@@ -39,6 +42,9 @@ class SnoreAdapter(
     ): SnoreHolder {
         val itemView: View = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.music_item, viewGroup, false)
+        if (!DateFormat.is24HourFormat(context)){
+            timeFormat = "hh:mm a"
+        }
         return SnoreHolder(itemView)
     }
 
@@ -57,6 +63,16 @@ class SnoreAdapter(
         snore: AudioRecord
     ) {
         snoreViewHolder.waveView.setRawData(File(snore.file_name!!).readBytes())
+        snoreViewHolder.createdAtText.text = convertDate(snore.creation_date!!, timeFormat)
+
+        var timeInSeconds: Int = (snore.duration!! / 1000).toInt()
+        val hours: Int
+        val minutes: Int
+        hours = timeInSeconds / 3600
+        timeInSeconds -= hours * 3600
+        minutes = timeInSeconds / 60
+
+        snoreViewHolder.durationText.text = String.format("%02d", minutes) + ":" + String.format("%02d", timeInSeconds)
         snoreViewHolder.snore = snore
     }
 
@@ -68,8 +84,15 @@ class SnoreAdapter(
         }
     }
 
+    fun convertDate(dateInMilliseconds: Long, dateFormat: String): String {
+        return DateFormat.format(dateFormat, dateInMilliseconds)
+            .toString()
+    }
+
     inner class SnoreHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-        val playButton: Button by lazy { view.play_snore_btn }
+        val playButton: ImageView by lazy { view.play_snore_btn }
+        val createdAtText: TextView by lazy { view.created_at_text }
+        val durationText: TextView by lazy { view.duration_text }
         val waveView: AudioWaveView by lazy { view.waveView }
 
         lateinit var snore: AudioRecord
@@ -78,8 +101,12 @@ class SnoreAdapter(
             playButton.setOnClickListener {
                 snoreHolder = this
                 if (mediaPlayer != null && mediaPlayer!!.isPlaying) {
+                    mediaPlayer!!.seekTo(0)
                     mediaPlayer!!.pause()
+                    waveView.progress = 0f
+                    playButton.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_play))
                 } else {
+                    playButton.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_stop))
                     mediaPlayer = MediaPlayer.create(context, Uri.parse(snore.file_name))
                     waveView.setRawData(File(snore.file_name!!).readBytes())
                     if (timer == null) {
@@ -91,7 +118,7 @@ class SnoreAdapter(
             }
             waveView.onProgressListener = object : OnProgressListener {
                 override fun onProgressChanged(progress: Float, byUser: Boolean) {
-                    if (byUser) {
+                    if (byUser && mediaPlayer != null) {
                         mediaPlayer!!.seekTo((mediaPlayer!!.duration * (progress / 100)).toInt())
                     }
                 }

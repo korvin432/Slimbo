@@ -90,8 +90,13 @@ class RecordingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sleepAt = convertDate(recording.sleep_at_time!!, "HH:mm")
-        val wakeUpAt = convertDate(recording.wake_up_time!!, "HH:mm")
+        var timeFormat = "HH:mm"
+
+        if (!DateFormat.is24HourFormat(requireContext())){
+            timeFormat = "hh:mm a"
+        }
+        val sleepAt = convertDate(recording.sleep_at_time!!, timeFormat)
+        val wakeUpAt = convertDate(recording.wake_up_time!!, timeFormat)
 
         var timeInSeconds: Int = (recording.duration!! / 1000).toInt()
         val hours: Int
