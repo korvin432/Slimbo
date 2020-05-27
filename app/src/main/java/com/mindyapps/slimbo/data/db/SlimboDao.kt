@@ -26,4 +26,7 @@ interface SlimboDao {
 
     @Query("SELECT * FROM music WHERE type = '$TYPE_ALARM' ORDER BY duration")
     fun getAlarms(): LiveData<List<Music>>
+
+    @Query("SELECT * FROM recordings WHERE id = :recId")
+    fun getRecording(recId: Int): LiveData<Recording>
 }

@@ -45,7 +45,6 @@ class SelectMusicFragment : DialogFragment() {
 
     private lateinit var storage: FirebaseStorage
     private lateinit var observerMusic: Observer<List<Music>>
-    private lateinit var loadedMusicList: List<Music>
     private var selectedMusic: Music? = null
     private var selectedLength: String? = null
     var player: MediaPlayer? = null

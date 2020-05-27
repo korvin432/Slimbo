@@ -304,25 +304,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical" />
 
-                <rm.com.audiowave.AudioWaveView
-                    android:id="@+id/wave"
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    app:animateExpansion="false"
-                    app:chunkWidth="3dp"
-                    app:chunkHeight="18dp"
-                    app:minChunkHeight="2dp"
-                    app:chunkSpacing="1dp"
-                    app:chunkRadius="1dp"
-                    app:touchable="true"
-                    app:waveColor="@android:color/white"/>
-
-                <Button
-                    android:id="@+id/play_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="play"/>
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

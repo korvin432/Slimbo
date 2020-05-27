@@ -3,6 +3,7 @@ package com.mindyapps.slimbo.ui.adapters
 import android.content.Context
 import android.media.MediaPlayer
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,18 +26,19 @@ import java.util.concurrent.TimeUnit
 class SnoreAdapter(
     private var snoreList: MutableList<AudioRecord>,
     private var context: Context
-) : RecyclerView.Adapter<SnoreAdapter.SnoreHolder>(){
+) : RecyclerView.Adapter<SnoreAdapter.SnoreHolder>() {
 
     private var mediaPlayer: MediaPlayer? = null
     var onItemClick: ((AudioRecord) -> Unit)? = null
     private var timer: Timer? = null
+    private var snoreHolder: SnoreHolder? = null
 
     override fun onCreateViewHolder(
         viewGroup: ViewGroup,
         viewType: Int
     ): SnoreHolder {
         val itemView: View = LayoutInflater.from(viewGroup.context)
-                .inflate(R.layout.music_item, viewGroup, false)
+            .inflate(R.layout.music_item, viewGroup, false)
         return SnoreHolder(itemView)
     }
 
@@ -46,6 +48,7 @@ class SnoreAdapter(
 
     override fun onBindViewHolder(holder: SnoreHolder, position: Int) {
         val snore: AudioRecord = snoreList[position]
+        snoreHolder = holder
         setPropertiesForSnoreViewHolder(holder, snore)
     }
 
@@ -55,32 +58,29 @@ class SnoreAdapter(
     ) {
         snoreViewHolder.waveView.setRawData(File(snore.file_name!!).readBytes())
         snoreViewHolder.snore = snore
-
     }
 
+    var timerTask = object : TimerTask() {
+        override fun run() {
+            val audioWaveProgress: Float =
+                mediaPlayer!!.currentPosition / mediaPlayer!!.duration.toFloat() * 100f
+            snoreHolder!!.waveView.progress = audioWaveProgress
+        }
+    }
 
-
-    inner class SnoreHolder(private val view: View) : RecyclerView.ViewHolder(view),
-        OnProgressListener {
+    inner class SnoreHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         val playButton: Button by lazy { view.play_snore_btn }
         val waveView: AudioWaveView by lazy { view.waveView }
 
         lateinit var snore: AudioRecord
 
-        var timerTask = object: TimerTask(){
-            override fun run(){
-                val audioWaveProgress: Float = mediaPlayer!!.currentPosition /  mediaPlayer!!.duration.toFloat() * 100f
-                waveView.progress = audioWaveProgress
-            }
-        }
-
         init {
             playButton.setOnClickListener {
-                if (mediaPlayer!= null && mediaPlayer!!.isPlaying) {
+                snoreHolder = this
+                if (mediaPlayer != null && mediaPlayer!!.isPlaying) {
                     mediaPlayer!!.pause()
                 } else {
                     mediaPlayer = MediaPlayer.create(context, Uri.parse(snore.file_name))
-                    waveView.onProgressListener = this
                     waveView.setRawData(File(snore.file_name!!).readBytes())
                     if (timer == null) {
                         timer = Timer()
@@ -89,20 +89,16 @@ class SnoreAdapter(
                     mediaPlayer!!.start()
                 }
             }
-        }
-
-        override fun onProgressChanged(progress: Float, byUser: Boolean) {
-            if (byUser) {
-                mediaPlayer!!.seekTo((progress * 1000).toInt() / 4)
+            waveView.onProgressListener = object : OnProgressListener {
+                override fun onProgressChanged(progress: Float, byUser: Boolean) {
+                    if (byUser) {
+                        mediaPlayer!!.seekTo((mediaPlayer!!.duration * (progress / 100)).toInt())
+                    }
+                }
+                override fun onStartTracking(progress: Float) {}
+                override fun onStopTracking(progress: Float) {}
             }
-        }
 
-        override fun onStartTracking(progress: Float) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
-
-        override fun onStopTracking(progress: Float) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
     }
 

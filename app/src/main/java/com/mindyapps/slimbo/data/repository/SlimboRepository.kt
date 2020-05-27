@@ -12,4 +12,5 @@ interface SlimboRepository {
     fun getAlarms(slimboDao: SlimboDao): LiveData<List<Music>>
     fun insertRecording(slimboDao: SlimboDao, recording: Recording): Long
     fun updateRecording(slimboDao: SlimboDao, recId: Int, newRating: Int)
+    fun getRecording(slimboDao: SlimboDao, recId: Int): LiveData<Recording>
 }

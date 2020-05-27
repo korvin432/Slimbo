@@ -16,18 +16,21 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mindyapps.slimbo.R
 import com.mindyapps.slimbo.data.model.AudioRecord
 import com.mindyapps.slimbo.data.model.Factor
+import com.mindyapps.slimbo.data.model.Music
 import com.mindyapps.slimbo.data.model.Recording
 import com.mindyapps.slimbo.data.repository.SlimboRepositoryImpl
 import com.mindyapps.slimbo.internal.DottedSeekBar
 import com.mindyapps.slimbo.ui.adapters.FactorsRecyclerAdapter
 import com.mindyapps.slimbo.ui.adapters.SnoreAdapter
 import kotlinx.android.synthetic.main.recording_fragment.*
+import kotlinx.coroutines.launch
 import rm.com.audiowave.AudioWaveView
 import rm.com.audiowave.OnProgressListener
 import java.io.File
@@ -35,7 +38,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class RecordingFragment : Fragment(), OnProgressListener {
+class RecordingFragment : Fragment() {
     private var repository = SlimboRepositoryImpl()
     private lateinit var viewModel: RecordingViewModel
     private lateinit var sleepRatingBar: RatingBar
@@ -46,12 +49,7 @@ class RecordingFragment : Fragment(), OnProgressListener {
     private lateinit var snoreAdapter: SnoreAdapter
     private var audioRecords: MutableList<AudioRecord>? = null
     private lateinit var progress: DottedSeekBar
-    private var mediaPlayer: MediaPlayer? = null
-
     private var selectedFactors = ArrayList<Factor>()
-    private var timer: Timer? = null
-
-    private lateinit var wave: AudioWaveView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,8 +71,6 @@ class RecordingFragment : Fragment(), OnProgressListener {
         factorsRecycler = root.findViewById(R.id.selected_factors_recycler)
         snoreRecycler = root.findViewById(R.id.snore_recycler)
         sleepRatingBar = root.findViewById(R.id.sleep_rating)
-        wave = root.findViewById(R.id.wave)
-
 
         if (recording.rating == null) {
             sleepRatingBar.setIsIndicator(false)
@@ -85,8 +81,8 @@ class RecordingFragment : Fragment(), OnProgressListener {
 
 
         bindFactorsRecyclerView()
-        bindSnoreRecyclerView()
         setUpSnoreProgress()
+        bindSnoreRecyclerView()
 
         return root
     }
@@ -104,8 +100,6 @@ class RecordingFragment : Fragment(), OnProgressListener {
         timeInSeconds -= hours * 3600
         minutes = timeInSeconds / 60
 
-        play_btn.setOnClickListener { inflateWave("/storage/emulated/0/AudioRecorder/1590520928237.wav") }
-
         sleep_at.text = sleepAt
         avg_start.text = sleepAt
         wake_up.text = wakeUpAt
@@ -113,28 +107,6 @@ class RecordingFragment : Fragment(), OnProgressListener {
         sleep_time.text = String.format("%02d", hours) + ":" + String.format("%02d", minutes)
     }
 
-    var timertask = object: TimerTask(){
-        override fun run(){
-            val audioWaveProgress: Float = mediaPlayer!!.currentPosition /  mediaPlayer!!.duration.toFloat() * 100f
-            wave.progress = audioWaveProgress
-        }
-    }
-
-
-    private fun inflateWave(filePath: String) {
-        if (mediaPlayer!= null && mediaPlayer!!.isPlaying) {
-            mediaPlayer!!.pause()
-        } else {
-            mediaPlayer = MediaPlayer.create(requireContext(), Uri.parse(filePath))
-            wave.onProgressListener = this
-            wave.setRawData(File(filePath).readBytes())
-            if (timer == null) {
-                timer = Timer()
-                timer!!.schedule(timertask, 0, 1000)
-            }
-            mediaPlayer!!.start()
-        }
-    }
 
     fun convertDate(dateInMilliseconds: Long, dateFormat: String): String {
         return DateFormat.format(dateFormat, dateInMilliseconds)
@@ -161,10 +133,9 @@ class RecordingFragment : Fragment(), OnProgressListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(
-            this, RecordingViewModelFactory(repository, requireActivity().application)
+            this, RecordingViewModelFactory(requireActivity().application)
         ).get(RecordingViewModel::class.java)
-
-                factorsRecyclerAdapter.setFactors(selectedFactors)
+        factorsRecyclerAdapter.setFactors(selectedFactors)
     }
 
     private fun bindFactorsRecyclerView() {
@@ -186,20 +157,5 @@ class RecordingFragment : Fragment(), OnProgressListener {
         snoreRecycler.layoutManager = LinearLayoutManager(requireContext())
         snoreRecycler.adapter = snoreAdapter
     }
-
-    override fun onProgressChanged(progress: Float, byUser: Boolean) {
-        if (byUser) {
-            mediaPlayer!!.seekTo((progress * 1000).toInt() / 4)
-        }
-    }
-
-    override fun onStartTracking(progress: Float) {
-
-    }
-
-    override fun onStopTracking(progress: Float) {
-
-    }
-
 
 }
