@@ -79,6 +79,7 @@
     <string name="noise">Noise</string>
     <string name="snore">Snore</string>
     <string name="sleep_graph">Sleep graph</string>
+    <string name="audio_file_not_found">Audio file not found</string>
 
     <string-array name="repeat_minutes">
         <item>Never</item>

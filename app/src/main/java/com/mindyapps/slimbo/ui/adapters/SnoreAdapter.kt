@@ -62,7 +62,13 @@ class SnoreAdapter(
         snoreViewHolder: SnoreHolder,
         snore: AudioRecord
     ) {
-        snoreViewHolder.waveView.setRawData(File(snore.file_name!!).readBytes())
+        try {
+            snoreViewHolder.waveView.setRawData(File(snore.file_name!!).readBytes())
+        } catch (ex: Exception){
+            snoreViewHolder.notFoundText.visibility = View.VISIBLE
+            snoreViewHolder.waveView.visibility = View.GONE
+            snoreViewHolder.playButton.visibility = View.GONE
+        }
         snoreViewHolder.createdAtText.text = convertDate(snore.creation_date!!, timeFormat)
 
         var timeInSeconds: Int = (snore.duration!! / 1000).toInt()
@@ -93,6 +99,7 @@ class SnoreAdapter(
         val playButton: ImageView by lazy { view.play_snore_btn }
         val createdAtText: TextView by lazy { view.created_at_text }
         val durationText: TextView by lazy { view.duration_text }
+        val notFoundText: TextView by lazy { view.not_found_text }
         val waveView: AudioWaveView by lazy { view.waveView }
 
         lateinit var snore: AudioRecord

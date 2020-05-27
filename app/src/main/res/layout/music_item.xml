@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    android:layout_margin="5dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/created_at_text"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:textColor="@color/colorFilled"
-        android:text="19:30"/>
+        android:text="19:30"
+        android:textColor="@color/colorFilled" />
 
 
     <ImageView
         android:id="@+id/play_snore_btn"
-        android:src="@drawable/ic_play"
-        android:tint="@color/colorFilled"
         android:layout_width="45dp"
-        android:layout_height="32dp"/>
+        android:layout_height="32dp"
+        android:src="@drawable/ic_play"
+        android:tint="@color/colorFilled" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -33,8 +32,8 @@
             android:layout_width="match_parent"
             android:layout_height="32dp"
             android:layout_alignParentStart="true"
-            android:layout_toStartOf="@+id/duration_text"
             android:layout_marginEnd="15dp"
+            android:layout_toStartOf="@+id/duration_text"
             app:animateExpansion="false"
             app:chunkHeight="17dp"
             app:chunkRadius="1dp"
@@ -44,15 +43,24 @@
             app:touchable="true"
             app:waveColor="@color/colorFilled" />
 
-    <TextView
-        android:id="@+id/duration_text"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
-        android:gravity="center_vertical"
-        android:textColor="@color/colorFilled"
-        android:text="00:30"/>
+        <TextView
+            android:id="@+id/duration_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:gravity="center_vertical"
+            android:text="00:30"
+            android:textColor="@color/colorFilled" />
 
+        <TextView
+            android:id="@+id/not_found_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            android:visibility="gone"
+            android:text="@string/audio_file_not_found"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorTextHint"/>
 
     </RelativeLayout>
 

@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -48,7 +47,6 @@ class SleepFragment : Fragment(), View.OnClickListener {
     private lateinit var snoreChip: Chip
     private lateinit var alarmStore: AlarmStore
     private lateinit var sleepingStore: SleepingStore
-
     private lateinit var selectedFactorsRecyclerAdapter: SelectedFactorsRecyclerAdapter
     private var selectedFactors: ArrayList<Factor>? = ArrayList()
     private var selectedMusic: Music? = null
@@ -67,8 +65,6 @@ class SleepFragment : Fragment(), View.OnClickListener {
                 "recording" to ((activity as MainActivity?)!!.recording))
                         findNavController().navigate(R.id.recordingFragment, bundle)
         }
-
-
     }
 
     override fun onCreateView(

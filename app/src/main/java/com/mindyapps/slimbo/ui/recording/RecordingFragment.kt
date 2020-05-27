@@ -77,6 +77,10 @@ class RecordingFragment : Fragment() {
             sleepRatingBar.setOnRatingBarChangeListener { ratingBar, fl, b ->
                 viewModel.updateRecording(recording.id!!, fl.toInt())
             }
+        } else {
+            sleepRatingBar.rating = recording.rating!!.toFloat()
+            sleepRatingBar.setIsIndicator(true)
+            sleepRatingBar.isClickable = false
         }
 
 

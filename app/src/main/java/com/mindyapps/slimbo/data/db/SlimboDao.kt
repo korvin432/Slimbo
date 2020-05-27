@@ -29,4 +29,7 @@ interface SlimboDao {
 
     @Query("SELECT * FROM recordings WHERE id = :recId")
     fun getRecording(recId: Int): LiveData<Recording>
+
+    @Query("SELECT * FROM recordings ORDER BY id DESC")
+    fun getAllRecordings(): LiveData<List<Recording>>
 }

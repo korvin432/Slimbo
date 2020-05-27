@@ -146,8 +146,6 @@ class SelectMusicFragment : DialogFragment() {
     }
 
     private fun downloadFile(fileName: String) {
-        Log.d("qwwe", "downloading")
-
         val gsReference =
             storage.getReferenceFromUrl("gs://slimbo-9b6a7.appspot.com/$fileName")
 
@@ -159,7 +157,6 @@ class SelectMusicFragment : DialogFragment() {
         val myFile =  File(storagePath, fileName)
 
         gsReference.getFile(myFile).addOnSuccessListener {
-            Log.d("qwwe", "created file ${it} \n ${myFile.path}")
             setSubscriber()
         }.addOnFailureListener {
             Toast.makeText(requireContext(), getString(R.string.error), Toast.LENGTH_SHORT).show()

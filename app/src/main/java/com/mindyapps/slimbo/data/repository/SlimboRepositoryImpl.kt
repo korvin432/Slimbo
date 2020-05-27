@@ -6,7 +6,7 @@ import com.mindyapps.slimbo.data.model.Factor
 import com.mindyapps.slimbo.data.model.Music
 import com.mindyapps.slimbo.data.model.Recording
 
-class SlimboRepositoryImpl() : SlimboRepository {
+class SlimboRepositoryImpl : SlimboRepository {
 
     override fun getFactors(slimboDao: SlimboDao): LiveData<List<Factor>> {
         return slimboDao.getFactors()
@@ -30,5 +30,9 @@ class SlimboRepositoryImpl() : SlimboRepository {
 
     override fun getRecording(slimboDao: SlimboDao, recId: Int): LiveData<Recording> {
         return slimboDao.getRecording(recId)
+    }
+
+    override fun getAllRecordings(slimboDao: SlimboDao): LiveData<List<Recording>> {
+        return slimboDao.getAllRecordings()
     }
 }

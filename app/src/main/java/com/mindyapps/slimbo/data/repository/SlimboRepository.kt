@@ -13,4 +13,5 @@ interface SlimboRepository {
     fun insertRecording(slimboDao: SlimboDao, recording: Recording): Long
     fun updateRecording(slimboDao: SlimboDao, recId: Int, newRating: Int)
     fun getRecording(slimboDao: SlimboDao, recId: Int): LiveData<Recording>
+    fun getAllRecordings(slimboDao: SlimboDao): LiveData<List<Recording>>
 }
