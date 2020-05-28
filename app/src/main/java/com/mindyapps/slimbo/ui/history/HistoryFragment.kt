@@ -35,6 +35,8 @@ class HistoryFragment : Fragment() {
     private lateinit var recordingsAdapter: RecordingsRecyclerAdapter
     private lateinit var observerRecordings: Observer<List<Recording>>
 
+    private var root: View? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,9 +46,10 @@ class HistoryFragment : Fragment() {
             this,
             HistoryViewModelFactory(repository, requireActivity().application)
         ).get(HistoryViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_history, container, false)
-
-        recyclerView = root.findViewById(R.id.recordings_recycler)
+        if (root == null) {
+            root = inflater.inflate(R.layout.fragment_history, container, false)
+            recyclerView = root!!.findViewById(R.id.recordings_recycler)
+        }
         return root
     }
 

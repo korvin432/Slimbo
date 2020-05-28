@@ -8,6 +8,7 @@
     <color name="colorFilled">#05DAFF</color>
     <color name="colorGreen">#48EF00</color>
     <color name="colorChipTransparent">#16FFFFFF</color>
+    <color name="colorCardChipTransparent">#07FFFFFF</color>
     <color name="colorTransparent">#00000000</color>
     <color name="colorWhiteText">#FFFFFF</color>
     <color name="colorTextHint">#CDCDCD</color>
@@ -17,6 +18,12 @@
     <color name="card_bg">#2E3671</color>
     <color name="card_bg2">#3C458F</color>
     <color name="factor_tint">#9b9db7</color>
-
+    <color name="colorFirstCard">#2603BADA</color>
+    <color name="colorSecondCard">#26008E55</color>
+    <color name="colorThirdCard">#260027FF</color>
+    <color name="colorFourthCard">#260099FF</color>
+    <color name="colorFifthCard">#40182061</color>
     <color name="black_overlay">#66000000</color>
+
+
 </resources>

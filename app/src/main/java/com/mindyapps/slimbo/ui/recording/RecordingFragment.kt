@@ -116,7 +116,6 @@ class RecordingFragment : Fragment() {
         sleep_time.text = String.format("%02d", hours) + ":" + String.format("%02d", minutes)
     }
 
-
     fun convertDate(dateInMilliseconds: Long, dateFormat: String): String {
         return DateFormat.format(dateFormat, dateInMilliseconds)
             .toString()

@@ -89,6 +89,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
                             android:clickable="false"
+                            android:focusable="false"
                             android:maxHeight="10dp"
                             android:progressDrawable="@drawable/custom_seekbar_progress"
                             android:splitTrack="false" />
