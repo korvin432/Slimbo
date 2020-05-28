@@ -17,15 +17,16 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/card_bg"
             app:cardCornerRadius="8dp"
             app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/colorTransparent"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/card_background_gradient"
                 android:orientation="vertical"
                 android:paddingVertical="15dp">
 
@@ -59,16 +60,17 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/card_bg"
             app:cardCornerRadius="8dp"
             app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/colorTransparent"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp">
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:background="@drawable/card_background_gradient">
 
                 <LinearLayout
                     android:id="@+id/progress_layout"
@@ -148,7 +150,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/card_bg"
+            app:cardBackgroundColor="@color/colorTransparent"
             app:cardCornerRadius="8dp"
             app:cardElevation="2dp"
             app:cardPreventCornerOverlap="false"
@@ -157,7 +159,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:background="@drawable/card_background_gradient"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
@@ -170,7 +173,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="10dp"
                     android:fontFamily="sans-serif-light"
                     android:text="@string/snore"
                     android:textAlignment="viewStart"
@@ -183,7 +186,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/card_bg"
+            app:cardBackgroundColor="@color/colorTransparent"
             app:cardCornerRadius="8dp"
             app:cardElevation="2dp"
             app:cardPreventCornerOverlap="false"
@@ -192,7 +195,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:background="@drawable/card_background_gradient"
                 android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -219,7 +223,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/card_bg"
+            app:cardBackgroundColor="@color/colorTransparent"
             app:cardCornerRadius="8dp"
             app:cardElevation="2dp"
             app:cardPreventCornerOverlap="false"
@@ -228,7 +232,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:background="@drawable/card_background_gradient"
                 android:paddingHorizontal="5dp">
 
                 <LinearLayout
@@ -318,5 +323,7 @@
 
 
     </LinearLayout>
+
+
 
 </androidx.core.widget.NestedScrollView>

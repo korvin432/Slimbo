@@ -19,8 +19,8 @@
             android:id="@+id/text_clock"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-thin"
             android:layout_marginTop="50dp"
+            android:fontFamily="sans-serif-thin"
             android:format12Hour="hh:mm"
             android:format24Hour="HH:mm"
             android:textAlignment="center"
@@ -86,7 +86,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/factors_back"
-                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:backgroundTint="@color/colorPrimary"
                         android:backgroundTintMode="multiply"
                         android:orientation="vertical">
 
@@ -154,7 +154,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/music_back"
-                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:backgroundTint="@color/colorPrimary"
                     android:backgroundTintMode="multiply"
                     android:orientation="vertical">
 
