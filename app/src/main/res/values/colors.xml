@@ -18,11 +18,11 @@
     <color name="card_bg">#2E3671</color>
     <color name="card_bg2">#3C458F</color>
     <color name="factor_tint">#9b9db7</color>
-    <color name="colorFirstCard">#2603BADA</color>
-    <color name="colorSecondCard">#26008E55</color>
-    <color name="colorThirdCard">#260027FF</color>
-    <color name="colorFourthCard">#260099FF</color>
-    <color name="colorFifthCard">#40182061</color>
+    <color name="colorFirstCard">#40182061</color>
+    <color name="colorSecondCard">#260027FF</color>
+    <color name="colorThirdCard">#26004C8E</color>
+    <color name="colorFourthCard">#2603BADA</color>
+    <color name="colorFifthCard">#260099FF</color>
     <color name="black_overlay">#66000000</color>
 
 

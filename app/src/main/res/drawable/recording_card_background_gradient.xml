@@ -6,7 +6,7 @@
         android:angle="45"
         android:type="linear"
         android:startColor="@color/card_bg"
-        android:endColor="@color/colorAccent"
+        android:endColor="@color/colorFirstCard"
         android:useLevel="false"/>
 
 </shape>

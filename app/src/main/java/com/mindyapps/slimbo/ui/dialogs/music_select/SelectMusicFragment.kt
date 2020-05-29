@@ -41,8 +41,6 @@ class SelectMusicFragment : DialogFragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var confirmButton: MaterialButton
     private lateinit var selectedMusicAdapter: SelectedMusicAdapter
-
-
     private lateinit var storage: FirebaseStorage
     private lateinit var observerMusic: Observer<List<Music>>
     private var selectedMusic: Music? = null
@@ -93,7 +91,6 @@ class SelectMusicFragment : DialogFragment() {
             }
         }
 
-
         confirmButton.setOnClickListener {
             if (selectedMusic != null) {
                 lifecycleScope.launch {
@@ -117,7 +114,7 @@ class SelectMusicFragment : DialogFragment() {
         setSubscriber()
     }
 
-    private fun setSubscriber(){
+    private fun setSubscriber() {
         observerMusic = Observer { newsSource ->
             if (newsSource.isNotEmpty()) {
                 Log.d("qwwe", "updating")
@@ -139,22 +136,20 @@ class SelectMusicFragment : DialogFragment() {
     }
 
     private fun stopPlaying() {
-        if (player != null) {
-            if (player!!.isPlaying)
-                player!!.stop()
-        }
+        if (player != null && player!!.isPlaying) player!!.stop()
     }
 
     private fun downloadFile(fileName: String) {
+        Toast.makeText(requireContext(), getString(R.string.downloading), Toast.LENGTH_SHORT).show()
         val gsReference =
             storage.getReferenceFromUrl("gs://slimbo-9b6a7.appspot.com/$fileName")
 
-        val storagePath =  File(requireContext().externalCacheDir!!.absolutePath, "Music")
+        val storagePath = File(requireContext().externalCacheDir!!.absolutePath, "Music")
         if (!storagePath.exists()) {
             storagePath.mkdirs()
         }
 
-        val myFile =  File(storagePath, fileName)
+        val myFile = File(storagePath, fileName)
 
         gsReference.getFile(myFile).addOnSuccessListener {
             setSubscriber()
@@ -185,7 +180,8 @@ class SelectMusicFragment : DialogFragment() {
             stopPlaying()
             if (music.name != requireContext().getString(R.string.do_not_use)) {
                 if (!music.free!!) {
-                    val storagePath = File(requireContext().externalCacheDir!!.absolutePath, "Music")
+                    val storagePath =
+                        File(requireContext().externalCacheDir!!.absolutePath, "Music")
                     if (!storagePath.exists()) {
                         storagePath.mkdirs()
                     }

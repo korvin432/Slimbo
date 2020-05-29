@@ -30,8 +30,7 @@ class SnoreAdapter(
     private var context: Context
 ) : RecyclerView.Adapter<SnoreAdapter.SnoreHolder>() {
 
-    private var mediaPlayer: MediaPlayer? = null
-    var onItemClick: ((AudioRecord) -> Unit)? = null
+    var mediaPlayer: MediaPlayer? = null
     private var timer: Timer? = null
     private var snoreHolder: SnoreHolder? = null
     private var timeFormat = "HH:mm"
@@ -90,9 +89,8 @@ class SnoreAdapter(
         }
     }
 
-    fun convertDate(dateInMilliseconds: Long, dateFormat: String): String {
-        return DateFormat.format(dateFormat, dateInMilliseconds)
-            .toString()
+    private fun convertDate(dateInMilliseconds: Long, dateFormat: String): String {
+        return DateFormat.format(dateFormat, dateInMilliseconds).toString()
     }
 
     inner class SnoreHolder(private val view: View) : RecyclerView.ViewHolder(view) {

@@ -116,7 +116,14 @@ class RecordingFragment : Fragment() {
         sleep_time.text = String.format("%02d", hours) + ":" + String.format("%02d", minutes)
     }
 
-    fun convertDate(dateInMilliseconds: Long, dateFormat: String): String {
+    override fun onDestroy() {
+        super.onDestroy()
+        if (snoreAdapter.mediaPlayer != null && snoreAdapter.mediaPlayer!!.isPlaying){
+            snoreAdapter.mediaPlayer!!.stop()
+        }
+    }
+
+    private fun convertDate(dateInMilliseconds: Long, dateFormat: String): String {
         return DateFormat.format(dateFormat, dateInMilliseconds)
             .toString()
     }
@@ -160,7 +167,6 @@ class RecordingFragment : Fragment() {
     }
 
     private fun bindSnoreRecyclerView() {
-        Log.d("qwwe", "binding snore: ${recording.recordings!!}")
         snoreAdapter = SnoreAdapter(recording.recordings!!,requireContext())
         snoreRecycler.layoutManager = LinearLayoutManager(requireContext())
         snoreRecycler.adapter = snoreAdapter

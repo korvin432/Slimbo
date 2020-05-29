@@ -19,28 +19,18 @@ import java.util.*
 
 
 class RecordingsRecyclerAdapter(
-    private var recordings: List<Recording>,
+    private var recordings: MutableList<Recording>,
     private var context: Context
 ) : RecyclerView.Adapter<RecordingsRecyclerAdapter.RecordingsHolder>() {
 
     var onItemClick: ((Recording) -> Unit)? = null
-    lateinit var colorsArray: List<Int>
 
     override fun onCreateViewHolder(
         viewGroup: ViewGroup,
         viewType: Int
     ): RecordingsHolder {
-        val itemView: View =
-            LayoutInflater.from(viewGroup.context)
+        val itemView: View = LayoutInflater.from(viewGroup.context)
                 .inflate(R.layout.recording_item, viewGroup, false)
-
-        colorsArray = listOf(
-            R.color.colorFirstCard,
-            R.color.colorSecondCard,
-            R.color.colorThirdCard,
-            R.color.colorFourthCard,
-            R.color.colorFifthCard)
-
         return RecordingsHolder(itemView)
     }
 
@@ -51,6 +41,12 @@ class RecordingsRecyclerAdapter(
     override fun onBindViewHolder(holder: RecordingsHolder, position: Int) {
         val recording: Recording = recordings[position]
         setPropertiesForRecordingsViewHolder(holder, recording)
+    }
+
+    fun setRecordings(newRecordings: List<Recording>) {
+        recordings.clear()
+        recordings.addAll(newRecordings)
+        notifyDataSetChanged()
     }
 
     private fun setPropertiesForRecordingsViewHolder(
@@ -65,6 +61,8 @@ class RecordingsRecyclerAdapter(
             DateFormat.format("MMM dd", Date(recording.sleep_at_time)).toString()
         if (recording.rating != null) {
             recordingsViewHolder.rating.rating = recording.rating.toFloat()
+        } else {
+            recordingsViewHolder.rating.rating = 0f
         }
 
         recordingsViewHolder.progress.thumb.mutate().alpha = 0
@@ -78,8 +76,15 @@ class RecordingsRecyclerAdapter(
         recordingsViewHolder.progress.setDots(dotList.toIntArray())
         recordingsViewHolder.progress.setDotsDrawable(R.drawable.vertical_line)
 
-        recordingsViewHolder.layout.backgroundTintList =
-            ContextCompat.getColorStateList(context, colorsArray.random())
+        val color = when (recording.rating) {
+            1 -> ContextCompat.getColorStateList(context, R.color.colorFirstCard)
+            2 -> ContextCompat.getColorStateList(context, R.color.colorSecondCard)
+            3 -> ContextCompat.getColorStateList(context, R.color.colorThirdCard)
+            4 -> ContextCompat.getColorStateList(context, R.color.colorFourthCard)
+            5 -> ContextCompat.getColorStateList(context, R.color.colorFifthCard)
+            else -> ContextCompat.getColorStateList(context, R.color.colorFifthCard)
+        }
+        recordingsViewHolder.layout.backgroundTintList = color
     }
 
     private fun convertDate(dateInMilliseconds: Long, dateFormat: String): String {

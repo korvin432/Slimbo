@@ -42,13 +42,14 @@ class HistoryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(
-            this,
-            HistoryViewModelFactory(repository, requireActivity().application)
-        ).get(HistoryViewModel::class.java)
         if (root == null) {
             root = inflater.inflate(R.layout.fragment_history, container, false)
             recyclerView = root!!.findViewById(R.id.recordings_recycler)
+
+            viewModel = ViewModelProvider(
+                this, HistoryViewModelFactory(repository, requireActivity().application)
+            ).get(HistoryViewModel::class.java)
+            bindRecyclerView()
         }
         return root
     }
@@ -61,7 +62,7 @@ class HistoryFragment : Fragment() {
     private fun setSubscriber() {
         observerRecordings = Observer { recordings ->
             if (recordings.isNotEmpty()) {
-                bindRecyclerView(recordings)
+                recordingsAdapter.setRecordings(recordings)
             }
         }
         loaRecordings()
@@ -73,10 +74,13 @@ class HistoryFragment : Fragment() {
         }
     }
 
-    private fun bindRecyclerView(recordings: List<Recording>) {
+    private fun bindRecyclerView() {
         val linearLayoutManager = LinearLayoutManager(requireContext())
         recordingsAdapter =
-            RecordingsRecyclerAdapter(recordings, requireActivity().applicationContext)
+            RecordingsRecyclerAdapter(
+                ArrayList<Recording>().toMutableList(),
+                requireActivity().applicationContext
+            )
         recyclerView.layoutManager = linearLayoutManager
         recyclerView.adapter = recordingsAdapter
         recordingsAdapter.onItemClick = { recording ->
