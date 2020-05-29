@@ -81,6 +81,7 @@
     <string name="sleep_graph">Sleep graph</string>
     <string name="audio_file_not_found">Audio file not found</string>
     <string name="downloading">Downloading</string>
+    <string name="about">About</string>
 
     <string-array name="repeat_minutes">
         <item>Never</item>

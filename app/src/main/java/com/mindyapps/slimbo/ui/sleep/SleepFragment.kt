@@ -60,7 +60,6 @@ class SleepFragment : Fragment(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if ((activity as MainActivity?)!!.recording != null) {
-            Log.d("qwwe", "gor rec from activity ${(activity as MainActivity?)!!.recording}")
             val bundle = bundleOf(
                 "recording" to ((activity as MainActivity?)!!.recording))
                         findNavController().navigate(R.id.recordingFragment, bundle)

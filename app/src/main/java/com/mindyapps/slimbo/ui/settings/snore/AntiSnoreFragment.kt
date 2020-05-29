@@ -2,15 +2,16 @@ package com.mindyapps.slimbo.ui.settings.snore
 
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Switch
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,7 +44,7 @@ class AntiSnoreFragment : Fragment(), BubbleSeekBar.OnProgressChangedListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root =  inflater.inflate(R.layout.anti_snore_fragment, container, false)
+        val root = inflater.inflate(R.layout.anti_snore_fragment, container, false)
         viewModel = ViewModelProvider(
             this,
             AntiSnoreViewModelFactory(
@@ -51,6 +52,8 @@ class AntiSnoreFragment : Fragment(), BubbleSeekBar.OnProgressChangedListener {
                 requireActivity().application
             )
         ).get(AntiSnoreViewModel::class.java)
+
+        setHasOptionsMenu(true)
 
         recyclerView = root.findViewById(R.id.alarm_recycler)
         durationSeekBar = root.findViewById(R.id.duration_seekbar)
@@ -85,6 +88,28 @@ class AntiSnoreFragment : Fragment(), BubbleSeekBar.OnProgressChangedListener {
             }
         }
         loadMusic()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.anti_snore_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.about) {
+            val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogCustom)
+            with(builder)
+            {
+                setTitle(getString(R.string.anti_snore))
+                setMessage(getString(R.string.anti_snore_tip))
+                show()
+            }
+            return true
+        }
+        return NavigationUI.onNavDestinationSelected(
+            item,
+            requireView().findNavController()
+        ) || super.onOptionsItemSelected(item)
     }
 
     override fun onDetach() {
@@ -154,13 +179,15 @@ class AntiSnoreFragment : Fragment(), BubbleSeekBar.OnProgressChangedListener {
         bubbleSeekBar: BubbleSeekBar?,
         progress: Int,
         progressFloat: Float
-    ) { }
+    ) {
+    }
 
     override fun getProgressOnFinally(
         bubbleSeekBar: BubbleSeekBar?,
         progress: Int,
         progressFloat: Float,
         fromUser: Boolean
-    ) { }
+    ) {
+    }
 
 }
