@@ -94,10 +94,10 @@ class RecordingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var timeFormat = "HH:mm"
-
-        if (!DateFormat.is24HourFormat(requireContext())){
-            timeFormat = "hh:mm a"
+        val timeFormat = if (!DateFormat.is24HourFormat(requireContext())) {
+            "hh:mm a"
+        } else {
+            "HH:mm"
         }
         val sleepAt = convertDate(recording.sleep_at_time!!, timeFormat)
         val wakeUpAt = convertDate(recording.wake_up_time!!, timeFormat)
@@ -114,12 +114,23 @@ class RecordingFragment : Fragment() {
         wake_up.text = wakeUpAt
         avg_end.text = wakeUpAt
         sleep_time.text = String.format("%02d", hours) + ":" + String.format("%02d", minutes)
+
+        checkEmptyData()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (snoreAdapter.mediaPlayer != null && snoreAdapter.mediaPlayer!!.isPlaying){
+        if (snoreAdapter.mediaPlayer != null && snoreAdapter.mediaPlayer!!.isPlaying) {
             snoreAdapter.mediaPlayer!!.stop()
+        }
+    }
+
+    private fun checkEmptyData() {
+        if (recording.recordings != null && recording.recordings!!.size <= 0) {
+            no_snore_layout.visibility = View.VISIBLE
+        }
+        if (recording.factors != null && recording.factors!!.size <= 0) {
+            no_factors_layout.visibility = View.VISIBLE
         }
     }
 
@@ -155,10 +166,10 @@ class RecordingFragment : Fragment() {
 
     private fun bindFactorsRecyclerView() {
         factorsRecyclerAdapter = FactorsRecyclerAdapter(
-                selectedFactors.toMutableList(),
-                selectedFactors.toMutableList(),
-                requireActivity().applicationContext
-            )
+            selectedFactors.toMutableList(),
+            selectedFactors.toMutableList(),
+            requireActivity().applicationContext
+        )
         factorsRecyclerAdapter.isClickable = false
         factorsRecycler.layoutManager =
             GridLayoutManager(requireActivity().applicationContext, 3, RecyclerView.VERTICAL, false)
@@ -167,7 +178,7 @@ class RecordingFragment : Fragment() {
     }
 
     private fun bindSnoreRecyclerView() {
-        snoreAdapter = SnoreAdapter(recording.recordings!!,requireContext())
+        snoreAdapter = SnoreAdapter(recording.recordings!!, requireContext())
         snoreRecycler.layoutManager = LinearLayoutManager(requireContext())
         snoreRecycler.adapter = snoreAdapter
     }

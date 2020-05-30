@@ -17,16 +17,17 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="2dp"
             app:cardBackgroundColor="@color/colorTransparent"
+            app:cardCornerRadius="8dp"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/card_background_gradient"
+                android:background="@drawable/recording_card_background_gradient"
+                android:backgroundTint="@color/colorFifthCard"
+                android:backgroundTintMode="src_over"
                 android:orientation="vertical"
                 android:paddingVertical="15dp">
 
@@ -60,17 +61,19 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/colorTransparent"
             app:cardCornerRadius="8dp"
             app:cardElevation="2dp"
-            app:cardBackgroundColor="@color/colorTransparent"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="10dp"
-                android:background="@drawable/card_background_gradient">
+                android:background="@drawable/recording_card_background_gradient"
+                android:backgroundTint="@color/colorFifthCard"
+                android:backgroundTintMode="src_over"
+                android:padding="10dp">
 
                 <LinearLayout
                     android:id="@+id/progress_layout"
@@ -160,16 +163,43 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:background="@drawable/card_background_gradient"
+                android:background="@drawable/recording_card_background_gradient"
+                android:backgroundTint="@color/colorFifthCard"
+                android:backgroundTintMode="src_over"
                 android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/snore_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical" />
+
+                <LinearLayout
+                    android:id="@+id/no_snore_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="70dp"
+                        android:alpha="0.45"
+                        android:padding="10dp"
+                        android:src="@drawable/zzz"
+                        android:tint="@color/colorAccentTransparent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="@string/no_sounds_detected"
+                        android:textColor="@color/colorLightHint" />
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -196,9 +226,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:background="@drawable/card_background_gradient"
-                android:orientation="vertical">
+                android:background="@drawable/recording_card_background_gradient"
+                android:backgroundTint="@color/colorFifthCard"
+                android:backgroundTintMode="src_over"
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/selected_factors_recycler"
@@ -208,6 +240,31 @@
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                <LinearLayout
+                    android:id="@+id/no_factors_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="70dp"
+                        android:alpha="0.45"
+                        android:padding="10dp"
+                        android:src="@drawable/factors"
+                        android:tint="@color/colorAccentTransparent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="@string/no_data"
+                        android:textColor="@color/colorLightHint" />
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -233,8 +290,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/recording_card_background_gradient"
+                android:backgroundTint="@color/colorFifthCard"
+                android:backgroundTintMode="src_over"
                 android:padding="10dp"
-                android:background="@drawable/card_background_gradient"
                 android:paddingHorizontal="5dp">
 
                 <LinearLayout
@@ -259,7 +318,6 @@
                         android:id="@+id/sleep_at"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="19:30"
                         android:textColor="@color/colorFilled"
                         android:textSize="19sp" />
                 </LinearLayout>
@@ -285,7 +343,6 @@
                         android:id="@+id/sleep_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="7:35"
                         android:textAlignment="center"
                         android:textColor="@color/colorFilled"
                         android:textSize="19sp" />
@@ -312,7 +369,6 @@
                         android:id="@+id/wake_up"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="7:35"
                         android:textAlignment="viewEnd"
                         android:textColor="@color/colorFilled"
                         android:textSize="19sp" />
@@ -324,7 +380,6 @@
 
 
     </LinearLayout>
-
 
 
 </androidx.core.widget.NestedScrollView>

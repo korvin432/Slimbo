@@ -82,6 +82,8 @@
     <string name="audio_file_not_found">Audio file not found</string>
     <string name="downloading">Downloading</string>
     <string name="about">About</string>
+    <string name="no_data">No data</string>
+    <string name="no_sounds_detected">No sounds detected</string>
 
     <string-array name="repeat_minutes">
         <item>Never</item>
