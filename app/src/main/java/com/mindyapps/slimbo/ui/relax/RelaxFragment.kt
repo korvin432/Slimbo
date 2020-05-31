@@ -22,10 +22,7 @@ class RelaxFragment : Fragment() {
         relaxViewModel =
                 ViewModelProviders.of(this).get(RelaxViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_relax, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
-        relaxViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
+
         return root
     }
 }

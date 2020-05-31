@@ -84,6 +84,16 @@
     <string name="about">About</string>
     <string name="no_data">No data</string>
     <string name="no_sounds_detected">No sounds detected</string>
+    <string name="sounds">Sounds</string>
+    <string name="birds">Birds</string>
+    <string name="nature_sounds">Nature sounds</string>
+    <string name="cricket">Cricket</string>
+    <string name="pink_noise">Pink noise</string>
+    <string name="rain_in_a_car">Rain in a car</string>
+    <string name="rain_on_the_roof">Rain on the roof</string>
+    <string name="street_noise">Street noise</string>
+    <string name="thunder">Thunder</string>
+    <string name="water_stream">Water stream</string>
 
     <string-array name="repeat_minutes">
         <item>Never</item>
