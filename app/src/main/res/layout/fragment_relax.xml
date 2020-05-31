@@ -12,7 +12,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="70dp"
         app:cardBackgroundColor="@color/card_bg"
         app:cardCornerRadius="8dp"
         app:cardUseCompatPadding="true">
@@ -20,7 +20,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="350dp"
-            android:background="@drawable/recording_card_background_gradient"
+            android:background="@drawable/card_background_gradient"
             android:orientation="vertical">
 
 
@@ -28,14 +28,16 @@
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_ripple"
-                android:scaleY="0.6"
-                android:scaleX="0.65"
                 android:alpha="0.8"
-                android:textSize="19sp"
+                android:background="@drawable/chip_gradient"
+                android:backgroundTintMode="src_over"
+                android:scaleX="0.65"
+                android:scaleY="0.65"
                 android:text="@string/sounds"
                 android:textAllCaps="false"
-                android:textColor="@color/colorWhiteText" />
+                android:textColor="@color/colorWhiteText"
+                android:textSize="19sp"
+                app:backgroundTint="@color/colorChipTransparent" />
 
 
             <androidx.core.widget.NestedScrollView
@@ -62,7 +64,7 @@
 
                         <LinearLayout
                             android:layout_width="140dp"
-                            android:layout_height="110dp"
+                            android:layout_height="100dp"
                             android:background="@drawable/birds"
                             android:gravity="bottom"
                             android:orientation="vertical">
@@ -92,7 +94,7 @@
 
                         <LinearLayout
                             android:layout_width="140dp"
-                            android:layout_height="110dp"
+                            android:layout_height="100dp"
                             android:background="@drawable/cricket"
                             android:gravity="bottom"
                             android:orientation="vertical">
@@ -100,8 +102,8 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-light"
                                 android:background="@color/colorCardTitleBackground"
+                                android:fontFamily="sans-serif-light"
                                 android:text="@string/cricket"
                                 android:textAlignment="center"
                                 android:textColor="@color/colorWhiteText"
@@ -122,7 +124,7 @@
 
                         <LinearLayout
                             android:layout_width="140dp"
-                            android:layout_height="110dp"
+                            android:layout_height="100dp"
                             android:background="@drawable/nature_sounds"
                             android:gravity="bottom"
                             android:orientation="vertical">
@@ -130,8 +132,8 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-light"
                                 android:background="@color/colorCardTitleBackground"
+                                android:fontFamily="sans-serif-light"
                                 android:text="@string/nature_sounds"
                                 android:textAlignment="center"
                                 android:textColor="@color/colorWhiteText"
@@ -152,7 +154,7 @@
 
                         <LinearLayout
                             android:layout_width="140dp"
-                            android:layout_height="110dp"
+                            android:layout_height="100dp"
                             android:background="@drawable/pink_noise"
                             android:gravity="bottom"
                             android:orientation="vertical">
@@ -160,8 +162,8 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-light"
                                 android:background="@color/colorCardTitleBackground"
+                                android:fontFamily="sans-serif-light"
                                 android:text="@string/pink_noise"
                                 android:textAlignment="center"
                                 android:textColor="@color/colorWhiteText"
@@ -182,7 +184,7 @@
 
                         <LinearLayout
                             android:layout_width="140dp"
-                            android:layout_height="110dp"
+                            android:layout_height="100dp"
                             android:background="@drawable/rain_in_a_car"
                             android:gravity="bottom"
                             android:orientation="vertical">
@@ -190,8 +192,8 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-light"
                                 android:background="@color/colorCardTitleBackground"
+                                android:fontFamily="sans-serif-light"
                                 android:text="@string/rain_in_a_car"
                                 android:textAlignment="center"
                                 android:textColor="@color/colorWhiteText"
@@ -212,7 +214,7 @@
 
                         <LinearLayout
                             android:layout_width="140dp"
-                            android:layout_height="110dp"
+                            android:layout_height="100dp"
                             android:background="@drawable/rain_on_the_roof"
                             android:gravity="bottom"
                             android:orientation="vertical">
@@ -220,8 +222,8 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-light"
                                 android:background="@color/colorCardTitleBackground"
+                                android:fontFamily="sans-serif-light"
                                 android:text="@string/rain_on_the_roof"
                                 android:textAlignment="center"
                                 android:textColor="@color/colorWhiteText"
@@ -242,7 +244,7 @@
 
                         <LinearLayout
                             android:layout_width="140dp"
-                            android:layout_height="110dp"
+                            android:layout_height="100dp"
                             android:background="@drawable/street_noise"
                             android:gravity="bottom"
                             android:orientation="vertical">
@@ -250,8 +252,8 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-light"
                                 android:background="@color/colorCardTitleBackground"
+                                android:fontFamily="sans-serif-light"
                                 android:text="@string/street_noise"
                                 android:textAlignment="center"
                                 android:textColor="@color/colorWhiteText"
@@ -272,7 +274,7 @@
 
                         <LinearLayout
                             android:layout_width="140dp"
-                            android:layout_height="110dp"
+                            android:layout_height="100dp"
                             android:background="@drawable/thunder"
                             android:gravity="bottom"
                             android:orientation="vertical">
@@ -280,8 +282,8 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-light"
                                 android:background="@color/colorCardTitleBackground"
+                                android:fontFamily="sans-serif-light"
                                 android:text="@string/thunder"
                                 android:textAlignment="center"
                                 android:textColor="@color/colorWhiteText"
@@ -302,7 +304,7 @@
 
                         <LinearLayout
                             android:layout_width="140dp"
-                            android:layout_height="110dp"
+                            android:layout_height="100dp"
                             android:background="@drawable/water_stream"
                             android:gravity="bottom"
                             android:orientation="vertical">
@@ -310,8 +312,8 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-light"
                                 android:background="@color/colorCardTitleBackground"
+                                android:fontFamily="sans-serif-light"
                                 android:text="@string/water_stream"
                                 android:textAlignment="center"
                                 android:textColor="@color/colorWhiteText"
