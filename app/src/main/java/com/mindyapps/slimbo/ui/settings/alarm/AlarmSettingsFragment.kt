@@ -29,7 +29,7 @@ import com.mindyapps.slimbo.R
 import com.mindyapps.slimbo.data.model.Music
 import com.mindyapps.slimbo.data.repository.SlimboRepositoryImpl
 import com.mindyapps.slimbo.preferences.AlarmStore
-import com.mindyapps.slimbo.ui.adapters.SelectedMusicAdapter
+import com.mindyapps.slimbo.ui.adapters.SelectMusicAdapter
 import kotlinx.android.synthetic.main.fragment_alarm_settings.*
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -41,7 +41,7 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
     private var repository = SlimboRepositoryImpl()
     private lateinit var viewModel: AlarmViewModel
     private lateinit var recyclerView: RecyclerView
-    private lateinit var selectedMusicAdapter: SelectedMusicAdapter
+    private lateinit var selectedMusicAdapter: SelectMusicAdapter
     private lateinit var timePicker: TimePicker
     private lateinit var alarmSwitch: Switch
     private lateinit var repeatSpinner: Spinner
@@ -244,7 +244,7 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
         )
         recyclerView.setHasFixedSize(true)
         recyclerView.setItemViewCacheSize(musicList.size)
-        selectedMusicAdapter = SelectedMusicAdapter(
+        selectedMusicAdapter = SelectMusicAdapter(
             musicList.toMutableList(), selectedAlarm, requireActivity().applicationContext
         )
         recyclerView.layoutManager = linearLayoutManager

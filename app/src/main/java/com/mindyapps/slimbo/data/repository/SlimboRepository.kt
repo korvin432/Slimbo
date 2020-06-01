@@ -9,6 +9,7 @@ import com.mindyapps.slimbo.data.model.Recording
 interface SlimboRepository {
     fun getFactors(slimboDao: SlimboDao): LiveData<List<Factor>>
     fun getMusic(slimboDao: SlimboDao): LiveData<List<Music>>
+    fun getRelaxMusic(slimboDao: SlimboDao): LiveData<List<Music>>
     fun getAlarms(slimboDao: SlimboDao): LiveData<List<Music>>
     fun insertRecording(slimboDao: SlimboDao, recording: Recording): Long
     fun updateRecording(slimboDao: SlimboDao, recId: Int, newRating: Int)

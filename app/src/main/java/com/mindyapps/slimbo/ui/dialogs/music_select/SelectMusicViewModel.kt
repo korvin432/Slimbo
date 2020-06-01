@@ -19,8 +19,4 @@ class SelectMusicViewModel(
         allMusic = slimboRepository.getMusic(slimboDao)
     }
 
-    fun updateMusic(){
-        val slimboDao = SlimboDatabase.getDatabase(application).slimboDao()
-        allMusic = slimboRepository.getMusic(slimboDao)
-    }
 }

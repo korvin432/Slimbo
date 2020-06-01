@@ -9,17 +9,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mindyapps.slimbo.R
 import com.mindyapps.slimbo.data.model.Music
 import com.mindyapps.slimbo.data.model.TYPE_ALARM
-import kotlinx.android.synthetic.main.activity_sleeping.view.*
 import kotlinx.android.synthetic.main.select_music_item.view.*
 import java.io.File
 import java.util.concurrent.TimeUnit
 
 
-class SelectedMusicAdapter(
+class SelectMusicAdapter(
     private var music: MutableList<Music>,
     private var selectedMusic: Music?,
     private var context: Context
-) : RecyclerView.Adapter<SelectedMusicAdapter.MusicHolder>() {
+) : RecyclerView.Adapter<SelectMusicAdapter.MusicHolder>() {
 
     var onItemClick: ((Music) -> Unit)? = null
 

@@ -20,6 +20,7 @@
         android:theme="@style/AppTheme">
         <service
             android:name=".RecorderService"
+            android:stopWithTask="false"
             android:enabled="true"
             android:exported="false"/>
 

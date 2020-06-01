@@ -21,8 +21,11 @@ interface SlimboDao {
     @Query("SELECT * FROM factors ORDER BY id")
     fun getFactors(): LiveData<List<Factor>>
 
-    @Query("SELECT * FROM music WHERE type = '$TYPE_MUSIC' OR type = '$TYPE_SOUND' ORDER BY duration")
+    @Query("SELECT * FROM music WHERE type = '$TYPE_MUSIC' ORDER BY duration")
     fun getAllMusic(): LiveData<List<Music>>
+
+    @Query("SELECT * FROM music WHERE type = '$TYPE_MUSIC' AND duration > 0 ORDER BY duration")
+    fun getRelaxMusic(): LiveData<List<Music>>
 
     @Query("SELECT * FROM music WHERE type = '$TYPE_ALARM' ORDER BY duration")
     fun getAlarms(): LiveData<List<Music>>

@@ -2,11 +2,13 @@ package com.mindyapps.slimbo.internal
 
 import android.content.Context
 import android.media.MediaPlayer
+import android.widget.Toast
 import com.mindyapps.slimbo.R
 import com.mindyapps.slimbo.data.model.Factor
 import com.mindyapps.slimbo.data.model.Music
 import com.mindyapps.slimbo.data.model.TYPE_ALARM
 import com.mindyapps.slimbo.data.model.TYPE_MUSIC
+import java.io.File
 import java.text.DateFormat
 import java.util.*
 
@@ -181,4 +183,5 @@ class Utils(val context: Context) {
         val mp: MediaPlayer = MediaPlayer.create(context, id)
         return mp.duration.toLong()
     }
+
 }

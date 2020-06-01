@@ -21,7 +21,7 @@ import com.mindyapps.slimbo.R
 import com.mindyapps.slimbo.data.model.Music
 import com.mindyapps.slimbo.data.repository.SlimboRepositoryImpl
 import com.mindyapps.slimbo.preferences.SleepingStore
-import com.mindyapps.slimbo.ui.adapters.SelectedMusicAdapter
+import com.mindyapps.slimbo.ui.adapters.SelectMusicAdapter
 import com.xw.repo.BubbleSeekBar
 import kotlinx.coroutines.launch
 
@@ -30,7 +30,7 @@ class AntiSnoreFragment : Fragment(), BubbleSeekBar.OnProgressChangedListener {
     private lateinit var viewModel: AntiSnoreViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var durationSeekBar: BubbleSeekBar
-    private lateinit var selectedMusicAdapter: SelectedMusicAdapter
+    private lateinit var selectedMusicAdapter: SelectMusicAdapter
     private lateinit var observerMusic: Observer<List<Music>>
     private lateinit var snoreSwitch: Switch
     private lateinit var sleepingStore: SleepingStore
@@ -150,7 +150,7 @@ class AntiSnoreFragment : Fragment(), BubbleSeekBar.OnProgressChangedListener {
         )
         recyclerView.setHasFixedSize(true)
         recyclerView.setItemViewCacheSize(musicList.size)
-        selectedMusicAdapter = SelectedMusicAdapter(
+        selectedMusicAdapter = SelectMusicAdapter(
             musicList.toMutableList(), selectedSignal, requireActivity().applicationContext
         )
         recyclerView.layoutManager = linearLayoutManager

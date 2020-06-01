@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_gradient"
+    android:background="@drawable/card_background_gradient"
     app:backgroundTint="@null"
     android:orientation="vertical"
     android:padding="15dp"

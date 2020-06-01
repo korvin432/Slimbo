@@ -6,7 +6,6 @@ import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +26,7 @@ import com.google.firebase.storage.ktx.storage
 import com.mindyapps.slimbo.R
 import com.mindyapps.slimbo.data.model.Music
 import com.mindyapps.slimbo.data.repository.SlimboRepositoryImpl
-import com.mindyapps.slimbo.ui.adapters.SelectedMusicAdapter
+import com.mindyapps.slimbo.ui.adapters.SelectMusicAdapter
 import kotlinx.coroutines.launch
 import org.angmarch.views.NiceSpinner
 import java.io.File
@@ -40,7 +39,7 @@ class SelectMusicFragment : DialogFragment() {
     private lateinit var viewModel: SelectMusicViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var confirmButton: MaterialButton
-    private lateinit var selectedMusicAdapter: SelectedMusicAdapter
+    private lateinit var selectedMusicAdapter: SelectMusicAdapter
     private lateinit var storage: FirebaseStorage
     private lateinit var observerMusic: Observer<List<Music>>
     private var selectedMusic: Music? = null
@@ -117,7 +116,6 @@ class SelectMusicFragment : DialogFragment() {
     private fun setSubscriber() {
         observerMusic = Observer { newsSource ->
             if (newsSource.isNotEmpty()) {
-                Log.d("qwwe", "updating")
                 bindRecyclerView(newsSource)
             }
         }
@@ -169,7 +167,7 @@ class SelectMusicFragment : DialogFragment() {
         recyclerView.setHasFixedSize(true)
         recyclerView.setItemViewCacheSize(musicList.size)
         selectedMusicAdapter =
-            SelectedMusicAdapter(
+            SelectMusicAdapter(
                 musicList.toMutableList(),
                 selectedMusic,
                 requireActivity().applicationContext

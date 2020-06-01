@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/activity_bg"
-    android:orientation="vertical"
-    android:padding="15dp"
     tools:context=".ui.relax.RelaxFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/activity_bg"
+        android:orientation="vertical"
+        android:padding="15dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -330,5 +335,45 @@
 
     </androidx.cardview.widget.CardView>
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:cardBackgroundColor="@color/card_bg"
+        app:cardCornerRadius="8dp"
+        app:cardUseCompatPadding="true">
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:background="@drawable/card_background_gradient"
+            android:orientation="vertical">
+
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:alpha="0.8"
+                android:background="@drawable/chip_gradient"
+                android:backgroundTintMode="src_over"
+                android:scaleX="0.65"
+                android:scaleY="0.65"
+                android:text="@string/music"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhiteText"
+                android:textSize="19sp"
+                app:backgroundTint="@color/colorChipTransparent" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/music_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
