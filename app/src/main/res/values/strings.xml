@@ -95,6 +95,14 @@
     <string name="thunder">Thunder</string>
     <string name="water_stream">Water stream</string>
     <string name="music">Music</string>
+    <string name="fan">Fan</string>
+    <string name="forest">Forest</string>
+    <string name="light_rain">Light rain</string>
+    <string name="medium_rain">Medium rain</string>
+    <string name="rain">Rain</string>
+    <string name="sea_waves">Sea waves</string>
+    <string name="thunder_and_wind">Thunder and wind</string>
+    <string name="thunder_rain">Thunder rain</string>
 
     <string-array name="repeat_minutes">
         <item>Never</item>

@@ -176,6 +176,43 @@ class Utils(val context: Context) {
                 )
             )
         )
+        musicList.add(
+            Music(
+                null, "Piano Zen", "piano_zen", false, TYPE_MUSIC,
+                195000
+            )
+        )
+        musicList.add(
+            Music(
+                null, "Quiet River", "quiet_river", false, TYPE_MUSIC,
+                300000
+            )
+        )
+        musicList.add(
+            Music(
+                null, "Relaxing Harp", "relaxing_harp", false, TYPE_MUSIC,
+                190000
+            )
+        )
+        musicList.add(
+            Music(
+                null, "Singing Bowl", "singing_bowl", false, TYPE_MUSIC,
+                192000
+            )
+        )
+        musicList.add(
+            Music(
+                null, "Sunrise", "sunrise", false, TYPE_MUSIC,
+                186000
+            )
+        )
+        musicList.add(
+            Music(
+                null, "Zen Spring", "zen_spring", false, TYPE_MUSIC,
+                170000
+            )
+        )
+
         return musicList
     }
 

@@ -526,6 +526,509 @@
 
                         </androidx.cardview.widget.CardView>
 
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/fan_card"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/fan"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="4dp"
+                            app:cardPreventCornerOverlap="false"
+                            app:cardUseCompatPadding="true">
+
+                            <RelativeLayout
+                                android:layout_width="140dp"
+                                android:layout_height="100dp"
+                                android:background="@drawable/fan"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/fan_check"
+                                    android:layout_width="17dp"
+                                    android:layout_height="17dp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_margin="5dp"
+                                    android:src="@drawable/checkmark"
+                                    android:visibility="gone" />
+
+                                <ImageView
+                                    android:id="@+id/fan_load"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:padding="4dp"
+                                    android:src="@drawable/download"
+                                    android:tint="@color/colorWhiteText" />
+
+                                <SeekBar
+                                    android:id="@+id/fan_seekbar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_above="@+id/fan_text"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:max="100"
+                                    android:progress="100"
+                                    android:visibility="gone" />
+
+                                <TextView
+                                    android:id="@+id/fan_text"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:fontFamily="sans-serif-light"
+                                    android:text="@string/fan"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/colorWhiteText"
+                                    android:textSize="16sp" />
+
+                            </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/forest_card"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/forest"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="4dp"
+                            app:cardPreventCornerOverlap="false"
+                            app:cardUseCompatPadding="true">
+
+                            <RelativeLayout
+                                android:layout_width="140dp"
+                                android:layout_height="100dp"
+                                android:background="@drawable/forest"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/forest_check"
+                                    android:layout_width="17dp"
+                                    android:layout_height="17dp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_margin="5dp"
+                                    android:src="@drawable/checkmark"
+                                    android:visibility="gone" />
+
+                                <ImageView
+                                    android:id="@+id/forest_load"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:padding="4dp"
+                                    android:src="@drawable/download"
+                                    android:tint="@color/colorWhiteText" />
+
+                                <SeekBar
+                                    android:id="@+id/forest_seekbar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_above="@+id/forest_text"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:max="100"
+                                    android:progress="100"
+                                    android:visibility="gone" />
+
+                                <TextView
+                                    android:id="@+id/forest_text"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:fontFamily="sans-serif-light"
+                                    android:text="@string/forest"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/colorWhiteText"
+                                    android:textSize="16sp" />
+
+                            </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/light_rain_card"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/light_rain"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="4dp"
+                            app:cardPreventCornerOverlap="false"
+                            app:cardUseCompatPadding="true">
+
+                            <RelativeLayout
+                                android:layout_width="140dp"
+                                android:layout_height="100dp"
+                                android:background="@drawable/light_rain"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/light_rain_check"
+                                    android:layout_width="17dp"
+                                    android:layout_height="17dp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_margin="5dp"
+                                    android:src="@drawable/checkmark"
+                                    android:visibility="gone" />
+
+                                <ImageView
+                                    android:id="@+id/light_rain_load"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:padding="4dp"
+                                    android:src="@drawable/download"
+                                    android:tint="@color/colorWhiteText" />
+
+                                <SeekBar
+                                    android:id="@+id/light_rain_seekbar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_above="@+id/light_rain_text"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:max="100"
+                                    android:progress="100"
+                                    android:visibility="gone" />
+
+                                <TextView
+                                    android:id="@+id/light_rain_text"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:fontFamily="sans-serif-light"
+                                    android:text="@string/light_rain"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/colorWhiteText"
+                                    android:textSize="16sp" />
+
+                            </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/medium_rain_card"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/medium_rain"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="4dp"
+                            app:cardPreventCornerOverlap="false"
+                            app:cardUseCompatPadding="true">
+
+                            <RelativeLayout
+                                android:layout_width="140dp"
+                                android:layout_height="100dp"
+                                android:background="@drawable/medium_rain"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/medium_rain_check"
+                                    android:layout_width="17dp"
+                                    android:layout_height="17dp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_margin="5dp"
+                                    android:src="@drawable/checkmark"
+                                    android:visibility="gone" />
+
+                                <ImageView
+                                    android:id="@+id/medium_rain_load"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:padding="4dp"
+                                    android:src="@drawable/download"
+                                    android:tint="@color/colorWhiteText" />
+
+                                <SeekBar
+                                    android:id="@+id/medium_rain_seekbar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_above="@+id/medium_rain_text"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:max="100"
+                                    android:progress="100"
+                                    android:visibility="gone" />
+
+                                <TextView
+                                    android:id="@+id/medium_rain_text"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:fontFamily="sans-serif-light"
+                                    android:text="@string/medium_rain"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/colorWhiteText"
+                                    android:textSize="16sp" />
+
+                            </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/rain_card"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rain"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="4dp"
+                            app:cardPreventCornerOverlap="false"
+                            app:cardUseCompatPadding="true">
+
+                            <RelativeLayout
+                                android:layout_width="140dp"
+                                android:layout_height="100dp"
+                                android:background="@drawable/rain"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/rain_check"
+                                    android:layout_width="17dp"
+                                    android:layout_height="17dp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_margin="5dp"
+                                    android:src="@drawable/checkmark"
+                                    android:visibility="gone" />
+
+                                <ImageView
+                                    android:id="@+id/rain_load"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:padding="4dp"
+                                    android:src="@drawable/download"
+                                    android:tint="@color/colorWhiteText" />
+
+                                <SeekBar
+                                    android:id="@+id/rain_seekbar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_above="@+id/rain_text"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:max="100"
+                                    android:progress="100"
+                                    android:visibility="gone" />
+
+                                <TextView
+                                    android:id="@+id/rain_text"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:fontFamily="sans-serif-light"
+                                    android:text="@string/rain"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/colorWhiteText"
+                                    android:textSize="16sp" />
+
+                            </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/sea_waves_card"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/sea_waves"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="4dp"
+                            app:cardPreventCornerOverlap="false"
+                            app:cardUseCompatPadding="true">
+
+                            <RelativeLayout
+                                android:layout_width="140dp"
+                                android:layout_height="100dp"
+                                android:background="@drawable/sea_waves"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/sea_waves_check"
+                                    android:layout_width="17dp"
+                                    android:layout_height="17dp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_margin="5dp"
+                                    android:src="@drawable/checkmark"
+                                    android:visibility="gone" />
+
+                                <ImageView
+                                    android:id="@+id/sea_waves_load"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:padding="4dp"
+                                    android:src="@drawable/download"
+                                    android:tint="@color/colorWhiteText" />
+
+                                <SeekBar
+                                    android:id="@+id/sea_waves_seekbar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_above="@+id/sea_waves_text"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:max="100"
+                                    android:progress="100"
+                                    android:visibility="gone" />
+
+                                <TextView
+                                    android:id="@+id/sea_waves_text"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:fontFamily="sans-serif-light"
+                                    android:text="@string/sea_waves"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/colorWhiteText"
+                                    android:textSize="16sp" />
+
+                            </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/thunder_and_wind_card"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/thunder_and_wind"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="4dp"
+                            app:cardPreventCornerOverlap="false"
+                            app:cardUseCompatPadding="true">
+
+                            <RelativeLayout
+                                android:layout_width="140dp"
+                                android:layout_height="100dp"
+                                android:background="@drawable/thunder_and_wind"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/thunder_and_wind_check"
+                                    android:layout_width="17dp"
+                                    android:layout_height="17dp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_margin="5dp"
+                                    android:src="@drawable/checkmark"
+                                    android:visibility="gone" />
+
+                                <ImageView
+                                    android:id="@+id/thunder_and_wind_load"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:padding="4dp"
+                                    android:src="@drawable/download"
+                                    android:tint="@color/colorWhiteText" />
+
+                                <SeekBar
+                                    android:id="@+id/thunder_and_wind_seekbar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_above="@+id/thunder_and_wind_text"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:max="100"
+                                    android:progress="100"
+                                    android:visibility="gone" />
+
+                                <TextView
+                                    android:id="@+id/thunder_and_wind_text"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:fontFamily="sans-serif-light"
+                                    android:text="@string/thunder_and_wind"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/colorWhiteText"
+                                    android:textSize="16sp" />
+
+                            </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/thunder_rain_card"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/thunder_rain"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="4dp"
+                            app:cardPreventCornerOverlap="false"
+                            app:cardUseCompatPadding="true">
+
+                            <RelativeLayout
+                                android:layout_width="140dp"
+                                android:layout_height="100dp"
+                                android:background="@drawable/thunder_rain"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/thunder_rain_check"
+                                    android:layout_width="17dp"
+                                    android:layout_height="17dp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_margin="5dp"
+                                    android:src="@drawable/checkmark"
+                                    android:visibility="gone" />
+
+                                <ImageView
+                                    android:id="@+id/thunder_rain_load"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:padding="4dp"
+                                    android:src="@drawable/download"
+                                    android:tint="@color/colorWhiteText" />
+
+                                <SeekBar
+                                    android:id="@+id/thunder_rain_seekbar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_above="@+id/thunder_rain_text"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:max="100"
+                                    android:progress="100"
+                                    android:visibility="gone" />
+
+                                <TextView
+                                    android:id="@+id/thunder_rain_text"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:fontFamily="sans-serif-light"
+                                    android:text="@string/thunder_rain"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/colorWhiteText"
+                                    android:textSize="16sp" />
+
+                            </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
                     </GridLayout>
                 </androidx.core.widget.NestedScrollView>
 

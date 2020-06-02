@@ -13,6 +13,7 @@ import com.mindyapps.slimbo.R
 import com.mindyapps.slimbo.RecorderService
 import com.mindyapps.slimbo.data.model.Music
 import com.mindyapps.slimbo.preferences.AlarmStore
+import com.mindyapps.slimbo.ui.sleeping.SleepingActivity.Companion.FROM_ALARM
 
 
 class AlarmActivity : AppCompatActivity() {
@@ -30,6 +31,7 @@ class AlarmActivity : AppCompatActivity() {
 
         val stopIntent = Intent(this, RecorderService::class.java)
         stopIntent.action = RecorderService.STOP_ACTION
+        stopIntent.putExtra(FROM_ALARM, true)
         startService(stopIntent)
 
         alarmStore = AlarmStore(

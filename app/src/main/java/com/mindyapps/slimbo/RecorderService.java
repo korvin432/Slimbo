@@ -36,6 +36,7 @@ import java.util.List;
 
 import static com.mindyapps.slimbo.ui.sleeping.SleepingActivity.AUDIO_RECORDS;
 import static com.mindyapps.slimbo.ui.sleeping.SleepingActivity.END_TIME;
+import static com.mindyapps.slimbo.ui.sleeping.SleepingActivity.FROM_ALARM;
 import static com.mindyapps.slimbo.ui.sleeping.SleepingActivity.SELECTED_FACTORS;
 import static com.mindyapps.slimbo.ui.sleeping.SleepingActivity.START_TIME;
 
@@ -117,6 +118,7 @@ public class RecorderService extends Service {
             sleepingIntent.putExtra(SELECTED_FACTORS, factors);
             sleepingIntent.putExtra(AUDIO_RECORDS, audioRecords);
             sleepingIntent.putExtra(START_TIME, startSleepingTime);
+            sleepingIntent.putExtra(FROM_ALARM, intent.getBooleanExtra(FROM_ALARM, false));
             sleepingIntent.putExtra(END_TIME, System.currentTimeMillis());
             LocalBroadcastManager.getInstance(this).sendBroadcast(sleepingIntent);
             stopForeground(true);

@@ -31,8 +31,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:gravity="center_vertical"
+        android:paddingHorizontal="5dp"
         android:visibility="gone"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
         <ImageView
             android:id="@+id/image_download"
@@ -46,8 +47,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorWhiteText"
-            android:layout_marginStart="10dp"
-            android:text="dsgsdg"/>
+            android:layout_marginStart="15dp"
+            android:textSize="17sp"/>
     </LinearLayout>
 
 

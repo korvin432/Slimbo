@@ -37,6 +37,7 @@ class RelaxFragment : Fragment(), View.OnClickListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var musicAdapter: RelaxMusicAdapter
     private lateinit var storage: FirebaseStorage
+    private lateinit var storagePath: File
     private lateinit var observerMusic: Observer<List<Music>>
     var player: MediaPlayer? = null
 
@@ -49,12 +50,24 @@ class RelaxFragment : Fragment(), View.OnClickListener {
     var streetNoisePlayer: MediaPlayer? = null
     var thunderPlayer: MediaPlayer? = null
     var waterStreamPlayer: MediaPlayer? = null
-
-    var playersList: List<MediaPlayer> = LinkedList()
+    var fanPlayer: MediaPlayer? = null
+    var forestPlayer: MediaPlayer? = null
+    var lightRainPlayer: MediaPlayer? = null
+    var mediumRainPlayer: MediaPlayer? = null
+    var rainPlayer: MediaPlayer? = null
+    var seaWavesPlayer: MediaPlayer? = null
+    var thunderAndWindPlayer: MediaPlayer? = null
+    var thunderRainLoadPlayer: MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         storage = Firebase.storage
+
+        storagePath = File(requireContext().externalCacheDir!!.absolutePath, "Music")
+        if (!storagePath.exists()) {
+            storagePath.mkdirs()
+        }
+
     }
 
     override fun onCreateView(
@@ -78,7 +91,9 @@ class RelaxFragment : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         setSubscriber()
         setUpPlayers()
+        checkLoadedFiles()
 
+        //free play buttons
         birds_card.setOnClickListener(this)
         cricket_card.setOnClickListener(this)
         nature_sounds_card.setOnClickListener(this)
@@ -88,6 +103,7 @@ class RelaxFragment : Fragment(), View.OnClickListener {
         street_noise_card.setOnClickListener(this)
         thunder_card.setOnClickListener(this)
         water_stream_card.setOnClickListener(this)
+
     }
 
     private fun setSubscriber() {
@@ -117,20 +133,71 @@ class RelaxFragment : Fragment(), View.OnClickListener {
         }
     }
 
+    private fun checkLoadedFiles() {
+        val storagePath = File(requireContext().externalCacheDir!!.absolutePath, "Music")
+        if (!storagePath.exists()) storagePath.mkdirs()
+
+        if (File(storagePath, "fan.mp3").exists()) {
+            fan_load.visibility = View.GONE
+            fan_card.setOnClickListener(this)
+        } else {
+            fan_card.setOnClickListener { downloadFile("fan.mp3") }
+        }
+        if (File(storagePath, "forest.mp3").exists()) {
+            forest_load.visibility = View.GONE
+            forest_card.setOnClickListener(this)
+        } else {
+            forest_card.setOnClickListener { downloadFile("forest.mp3") }
+        }
+        if (File(storagePath, "light_rain.mp3").exists()) {
+            light_rain_load.visibility = View.GONE
+            light_rain_card.setOnClickListener(this)
+        } else {
+            light_rain_card.setOnClickListener { downloadFile("light_rain.mp3") }
+        }
+        if (File(storagePath, "medium_rain.mp3").exists()) {
+            medium_rain_load.visibility = View.GONE
+            medium_rain_card.setOnClickListener(this)
+        } else {
+            medium_rain_card.setOnClickListener { downloadFile("medium_rain.mp3") }
+        }
+        if (File(storagePath, "rain.mp3").exists()) {
+            rain_load.visibility = View.GONE
+            rain_card.setOnClickListener(this)
+        } else {
+            rain_card.setOnClickListener { downloadFile("rain.mp3") }
+        }
+        if (File(storagePath, "sea_waves.mp3").exists()) {
+            sea_waves_load.visibility = View.GONE
+            sea_waves_card.setOnClickListener(this)
+        } else {
+            sea_waves_card.setOnClickListener { downloadFile("sea_waves.mp3") }
+        }
+        if (File(storagePath, "thunder_and_wind.mp3").exists()) {
+            thunder_and_wind_load.visibility = View.GONE
+            thunder_and_wind_card.setOnClickListener(this)
+        } else {
+            thunder_and_wind_card.setOnClickListener { downloadFile("thunder_and_wind.mp3") }
+        }
+        if (File(storagePath, "thunder_rain.mp3").exists()) {
+            thunder_rain_load.visibility = View.GONE
+            thunder_rain_card.setOnClickListener(this)
+        } else {
+            thunder_rain_card.setOnClickListener { downloadFile("thunder_rain.mp3") }
+        }
+    }
+
     private fun downloadFile(fileName: String) {
         Toast.makeText(requireContext(), getString(R.string.downloading), Toast.LENGTH_SHORT).show()
         val gsReference =
             storage.getReferenceFromUrl("gs://slimbo-9b6a7.appspot.com/$fileName")
 
-        val storagePath = File(requireContext().externalCacheDir!!.absolutePath, "Music")
-        if (!storagePath.exists()) {
-            storagePath.mkdirs()
-        }
-
         val myFile = File(storagePath, fileName)
 
         gsReference.getFile(myFile).addOnSuccessListener {
             setSubscriber()
+            checkLoadedFiles()
+            setUpPaidPlayers()
         }.addOnFailureListener {
             Toast.makeText(requireContext(), getString(R.string.error), Toast.LENGTH_SHORT).show()
         }
@@ -217,16 +284,40 @@ class RelaxFragment : Fragment(), View.OnClickListener {
                 "water_stream", "raw", requireContext().packageName
             )
         )
+        setUpPaidPlayers()
+    }
+
+    private fun setUpPaidPlayers() {
+        fanPlayer = MediaPlayer.create(context, Uri.parse(File(storagePath, "fan.mp3").path))
+        forestPlayer = MediaPlayer.create(context, Uri.parse(File(storagePath, "forest.mp3").path))
+        lightRainPlayer =
+            MediaPlayer.create(context, Uri.parse(File(storagePath, "light_rain.mp3").path))
+        mediumRainPlayer =
+            MediaPlayer.create(context, Uri.parse(File(storagePath, "medium_rain.mp3").path))
+        rainPlayer = MediaPlayer.create(context, Uri.parse(File(storagePath, "rain.mp3").path))
+        seaWavesPlayer =
+            MediaPlayer.create(context, Uri.parse(File(storagePath, "sea_waves.mp3").path))
+        thunderAndWindPlayer =
+            MediaPlayer.create(context, Uri.parse(File(storagePath, "thunder_and_wind.mp3").path))
+        thunderRainLoadPlayer =
+            MediaPlayer.create(context, Uri.parse(File(storagePath, "thunder_rain.mp3").path))
     }
 
     private fun startPlaying(check: View, seekBar: SeekBar, resId: String, player: MediaPlayer) {
-        val mediaPath = Uri.parse(
-            "android.resource://" + requireContext().packageName + "/" + requireContext().resources.getIdentifier(
-                resId, "raw", requireContext().packageName
+        val mediaPath: Uri?
+
+        mediaPath = if (!resId.contains(".mp3")) {
+            Uri.parse(
+                "android.resource://" + requireContext().packageName + "/" + requireContext().resources.getIdentifier(
+                    resId, "raw", requireContext().packageName
+                )
             )
-        )
+        } else {
+            val audioFile = File(storagePath, resId)
+            Uri.parse(audioFile.path)
+        }
         player.reset()
-        player.setDataSource(requireContext(), mediaPath)
+        player.setDataSource(requireContext(), mediaPath!!)
         player.prepare()
         player.isLooping = true
         player.start()
@@ -251,7 +342,6 @@ class RelaxFragment : Fragment(), View.OnClickListener {
         seekBar.progress = 100
         player.stop()
     }
-
 
     override fun onClick(view: View?) {
         when (view?.id) {
@@ -350,6 +440,95 @@ class RelaxFragment : Fragment(), View.OnClickListener {
                     )
                 } else {
                     endPlaying(water_stream_check, water_stream_seekbar, waterStreamPlayer!!)
+                }
+            }
+            R.id.fan_card -> {
+                if (!fanPlayer!!.isPlaying) {
+                    startPlaying(fan_check, fan_seekbar, "fan.mp3", fanPlayer!!)
+                } else {
+                    endPlaying(fan_check, fan_seekbar, fanPlayer!!)
+                }
+            }
+            R.id.forest_card -> {
+                if (!forestPlayer!!.isPlaying) {
+                    startPlaying(forest_check, forest_seekbar, "forest.mp3", forestPlayer!!)
+                } else {
+                    endPlaying(forest_check, forest_seekbar, forestPlayer!!)
+                }
+            }
+            R.id.light_rain_card -> {
+                if (!lightRainPlayer!!.isPlaying) {
+                    startPlaying(
+                        light_rain_check,
+                        light_rain_seekbar,
+                        "light_rain.mp3",
+                        lightRainPlayer!!
+                    )
+                } else {
+                    endPlaying(light_rain_check, light_rain_seekbar, lightRainPlayer!!)
+                }
+            }
+            R.id.medium_rain_card -> {
+                if (!mediumRainPlayer!!.isPlaying) {
+                    startPlaying(
+                        medium_rain_check,
+                        medium_rain_seekbar,
+                        "medium_rain.mp3",
+                        mediumRainPlayer!!
+                    )
+                } else {
+                    endPlaying(medium_rain_check, medium_rain_seekbar, mediumRainPlayer!!)
+                }
+            }
+            R.id.rain_card -> {
+                if (!rainPlayer!!.isPlaying) {
+                    startPlaying(rain_check, rain_seekbar, "rain.mp3", rainPlayer!!)
+                } else {
+                    endPlaying(rain_check, rain_seekbar, rainPlayer!!)
+                }
+            }
+            R.id.sea_waves_card -> {
+                if (!seaWavesPlayer!!.isPlaying) {
+                    startPlaying(
+                        sea_waves_check,
+                        sea_waves_seekbar,
+                        "sea_waves.mp3",
+                        seaWavesPlayer!!
+                    )
+                } else {
+                    endPlaying(sea_waves_check, sea_waves_seekbar, seaWavesPlayer!!)
+                }
+            }
+            R.id.thunder_and_wind_card -> {
+                if (!thunderAndWindPlayer!!.isPlaying) {
+                    startPlaying(
+                        thunder_and_wind_check,
+                        thunder_and_wind_seekbar,
+                        "thunder_and_wind.mp3",
+                        thunderAndWindPlayer!!
+                    )
+                } else {
+                    endPlaying(
+                        thunder_and_wind_check,
+                        thunder_and_wind_seekbar,
+                        thunderAndWindPlayer!!
+                    )
+                }
+            }
+            R.id.thunder_rain_card -> {
+                if (!thunderRainLoadPlayer!!.isPlaying) {
+                    startPlaying(
+                        thunder_rain_check,
+                        thunder_rain_seekbar,
+                        "thunder_rain.mp3",
+                        thunderRainLoadPlayer!!
+                    )
+                } else {
+                    endPlaying(
+                        thunder_rain_check,
+                        thunder_rain_seekbar,
+                        thunderRainLoadPlayer!!
+                    )
                 }
             }
         }

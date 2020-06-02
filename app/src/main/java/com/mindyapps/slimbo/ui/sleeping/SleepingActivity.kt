@@ -19,7 +19,6 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceManager
@@ -37,7 +36,6 @@ import com.mindyapps.slimbo.data.model.Music
 import com.mindyapps.slimbo.data.model.Recording
 import com.mindyapps.slimbo.data.repository.SlimboRepositoryImpl
 import com.mindyapps.slimbo.preferences.SleepingStore
-import com.mindyapps.slimbo.ui.recording.RecordingFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -87,10 +85,6 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
         duration = intent.getStringExtra("duration")
         factors = intent.getParcelableArrayListExtra("factors")
 
-        if (factors != null) {
-            Log.d("qwwe", "factors: ${factors}")
-        }
-
         if (music != null && music!!.name != getString(R.string.do_not_use) && !sleepingStore.isWorking) {
             musicText.text = music!!.name
             ripplePulseLayout.visibility = View.VISIBLE
@@ -137,9 +131,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
                         intent.getLongExtra(START_TIME, 0)
                     )
 
-                    Log.d("qwwe", "recording: $recording")
-
-                    if (openDetails) {
+                    if (openDetails || intent.getBooleanExtra(FROM_ALARM, false)) {
                         openRecording(recording)
                     }
                     LocalBroadcastManager.getInstance(context!!)
@@ -155,7 +147,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
             val slimboDao = SlimboDatabase.getDatabase(application).slimboDao()
             val id = repository.insertRecording(slimboDao, recording).toInt()
 
-            withContext(Main){
+            withContext(Main) {
                 newRec = Recording(
                     id,
                     recording.recordings,
@@ -270,6 +262,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
         const val AUDIO_RECORDS = "AUDIO_RECORDS"
         const val START_TIME = "START_TIME"
         const val END_TIME = "END_TIME"
+        const val FROM_ALARM = "from_alarm"
     }
 
     override fun onTouch(p0: View?, event: MotionEvent?): Boolean {
