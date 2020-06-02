@@ -111,6 +111,7 @@
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/cricket_card"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/cricket"
@@ -162,6 +163,7 @@
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/nature_sounds_card"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/nature_sounds"
@@ -213,6 +215,7 @@
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/pink_noise_card"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/pink_noise"
@@ -246,6 +249,7 @@
                                     android:max="100"
                                     android:progress="100"
                                     android:visibility="gone" />
+
                                 <TextView
                                     android:id="@+id/pink_noise_text"
                                     android:layout_width="match_parent"
@@ -263,6 +267,7 @@
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/rain_in_a_car_card"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/rain_in_a_car"
@@ -287,7 +292,18 @@
                                     android:src="@drawable/checkmark"
                                     android:visibility="gone" />
 
+                                <SeekBar
+                                    android:id="@+id/rain_in_a_car_seekbar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_above="@+id/rain_in_a_car_text"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:max="100"
+                                    android:progress="100"
+                                    android:visibility="gone" />
+
                                 <TextView
+                                    android:id="@+id/rain_in_a_car_text"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentBottom="true"
@@ -303,6 +319,7 @@
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/rain_on_the_roof_card"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/rain_on_the_roof"
@@ -327,7 +344,18 @@
                                     android:src="@drawable/checkmark"
                                     android:visibility="gone" />
 
+                                <SeekBar
+                                    android:id="@+id/rain_on_the_roof_seekbar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_above="@+id/rain_on_the_roof_text"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:max="100"
+                                    android:progress="100"
+                                    android:visibility="gone" />
+
                                 <TextView
+                                    android:id="@+id/rain_on_the_roof_text"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentBottom="true"
@@ -343,6 +371,7 @@
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/street_noise_card"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/street_noise"
@@ -367,7 +396,18 @@
                                     android:src="@drawable/checkmark"
                                     android:visibility="gone" />
 
+                                <SeekBar
+                                    android:id="@+id/street_noise_seekbar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_above="@+id/street_noise_text"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:max="100"
+                                    android:progress="100"
+                                    android:visibility="gone" />
+
                                 <TextView
+                                    android:id="@+id/street_noise_text"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentBottom="true"
@@ -383,6 +423,7 @@
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/thunder_card"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/thunder"
@@ -407,7 +448,18 @@
                                     android:src="@drawable/checkmark"
                                     android:visibility="gone" />
 
+                                <SeekBar
+                                    android:id="@+id/thunder_seekbar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_above="@+id/thunder_text"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:max="100"
+                                    android:progress="100"
+                                    android:visibility="gone" />
+
                                 <TextView
+                                    android:id="@+id/thunder_text"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentBottom="true"
@@ -423,6 +475,7 @@
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/water_stream_card"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/water_stream"
@@ -447,7 +500,18 @@
                                     android:src="@drawable/checkmark"
                                     android:visibility="gone" />
 
+                                <SeekBar
+                                    android:id="@+id/water_stream_seekbar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_above="@+id/water_stream_text"
+                                    android:background="@color/colorCardTitleBackground"
+                                    android:max="100"
+                                    android:progress="100"
+                                    android:visibility="gone" />
+
                                 <TextView
+                                    android:id="@+id/water_stream_text"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentBottom="true"

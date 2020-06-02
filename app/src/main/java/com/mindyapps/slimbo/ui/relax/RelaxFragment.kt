@@ -3,7 +3,6 @@ package com.mindyapps.slimbo.ui.relax
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -78,8 +77,17 @@ class RelaxFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setSubscriber()
+        setUpPlayers()
 
         birds_card.setOnClickListener(this)
+        cricket_card.setOnClickListener(this)
+        nature_sounds_card.setOnClickListener(this)
+        pink_noise_card.setOnClickListener(this)
+        rain_in_a_car_card.setOnClickListener(this)
+        rain_on_the_roof_card.setOnClickListener(this)
+        street_noise_card.setOnClickListener(this)
+        thunder_card.setOnClickListener(this)
+        water_stream_card.setOnClickListener(this)
     }
 
     private fun setSubscriber() {
@@ -163,38 +171,186 @@ class RelaxFragment : Fragment(), View.OnClickListener {
         }
     }
 
+    private fun setUpPlayers() {
+        birdsPlayer = MediaPlayer.create(
+            context, requireContext().resources.getIdentifier(
+                "birds", "raw", requireContext().packageName
+            )
+        )
+        cricketPlayer = MediaPlayer.create(
+            context, requireContext().resources.getIdentifier(
+                "cricket", "raw", requireContext().packageName
+            )
+        )
+        natureSoundsPlayer = MediaPlayer.create(
+            context, requireContext().resources.getIdentifier(
+                "nature_sounds", "raw", requireContext().packageName
+            )
+        )
+        pinkNoisePlayer = MediaPlayer.create(
+            context, requireContext().resources.getIdentifier(
+                "pink_noise", "raw", requireContext().packageName
+            )
+        )
+        rainInCarPlayer = MediaPlayer.create(
+            context, requireContext().resources.getIdentifier(
+                "rain_in_a_car", "raw", requireContext().packageName
+            )
+        )
+        rainOnTheRoofPlayer = MediaPlayer.create(
+            context, requireContext().resources.getIdentifier(
+                "rain_on_the_roof", "raw", requireContext().packageName
+            )
+        )
+        streetNoisePlayer = MediaPlayer.create(
+            context, requireContext().resources.getIdentifier(
+                "street_noise", "raw", requireContext().packageName
+            )
+        )
+        thunderPlayer = MediaPlayer.create(
+            context, requireContext().resources.getIdentifier(
+                "thunder", "raw", requireContext().packageName
+            )
+        )
+        waterStreamPlayer = MediaPlayer.create(
+            context, requireContext().resources.getIdentifier(
+                "water_stream", "raw", requireContext().packageName
+            )
+        )
+    }
+
+    private fun startPlaying(check: View, seekBar: SeekBar, resId: String, player: MediaPlayer) {
+        val mediaPath = Uri.parse(
+            "android.resource://" + requireContext().packageName + "/" + requireContext().resources.getIdentifier(
+                resId, "raw", requireContext().packageName
+            )
+        )
+        player.reset()
+        player.setDataSource(requireContext(), mediaPath)
+        player.prepare()
+        player.isLooping = true
+        player.start()
+        check.visibility = View.VISIBLE
+        seekBar.visibility = View.VISIBLE
+        seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, b: Boolean) {
+                val volume = (1 - ln((100 - progress).toDouble()) / ln(
+                    100.toDouble()
+                )).toFloat()
+                player.setVolume(volume, volume)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+        })
+    }
+
+    private fun endPlaying(check: View, seekBar: SeekBar, player: MediaPlayer) {
+        check.visibility = View.GONE
+        seekBar.visibility = View.GONE
+        seekBar.progress = 100
+        player.stop()
+    }
+
+
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.birds_card -> {
-                if (birdsPlayer == null) {
-                    val resID = requireContext().resources.getIdentifier(
-                        "birds", "raw", requireContext().packageName
-                    )
-                    birdsPlayer = MediaPlayer.create(context, resID)
-                    birdsPlayer!!.isLooping = true
-                    birdsPlayer!!.start()
-
-                    birds_check.visibility = View.VISIBLE
-                    birds_seekbar.visibility = View.VISIBLE
-
-                    birds_seekbar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
-                        override fun onProgressChanged(seekBar: SeekBar, progress: Int, b: Boolean) {
-                            val volume = (1 - ln((100 - progress).toDouble()) / ln(
-                                    100.toDouble())).toFloat()
-                            birdsPlayer!!.setVolume(volume, volume)
-                        }
-                        override fun onStartTrackingTouch(seekBar: SeekBar) {}
-                        override fun onStopTrackingTouch(seekBar: SeekBar) {}
-                    })
-
+                if (!birdsPlayer!!.isPlaying) {
+                    startPlaying(birds_check, birds_seekbar, "birds", birdsPlayer!!)
                 } else {
-                    birds_check.visibility = View.GONE
-                    birds_seekbar.visibility = View.GONE
-                    birds_seekbar.progress = 100
-                    birdsPlayer!!.stop()
-                    birdsPlayer = null
+                    endPlaying(birds_check, birds_seekbar, birdsPlayer!!)
                 }
-
+            }
+            R.id.cricket_card -> {
+                if (!cricketPlayer!!.isPlaying) {
+                    startPlaying(cricket_check, cricket_seekbar, "cricket", cricketPlayer!!)
+                } else {
+                    endPlaying(cricket_check, cricket_seekbar, cricketPlayer!!)
+                }
+            }
+            R.id.nature_sounds_card -> {
+                if (!natureSoundsPlayer!!.isPlaying) {
+                    startPlaying(
+                        nature_sounds_check,
+                        nature_sounds_seekbar,
+                        "nature_sounds",
+                        natureSoundsPlayer!!
+                    )
+                } else {
+                    endPlaying(nature_sounds_check, nature_sounds_seekbar, natureSoundsPlayer!!)
+                }
+            }
+            R.id.pink_noise_card -> {
+                if (!pinkNoisePlayer!!.isPlaying) {
+                    startPlaying(
+                        pink_noise_check,
+                        pink_noise_seekbar,
+                        "pink_noise",
+                        pinkNoisePlayer!!
+                    )
+                } else {
+                    endPlaying(pink_noise_check, pink_noise_seekbar, pinkNoisePlayer!!)
+                }
+            }
+            R.id.rain_in_a_car_card -> {
+                if (!rainInCarPlayer!!.isPlaying) {
+                    startPlaying(
+                        rain_in_a_car_check,
+                        rain_in_a_car_seekbar,
+                        "rain_in_a_car",
+                        rainInCarPlayer!!
+                    )
+                } else {
+                    endPlaying(rain_in_a_car_check, rain_in_a_car_seekbar, rainInCarPlayer!!)
+                }
+            }
+            R.id.rain_on_the_roof_card -> {
+                if (!rainOnTheRoofPlayer!!.isPlaying) {
+                    startPlaying(
+                        rain_on_the_roof_check,
+                        rain_on_the_roof_seekbar,
+                        "rain_on_the_roof",
+                        rainOnTheRoofPlayer!!
+                    )
+                } else {
+                    endPlaying(
+                        rain_on_the_roof_check,
+                        rain_on_the_roof_seekbar,
+                        rainOnTheRoofPlayer!!
+                    )
+                }
+            }
+            R.id.street_noise_card -> {
+                if (!streetNoisePlayer!!.isPlaying) {
+                    startPlaying(
+                        street_noise_check,
+                        street_noise_seekbar,
+                        "street_noise",
+                        streetNoisePlayer!!
+                    )
+                } else {
+                    endPlaying(street_noise_check, street_noise_seekbar, streetNoisePlayer!!)
+                }
+            }
+            R.id.thunder_card -> {
+                if (!thunderPlayer!!.isPlaying) {
+                    startPlaying(thunder_check, thunder_seekbar, "thunder", thunderPlayer!!)
+                } else {
+                    endPlaying(thunder_check, thunder_seekbar, thunderPlayer!!)
+                }
+            }
+            R.id.water_stream_card -> {
+                if (!waterStreamPlayer!!.isPlaying) {
+                    startPlaying(
+                        water_stream_check,
+                        water_stream_seekbar,
+                        "water_stream",
+                        waterStreamPlayer!!
+                    )
+                } else {
+                    endPlaying(water_stream_check, water_stream_seekbar, waterStreamPlayer!!)
+                }
             }
         }
     }
