@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, SleepingActivity::class.java))
         }
 
-        if (intent.getParcelableExtra<Recording>("recording") != null){
+        if (intent.getParcelableExtra<Recording>("recording") != null) {
             recording = intent.getParcelableExtra("recording")
         }
     }
@@ -52,7 +52,13 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
 
         val navGraphIds =
-            listOf(R.navigation.sleep, R.navigation.history, R.navigation.relax, R.navigation.more)
+            listOf(
+                R.navigation.sleep,
+                R.navigation.history,
+                R.navigation.statistics,
+                R.navigation.relax,
+                R.navigation.more
+            )
 
         val controller = bottomNavigationView.setupWithNavController(
             navGraphIds = navGraphIds,

@@ -24,11 +24,11 @@ class SlimboRepositoryImpl : SlimboRepository {
         return slimboDao.getAlarms()
     }
 
-    override fun insertRecording(slimboDao: SlimboDao, recording: Recording): Long{
+    override fun insertRecording(slimboDao: SlimboDao, recording: Recording): Long {
         return slimboDao.insertRecording(recording)
     }
 
-    override fun updateRecording(slimboDao: SlimboDao, recId: Int, newRating: Int){
+    override fun updateRecording(slimboDao: SlimboDao, recId: Int, newRating: Int) {
         return slimboDao.updateRecording(recId, newRating)
     }
 
@@ -38,5 +38,11 @@ class SlimboRepositoryImpl : SlimboRepository {
 
     override fun getAllRecordings(slimboDao: SlimboDao): LiveData<List<Recording>> {
         return slimboDao.getAllRecordings()
+    }
+
+    override fun getRecordingsBetween(
+        slimboDao: SlimboDao, startTime: Long, endTime: Long
+    ): LiveData<List<Recording>> {
+        return slimboDao.getRecordingsBetween(startTime, endTime)
     }
 }

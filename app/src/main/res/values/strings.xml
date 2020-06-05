@@ -103,7 +103,13 @@
     <string name="sea_waves">Sea waves</string>
     <string name="thunder_and_wind">Thunder and wind</string>
     <string name="thunder_rain">Thunder rain</string>
-
+    <string name="title_statistics">Statistics</string>
+    <string name="day">Day</string>
+    <string name="week">Week</string>
+    <string name="month">Month</string>
+    <string name="all">All</string>
+    <string name="snore_frequency">Snore frequency</string>
+    <string name="year">Year</string>
     <string-array name="repeat_minutes">
         <item>Never</item>
         <item>5</item>
@@ -111,5 +117,15 @@
         <item>15</item>
         <item>20</item>
         <item>30</item>
+    </string-array>
+
+    <string-array name="days_of_week">
+        <item>mon</item>
+        <item>tue</item>
+        <item>wed</item>
+        <item>thu</item>
+        <item>fri</item>
+        <item>sat</item>
+        <item>sun</item>
     </string-array>
 </resources>

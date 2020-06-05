@@ -15,4 +15,9 @@ interface SlimboRepository {
     fun updateRecording(slimboDao: SlimboDao, recId: Int, newRating: Int)
     fun getRecording(slimboDao: SlimboDao, recId: Int): LiveData<Recording>
     fun getAllRecordings(slimboDao: SlimboDao): LiveData<List<Recording>>
+    fun getRecordingsBetween(
+        slimboDao: SlimboDao,
+        startTime: Long,
+        endTime: Long
+    ): LiveData<List<Recording>>
 }
