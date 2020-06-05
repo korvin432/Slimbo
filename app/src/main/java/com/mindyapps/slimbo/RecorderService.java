@@ -5,6 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -15,6 +16,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
@@ -68,6 +70,8 @@ public class RecorderService extends Service {
     private ArrayList<com.mindyapps.slimbo.data.model.AudioRecord> audioRecords = new ArrayList<>();
     private long startSleepingTime;
 
+    private PowerManager.WakeLock wakeLock;
+
     public RecorderService() {
     }
 
@@ -82,6 +86,12 @@ public class RecorderService extends Service {
         sleepingStore = new SleepingStore(PreferenceManager
                 .getDefaultSharedPreferences(getApplicationContext()));
         selectedSignal = new Gson().fromJson(sleepingStore.getAntiSnoreSound(), Music.class);
+
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        if (pm != null) {
+            wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, getClass().getCanonicalName());
+        }
+        wakeLock.acquire();
     }
 
     @Override
@@ -144,6 +154,9 @@ public class RecorderService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (wakeLock.isHeld()){
+            wakeLock.release();
+        }
         if (timeHandler != null) {
             timeHandler.removeCallbacks(minTimeTask);
             signalHandler.removeCallbacks(stopPlayerTask);
@@ -163,6 +176,10 @@ public class RecorderService extends Service {
     }
 
     public void arm() {
+
+
+        // Get the minimum buffer size required for the successful creation of an AudioRecord object.
+        android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_AUDIO);
         // Get the minimum buffer size required for the successful creation of an AudioRecord object.
         int bufferSizeInBytes = AudioRecord.getMinBufferSize(RECORDER_SAMPLERATE, RECORDER_CHANNELS,
                 RECORDER_AUDIO_ENCODING);
@@ -186,180 +203,189 @@ public class RecorderService extends Service {
 
         // While data come from microphone.
         while (isActive) {
+            synchronized (this) {
+                float totalAbsValue = 0.0f;
+                short sample = 0;
 
-            float totalAbsValue = 0.0f;
-            short sample = 0;
+                numberOfReadBytes = audioRecorder.read(audioBuffer, 0, bufferSizeInBytes);
 
-            numberOfReadBytes = audioRecorder.read(audioBuffer, 0, bufferSizeInBytes);
-
-            // Analyze Sound.
-            for (int i = 0; i < bufferSizeInBytes; i += 2) {
-                sample = (short) ((audioBuffer[i]) | audioBuffer[i + 1] << 8);
-                totalAbsValue += Math.abs(sample) / (numberOfReadBytes / 2);
-            }
-
-
-            // Analyze temp buffer.
-            tempFloatBuffer[tempIndex % 3] = totalAbsValue;
-            float temp = 0.0f;
-            for (int i = 0; i < 3; ++i)
-                temp += tempFloatBuffer[i];
-
-            if ((temp >= 0 && temp <= minVolumeLevel) && !recording && !isSaving) {
-                tempIndex++;
-                continue;
-            }
-
-            if (temp > minVolumeLevel && !recording && !isSaving) {
-                Log.d("qwwe", "got sound");
-                if (sleepingStore.getUseAntiSnore() && sleepingStore.getMinimalTimeReached() && signalCompleted) {
-                    resID = getApplicationContext().getResources()
-                            .getIdentifier(selectedSignal.getFileName(), "raw",
-                                    getApplicationContext().getPackageName());
-                    player = MediaPlayer.create(getApplicationContext(), resID);
-                    player.setLooping(true);
-                    player.start();
-                    Log.d("qwwe", "setting handler");
-                    signalHandler.postDelayed(stopPlayerTask, sleepingStore.getAntiSnoreDuration() * 1000);
-                    signalCompleted = false;
-                } else {
-                    recording = true;
+                // Analyze Sound.
+                for (int i = 0; i < bufferSizeInBytes; i += 2) {
+                    sample = (short) ((audioBuffer[i]) | audioBuffer[i + 1] << 8);
+                    totalAbsValue += Math.abs(sample) / (numberOfReadBytes / 2);
                 }
-            }
 
-            if (totalReadBytes >= (THREE_MIN_BYTES)) {
-                Log.d("qwwe", "totalReadBytes " + totalReadBytes);
-                forceSave = true;
-            }
 
-            if (temp > minVolumeLevel && recording) {
-                silentSeconds = 0;
-            }
+                // Analyze temp buffer.
+                tempFloatBuffer[tempIndex % 3] = totalAbsValue;
+                float temp = 0.0f;
+                for (int i = 0; i < 3; ++i)
+                    temp += tempFloatBuffer[i];
 
-            if (((temp >= 0 && temp <= minVolumeLevel) && recording && !isSaving) || forceSave) {
-                silentSeconds++;
-                if (silentSeconds >= 160 || forceSave) {
-                    isSaving = true;
-                    Log.d("qwwe", "Save audio to file.");
-                    // Save audio to file.
-                    String filepath = Environment.getExternalStorageDirectory().getPath();
-                    File file = new File(filepath, "AudioRecorder");
-                    if (!file.exists())
-                        file.mkdirs();
+                if ((temp >= 0 && temp <= minVolumeLevel) && !recording && !isSaving) {
+                    tempIndex++;
+                    continue;
+                }
 
-                    String fn = file.getAbsolutePath() + "/" + System.currentTimeMillis() + ".wav";
+                if (temp > minVolumeLevel && !recording && !isSaving) {
+                    Log.d("qwwe", "got sound");
+                    if (sleepingStore.getUseAntiSnore() && sleepingStore.getMinimalTimeReached() && signalCompleted) {
+                        resID = getApplicationContext().getResources()
+                                .getIdentifier(selectedSignal.getFileName(), "raw",
+                                        getApplicationContext().getPackageName());
+                        player = MediaPlayer.create(getApplicationContext(), resID);
+                        player.setLooping(true);
+                        player.start();
+                        Log.d("qwwe", "setting handler");
+                        signalHandler.postDelayed(stopPlayerTask, sleepingStore.getAntiSnoreDuration() * 1000);
+                        signalCompleted = false;
+                    } else {
+                        recording = true;
+                    }
+                }
 
-                    long totalAudioLen = 0;
-                    long totalDataLen = totalAudioLen + 36;
-                    long longSampleRate = RECORDER_SAMPLERATE;
-                    int channels = 1;
-                    long byteRate = RECORDER_BPP * RECORDER_SAMPLERATE * channels / 8;
-                    totalAudioLen = totalReadBytes;
-                    totalDataLen = totalAudioLen + 36;
-                    byte finalBuffer[] = new byte[totalReadBytes + 44];
+                if (totalReadBytes >= (THREE_MIN_BYTES)) {
+                    Log.d("qwwe", "totalReadBytes " + totalReadBytes);
+                    forceSave = true;
+                }
 
-                    totalDataLen -= 420000;
-                    totalAudioLen -= 420000;
-                    totalReadBytes -= 420000;
+                if (temp > minVolumeLevel && recording) {
+                    silentSeconds = 0;
+                }
 
-                    finalBuffer[0] = 'R'; // RIFF/WAVE header
-                    finalBuffer[1] = 'I';
-                    finalBuffer[2] = 'F';
-                    finalBuffer[3] = 'F';
-                    finalBuffer[4] = (byte) (totalDataLen & 0xff);
-                    finalBuffer[5] = (byte) ((totalDataLen >> 8) & 0xff);
-                    finalBuffer[6] = (byte) ((totalDataLen >> 16) & 0xff);
-                    finalBuffer[7] = (byte) ((totalDataLen >> 24) & 0xff);
-                    finalBuffer[8] = 'W';
-                    finalBuffer[9] = 'A';
-                    finalBuffer[10] = 'V';
-                    finalBuffer[11] = 'E';
-                    finalBuffer[12] = 'f'; // 'fmt ' chunk
-                    finalBuffer[13] = 'm';
-                    finalBuffer[14] = 't';
-                    finalBuffer[15] = ' ';
-                    finalBuffer[16] = 16; // 4 bytes: size of 'fmt ' chunk
-                    finalBuffer[17] = 0;
-                    finalBuffer[18] = 0;
-                    finalBuffer[19] = 0;
-                    finalBuffer[20] = 1; // format = 1
-                    finalBuffer[21] = 0;
-                    finalBuffer[22] = (byte) channels;
-                    finalBuffer[23] = 0;
-                    finalBuffer[24] = (byte) (longSampleRate & 0xff);
-                    finalBuffer[25] = (byte) ((longSampleRate >> 8) & 0xff);
-                    finalBuffer[26] = (byte) ((longSampleRate >> 16) & 0xff);
-                    finalBuffer[27] = (byte) ((longSampleRate >> 24) & 0xff);
-                    finalBuffer[28] = (byte) (byteRate & 0xff);
-                    finalBuffer[29] = (byte) ((byteRate >> 8) & 0xff);
-                    finalBuffer[30] = (byte) ((byteRate >> 16) & 0xff);
-                    finalBuffer[31] = (byte) ((byteRate >> 24) & 0xff);
-                    finalBuffer[32] = (byte) (2 * 16 / 8); // block align
-                    finalBuffer[33] = 0;
-                    finalBuffer[34] = RECORDER_BPP; // bits per sample
-                    finalBuffer[35] = 0;
-                    finalBuffer[36] = 'd';
-                    finalBuffer[37] = 'a';
-                    finalBuffer[38] = 't';
-                    finalBuffer[39] = 'a';
-                    finalBuffer[40] = (byte) (totalAudioLen & 0xff);
-                    finalBuffer[41] = (byte) ((totalAudioLen >> 8) & 0xff);
-                    finalBuffer[42] = (byte) ((totalAudioLen >> 16) & 0xff);
-                    finalBuffer[43] = (byte) ((totalAudioLen >> 24) & 0xff);
+                if (((temp >= 0 && temp <= minVolumeLevel) && recording && !isSaving) || forceSave) {
+                    silentSeconds++;
+                    if (silentSeconds >= 160 || forceSave) {
+                        isSaving = true;
+                        Log.d("qwwe", "Save audio to file.");
+                        // Save audio to file.
+                        String filepath = Environment.getExternalStorageDirectory().getPath();
+                        File file = new File(filepath, "AudioRecorder");
+                        if (!file.exists())
+                            file.mkdirs();
 
-                    for (int i = 0; i < totalReadBytes; ++i)
-                        finalBuffer[44 + i] = totalByteBuffer[i];
+                        String fn = file.getAbsolutePath() + "/" + System.currentTimeMillis() + ".wav";
 
-                    FileOutputStream out;
-                    try {
-                        out = new FileOutputStream(fn);
+                        long totalAudioLen = 0;
+                        long totalDataLen = totalAudioLen + 36;
+                        long longSampleRate = RECORDER_SAMPLERATE;
+                        int channels = 1;
+                        long byteRate = RECORDER_BPP * RECORDER_SAMPLERATE * channels / 8;
+                        totalAudioLen = totalReadBytes;
+                        totalDataLen = totalAudioLen + 36;
+                        byte finalBuffer[] = new byte[totalReadBytes + 44];
+
+                        totalDataLen -= 420000;
+                        totalAudioLen -= 420000;
+                        totalReadBytes -= 420000;
+
+                        finalBuffer[0] = 'R'; // RIFF/WAVE header
+                        finalBuffer[1] = 'I';
+                        finalBuffer[2] = 'F';
+                        finalBuffer[3] = 'F';
+                        finalBuffer[4] = (byte) (totalDataLen & 0xff);
+                        finalBuffer[5] = (byte) ((totalDataLen >> 8) & 0xff);
+                        finalBuffer[6] = (byte) ((totalDataLen >> 16) & 0xff);
+                        finalBuffer[7] = (byte) ((totalDataLen >> 24) & 0xff);
+                        finalBuffer[8] = 'W';
+                        finalBuffer[9] = 'A';
+                        finalBuffer[10] = 'V';
+                        finalBuffer[11] = 'E';
+                        finalBuffer[12] = 'f'; // 'fmt ' chunk
+                        finalBuffer[13] = 'm';
+                        finalBuffer[14] = 't';
+                        finalBuffer[15] = ' ';
+                        finalBuffer[16] = 16; // 4 bytes: size of 'fmt ' chunk
+                        finalBuffer[17] = 0;
+                        finalBuffer[18] = 0;
+                        finalBuffer[19] = 0;
+                        finalBuffer[20] = 1; // format = 1
+                        finalBuffer[21] = 0;
+                        finalBuffer[22] = (byte) channels;
+                        finalBuffer[23] = 0;
+                        finalBuffer[24] = (byte) (longSampleRate & 0xff);
+                        finalBuffer[25] = (byte) ((longSampleRate >> 8) & 0xff);
+                        finalBuffer[26] = (byte) ((longSampleRate >> 16) & 0xff);
+                        finalBuffer[27] = (byte) ((longSampleRate >> 24) & 0xff);
+                        finalBuffer[28] = (byte) (byteRate & 0xff);
+                        finalBuffer[29] = (byte) ((byteRate >> 8) & 0xff);
+                        finalBuffer[30] = (byte) ((byteRate >> 16) & 0xff);
+                        finalBuffer[31] = (byte) ((byteRate >> 24) & 0xff);
+                        finalBuffer[32] = (byte) (2 * 16 / 8); // block align
+                        finalBuffer[33] = 0;
+                        finalBuffer[34] = RECORDER_BPP; // bits per sample
+                        finalBuffer[35] = 0;
+                        finalBuffer[36] = 'd';
+                        finalBuffer[37] = 'a';
+                        finalBuffer[38] = 't';
+                        finalBuffer[39] = 'a';
+                        finalBuffer[40] = (byte) (totalAudioLen & 0xff);
+                        finalBuffer[41] = (byte) ((totalAudioLen >> 8) & 0xff);
+                        finalBuffer[42] = (byte) ((totalAudioLen >> 16) & 0xff);
+                        finalBuffer[43] = (byte) ((totalAudioLen >> 24) & 0xff);
+
+                        for (int i = 0; i < totalReadBytes; ++i)
+                            finalBuffer[44 + i] = totalByteBuffer[i];
+
+                        FileOutputStream out;
                         try {
-                            Log.d("qwwe", "totalReadBytes: " + totalReadBytes);
-                            out.write(finalBuffer);
-                            out.close();
-                            MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
-                            mediaMetadataRetriever.setDataSource(fn);
-                            String duration = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-                            if (duration == null || Long.parseLong(duration) < 5000) {
-                                File fdelete = new File(fn);
-                                fdelete.delete();
-                            } else {
-                                com.mindyapps.slimbo.data.model.AudioRecord audioRecord =
-                                        new com.mindyapps.slimbo.data.model.AudioRecord(null,
-                                                fn, Long.parseLong(duration), System.currentTimeMillis());
-                                audioRecords.add(audioRecord);
+                            out = new FileOutputStream(fn);
+                            try {
+                                Log.d("qwwe", "totalReadBytes: " + totalReadBytes);
+                                out.write(finalBuffer);
+                                out.close();
+                                MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+                                mediaMetadataRetriever.setDataSource(fn);
+                                String duration = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                                if (duration == null || Long.parseLong(duration) < 5000) {
+                                    File fdelete = new File(fn);
+                                    fdelete.delete();
+                                } else {
+                                    com.mindyapps.slimbo.data.model.AudioRecord audioRecord =
+                                            new com.mindyapps.slimbo.data.model.AudioRecord(null,
+                                                    fn, Long.parseLong(duration), System.currentTimeMillis());
+                                    audioRecords.add(audioRecord);
+                                }
+                                forceSave = false;
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
-                            forceSave = false;
-                        } catch (IOException e) {
-                            e.printStackTrace();
+
+                        } catch (FileNotFoundException e1) {
+                            e1.printStackTrace();
                         }
 
-                    } catch (FileNotFoundException e1) {
-                        e1.printStackTrace();
+                        // */
+                        tempIndex++;
+                        isSaving = false;
+                        recording = false;
+                        silentSeconds = 0;
+                        numberOfReadBytes = 0;
+                        tempIndex = 0;
+                        totalReadBytes = 0;
                     }
-
-                    // */
-                    tempIndex++;
-                    isSaving = false;
-                    recording = false;
-                    silentSeconds = 0;
-                    numberOfReadBytes = 0;
-                    tempIndex = 0;
-                    totalReadBytes = 0;
                 }
+
+
+                /*
+                 // -> Recording sound here
+
+                //
+                */
+
+                // -> Recording sound here
+                if (!sleepingStore.getUseAntiSnore() && totalReadBytes <= (THREE_MIN_BYTES)) {
+                    Log.d("qwwe", "Recording Sound.");
+                    if (numberOfReadBytes >= 0)
+                        System.arraycopy(audioBuffer, 0, totalByteBuffer, totalReadBytes, numberOfReadBytes);
+                    totalReadBytes += numberOfReadBytes;
+                }
+                // */
+
+
+                tempIndex++;
             }
 
-            // -> Recording sound here
-            if (!sleepingStore.getUseAntiSnore()) {
-                Log.d("qwwe", "Recording Sound.");
-                for (int i = 0; i < numberOfReadBytes; i++)
-                    totalByteBuffer[totalReadBytes + i] = audioBuffer[i];
-                totalReadBytes += numberOfReadBytes;
-            }
-            // */
-
-
-            tempIndex++;
         }
     }
 

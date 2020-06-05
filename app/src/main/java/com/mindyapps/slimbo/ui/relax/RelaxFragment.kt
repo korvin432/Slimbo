@@ -39,25 +39,26 @@ class RelaxFragment : Fragment(), View.OnClickListener {
     private lateinit var storage: FirebaseStorage
     private lateinit var storagePath: File
     private lateinit var observerMusic: Observer<List<Music>>
-    var player: MediaPlayer? = null
+    private var player: MediaPlayer? = null
+    private var birdsPlayer: MediaPlayer? = null
+    private var cricketPlayer: MediaPlayer? = null
+    private var natureSoundsPlayer: MediaPlayer? = null
+    private var pinkNoisePlayer: MediaPlayer? = null
+    private var rainInCarPlayer: MediaPlayer? = null
+    private var rainOnTheRoofPlayer: MediaPlayer? = null
+    private var streetNoisePlayer: MediaPlayer? = null
+    private var thunderPlayer: MediaPlayer? = null
+    private var waterStreamPlayer: MediaPlayer? = null
+    private var fanPlayer: MediaPlayer? = null
+    private var forestPlayer: MediaPlayer? = null
+    private var lightRainPlayer: MediaPlayer? = null
+    private var mediumRainPlayer: MediaPlayer? = null
+    private var rainPlayer: MediaPlayer? = null
+    private var seaWavesPlayer: MediaPlayer? = null
+    private var thunderAndWindPlayer: MediaPlayer? = null
+    private var thunderRainLoadPlayer: MediaPlayer? = null
 
-    var birdsPlayer: MediaPlayer? = null
-    var cricketPlayer: MediaPlayer? = null
-    var natureSoundsPlayer: MediaPlayer? = null
-    var pinkNoisePlayer: MediaPlayer? = null
-    var rainInCarPlayer: MediaPlayer? = null
-    var rainOnTheRoofPlayer: MediaPlayer? = null
-    var streetNoisePlayer: MediaPlayer? = null
-    var thunderPlayer: MediaPlayer? = null
-    var waterStreamPlayer: MediaPlayer? = null
-    var fanPlayer: MediaPlayer? = null
-    var forestPlayer: MediaPlayer? = null
-    var lightRainPlayer: MediaPlayer? = null
-    var mediumRainPlayer: MediaPlayer? = null
-    var rainPlayer: MediaPlayer? = null
-    var seaWavesPlayer: MediaPlayer? = null
-    var thunderAndWindPlayer: MediaPlayer? = null
-    var thunderRainLoadPlayer: MediaPlayer? = null
+    private var root: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,15 +76,17 @@ class RelaxFragment : Fragment(), View.OnClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(
-            this,
-            RelaxViewModelFactory(repository, requireActivity().application)
-        ).get(RelaxViewModel::class.java)
+        if (root == null) {
+            viewModel = ViewModelProvider(
+                this,
+                RelaxViewModelFactory(repository, requireActivity().application)
+            ).get(RelaxViewModel::class.java)
 
-        val root = inflater.inflate(R.layout.fragment_relax, container, false)
+            root = inflater.inflate(R.layout.fragment_relax, container, false)
 
-        recyclerView = root.findViewById(R.id.music_recycler)
+            recyclerView = root!!.findViewById(R.id.music_recycler)
 
+        }
         return root
     }
 
