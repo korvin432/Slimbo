@@ -16,8 +16,6 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:hardwareAccelerated="false"
-        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service
@@ -31,6 +29,7 @@
         <activity
             android:name=".ui.sleeping.SleepingActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:hardwareAccelerated="false"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
