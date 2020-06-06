@@ -17,12 +17,16 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.model.GradientColor
-import com.github.mikephil.charting.utils.ColorTemplate
 import com.mindyapps.slimbo.R
 import com.mindyapps.slimbo.data.model.Recording
 import com.mindyapps.slimbo.data.repository.SlimboRepositoryImpl
 import com.mindyapps.slimbo.internal.CustomBarChartRender
 import kotlinx.coroutines.launch
+import java.text.DateFormatSymbols
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.math.floor
 
 
 class StatisticsFragment : Fragment() {
@@ -60,7 +64,7 @@ class StatisticsFragment : Fragment() {
 
         val barChartRender = CustomBarChartRender(chart, chart.animator, chart.viewPortHandler)
         barChartRender.setContext(requireContext())
-        barChartRender.setRadius(20)
+        barChartRender.setRadius(40)
         chart.renderer = barChartRender
 
 
@@ -72,13 +76,16 @@ class StatisticsFragment : Fragment() {
         xAxis.textColor = ContextCompat.getColor(requireContext(), R.color.colorLightHint)
         xAxis.textSize = 12f
 
-
         chart.axisLeft.setDrawGridLines(true)
         chart.axisLeft.gridColor = R.color.colorLightHint
         chart.axisLeft.setDrawAxisLine(false)
         chart.axisRight.isEnabled = false
         chart.axisLeft.textColor = ContextCompat.getColor(requireContext(), R.color.colorLightHint)
         chart.axisLeft.textSize = 15f
+
+        chart.axisLeft.granularity = 1.0f
+        chart.axisLeft.isGranularityEnabled = true
+
 
         val daysOfTheWeek = resources.getStringArray(R.array.days_of_week)
         xAxis.valueFormatter = object : ValueFormatter() {
@@ -89,18 +96,43 @@ class StatisticsFragment : Fragment() {
             }
         }
 
-        setData()
+        setData(getSnoreCountList())
     }
 
-    private fun setData() {
+    private fun getSnoreCountList(): Map<String, Int> {
+        val snoreMap = mutableMapOf<String, Int>()
+        allRecordings.forEach { rec ->
+            val sdf = SimpleDateFormat("EEE")
+            val dayString: String = sdf.format(Date(rec.sleep_at_time!!))
+            if (rec.recordings != null && rec.recordings.size > 0) {
+                snoreMap[dayString] = rec.recordings.size
+            } else {
+                snoreMap[dayString] = 0
+            }
+        }
+
+
+        val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
+        daysOfTheWeek.forEach {
+            if (!snoreMap.keys.contains(it) && it != "") {
+                snoreMap[it] = 0
+            }
+        }
+
+        return snoreMap
+    }
+
+    private fun setData(map: Map<String, Int>) {
         val entries: ArrayList<BarEntry> = ArrayList()
-        entries.add(BarEntry( 0f,38f))
-        entries.add(BarEntry(1f, 52f))
-        entries.add(BarEntry(2f, 65f))
-        entries.add(BarEntry(3f, 30f))
-        entries.add(BarEntry(4f, 85f))
-        entries.add(BarEntry(5f, 15f))
-        entries.add(BarEntry(6f, 76f))
+        val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
+        entries.add(BarEntry(0f, (map[daysOfTheWeek[2]])!!.toFloat()))
+        entries.add(BarEntry(1f, (map[daysOfTheWeek[3]])!!.toFloat()))
+        entries.add(BarEntry(2f, (map[daysOfTheWeek[4]])!!.toFloat()))
+        entries.add(BarEntry(3f, (map[daysOfTheWeek[5]])!!.toFloat()))
+        entries.add(BarEntry(4f, (map[daysOfTheWeek[6]])!!.toFloat()))
+        entries.add(BarEntry(5f, (map[daysOfTheWeek[7]])!!.toFloat()))
+        entries.add(BarEntry(6f, (map[daysOfTheWeek[1]])!!.toFloat()))
+
 
         val barDataSet = BarDataSet(entries, "")
         barDataSet.setDrawValues(false)
@@ -109,14 +141,11 @@ class StatisticsFragment : Fragment() {
 
         val gradientColors: MutableList<GradientColor> = ArrayList()
         gradientColors.add(GradientColor(endColor, startColor))
-
         barDataSet.gradientColors = gradientColors
-
         val data = BarData(barDataSet, barDataSet)
-        chart.data = data // set the data and list of lables into chart
+        chart.data = data
 
-
-        chart.animateY(1000)
+        chart.animateY(700)
     }
 
 
