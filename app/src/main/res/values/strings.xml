@@ -114,6 +114,7 @@
     <string name="snore_duration">Snore duration</string>
     <string name="good_sleep">Good sleep</string>
     <string name="percentage"> \%%</string>
+    <string name="bad_sleep">Bad sleep</string>
     <string-array name="repeat_minutes">
         <item>Never</item>
         <item>5</item>

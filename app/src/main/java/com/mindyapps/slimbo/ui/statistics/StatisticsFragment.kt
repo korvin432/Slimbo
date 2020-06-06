@@ -39,8 +39,6 @@ class StatisticsFragment : Fragment() {
     private lateinit var viewModel: StatisticsViewModel
     private lateinit var observerRecordings: Observer<List<Recording>>
     private lateinit var allRecordings: List<Recording>
-    private lateinit var goodRecordings: List<Recording>
-    private lateinit var badRecordings: List<Recording>
     private lateinit var frequencyChart: BarChart
     private lateinit var sleepDurationChart: LineChart
     private lateinit var snoreDurationChart: LineChart
@@ -60,6 +58,7 @@ class StatisticsFragment : Fragment() {
             sleepDurationChart = root!!.findViewById(R.id.duration_chart)
             snoreDurationChart = root!!.findViewById(R.id.snore_duration_chart)
             goodRecyclerView = root!!.findViewById(R.id.good_recycler)
+            badRecyclerView = root!!.findViewById(R.id.bad_recycler)
         }
         return root
     }
@@ -69,6 +68,7 @@ class StatisticsFragment : Fragment() {
         setDurationChart()
         setSnoreDurationChart()
         setGoodRecyclerView()
+        setBadRecyclerView()
     }
 
     private fun setFrequencyChart() {
@@ -387,6 +387,51 @@ class StatisticsFragment : Fragment() {
         )
         goodRecyclerView.layoutManager = linearLayoutManager
         goodRecyclerView.adapter = progressAdapter
+    }
+
+    private fun setBadRecyclerView() {
+        val linearLayoutManager = LinearLayoutManager(requireContext())
+        badRecyclerView.setHasFixedSize(true)
+
+        val badFactors: MutableList<Factor> = LinkedList()
+        val badMap = mutableMapOf<Factor, Int>()
+        val finalMap = mutableMapOf<Factor, Int>()
+        var badCount = 0
+
+        allRecordings.forEach { rec ->
+            if (rec.rating in 1..2) {
+                badCount++
+                if (rec.factors != null && rec.factors.size > 0) {
+                    badFactors.addAll(rec.factors)
+                }
+            }
+        }
+
+        allRecordings.forEach { rec ->
+            if (rec.factors != null) {
+                rec.factors.forEach { fac ->
+                    val count = Collections.frequency(badFactors, fac)
+                    if (count > 0) {
+                        badMap[fac] = count
+                    }
+                }
+            }
+        }
+
+        for ((key, value) in Sorter().entriesSortedByValues(badMap)) {
+            if (finalMap.size < 3) {
+                finalMap[key] = value
+            }
+        }
+
+        progressAdapter = FactorProgressAdapter(
+            finalMap as LinkedHashMap<Factor, Int>,
+            badCount,
+            false,
+            requireActivity().applicationContext
+        )
+        badRecyclerView.layoutManager = linearLayoutManager
+        badRecyclerView.adapter = progressAdapter
     }
 
 
