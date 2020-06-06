@@ -25,6 +25,9 @@
     <color name="colorFifthCard">#260099FF</color>
     <color name="colorCardTitleBackground">#E2182061</color>
     <color name="black_overlay">#66000000</color>
+    <color name="colorScarlet">#EF6484</color>
+    <color name="colorRed">#DA3145</color>
+    <color name="colorBadBack">#942E35B1</color>
 
 
 </resources>

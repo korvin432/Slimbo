@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis.XAxisPosition
@@ -17,9 +19,12 @@ import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.model.GradientColor
 import com.mindyapps.slimbo.R
+import com.mindyapps.slimbo.data.model.Factor
 import com.mindyapps.slimbo.data.model.Recording
 import com.mindyapps.slimbo.data.repository.SlimboRepositoryImpl
 import com.mindyapps.slimbo.internal.CustomBarChartRender
+import com.mindyapps.slimbo.internal.Sorter
+import com.mindyapps.slimbo.ui.adapters.FactorProgressAdapter
 import kotlinx.coroutines.launch
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
@@ -39,6 +44,9 @@ class StatisticsFragment : Fragment() {
     private lateinit var frequencyChart: BarChart
     private lateinit var sleepDurationChart: LineChart
     private lateinit var snoreDurationChart: LineChart
+    private lateinit var goodRecyclerView: RecyclerView
+    private lateinit var badRecyclerView: RecyclerView
+    private lateinit var progressAdapter: FactorProgressAdapter
 
     private var root: View? = null
 
@@ -51,6 +59,7 @@ class StatisticsFragment : Fragment() {
             frequencyChart = root!!.findViewById(R.id.frequency_chart)
             sleepDurationChart = root!!.findViewById(R.id.duration_chart)
             snoreDurationChart = root!!.findViewById(R.id.snore_duration_chart)
+            goodRecyclerView = root!!.findViewById(R.id.good_recycler)
         }
         return root
     }
@@ -59,6 +68,7 @@ class StatisticsFragment : Fragment() {
         setFrequencyChart()
         setDurationChart()
         setSnoreDurationChart()
+        setGoodRecyclerView()
     }
 
     private fun setFrequencyChart() {
@@ -153,7 +163,6 @@ class StatisticsFragment : Fragment() {
         barDataSet.gradientColors = gradientColors
         return BarData(barDataSet, barDataSet)
     }
-
 
     private fun setDurationChart() {
         sleepDurationChart.description.isEnabled = false
@@ -256,7 +265,6 @@ class StatisticsFragment : Fragment() {
         return LineData(lineDataSet, lineDataSet)
     }
 
-
     private fun setSnoreDurationChart() {
         snoreDurationChart.description.isEnabled = false
         snoreDurationChart.setDrawGridBackground(false)
@@ -287,7 +295,8 @@ class StatisticsFragment : Fragment() {
         snoreDurationChart.axisLeft.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
                 return try {
-                    String.format("%02d:%02d",
+                    String.format(
+                        "%02d:%02d",
                         TimeUnit.MILLISECONDS.toMinutes(value.toLong()),
                         TimeUnit.MILLISECONDS.toSeconds(value.toLong()) -
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(value.toLong()))
@@ -334,6 +343,52 @@ class StatisticsFragment : Fragment() {
         Log.d("qwwe", "map ${snoreMap}")
         return snoreMap
     }
+
+    private fun setGoodRecyclerView() {
+        val linearLayoutManager = LinearLayoutManager(requireContext())
+        goodRecyclerView.setHasFixedSize(true)
+
+        val goodFactors: MutableList<Factor> = LinkedList()
+        val goodMap = mutableMapOf<Factor, Int>()
+        val finalMap = mutableMapOf<Factor, Int>()
+        var goodCount = 0
+
+        allRecordings.forEach { rec ->
+            if (rec.rating in 4..5) {
+                goodCount++
+                if (rec.factors != null && rec.factors.size > 0) {
+                    goodFactors.addAll(rec.factors)
+                }
+            }
+        }
+
+        allRecordings.forEach { rec ->
+            if (rec.factors != null) {
+                rec.factors.forEach { fac ->
+                    val count = Collections.frequency(goodFactors, fac)
+                    if (count > 0) {
+                        goodMap[fac] = count
+                    }
+                }
+            }
+        }
+
+        for ((key, value) in Sorter().entriesSortedByValues(goodMap)) {
+            if (finalMap.size < 3) {
+                finalMap[key] = value
+            }
+        }
+
+        progressAdapter = FactorProgressAdapter(
+            finalMap as LinkedHashMap<Factor, Int>,
+            goodCount,
+            true,
+            requireActivity().applicationContext
+        )
+        goodRecyclerView.layoutManager = linearLayoutManager
+        goodRecyclerView.adapter = progressAdapter
+    }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

@@ -41,7 +41,7 @@ class SnoreAdapter(
     ): SnoreHolder {
         val itemView: View = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.music_item, viewGroup, false)
-        if (!DateFormat.is24HourFormat(context)){
+        if (!DateFormat.is24HourFormat(context)) {
             timeFormat = "hh:mm a"
         }
         return SnoreHolder(itemView)
@@ -63,7 +63,7 @@ class SnoreAdapter(
     ) {
         try {
             snoreViewHolder.waveView.setRawData(File(snore.file_name!!).readBytes())
-        } catch (ex: Exception){
+        } catch (ex: Exception) {
             snoreViewHolder.notFoundText.visibility = View.VISIBLE
             snoreViewHolder.waveView.visibility = View.GONE
             snoreViewHolder.playButton.visibility = View.GONE
@@ -71,10 +71,12 @@ class SnoreAdapter(
         snoreViewHolder.createdAtText.text = convertDate(snore.creation_date!!, timeFormat)
 
         snoreViewHolder.durationText.text =
-            String.format("%02d:%02d",
+            String.format(
+                "%02d:%02d",
                 TimeUnit.MILLISECONDS.toMinutes(snore.duration!!),
                 TimeUnit.MILLISECONDS.toSeconds(snore.duration) -
-                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(snore.duration)))
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(snore.duration))
+            )
         snoreViewHolder.snore = snore
     }
 
@@ -106,9 +108,19 @@ class SnoreAdapter(
                     mediaPlayer!!.seekTo(0)
                     mediaPlayer!!.pause()
                     waveView.progress = 0f
-                    playButton.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_play))
+                    playButton.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_play
+                        )
+                    )
                 } else {
-                    playButton.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_stop))
+                    playButton.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_stop
+                        )
+                    )
                     mediaPlayer = MediaPlayer.create(context, Uri.parse(snore.file_name))
                     waveView.setRawData(File(snore.file_name!!).readBytes())
                     if (timer == null) {
@@ -124,6 +136,7 @@ class SnoreAdapter(
                         mediaPlayer!!.seekTo((mediaPlayer!!.duration * (progress / 100)).toInt())
                     }
                 }
+
                 override fun onStartTracking(progress: Float) {}
                 override fun onStopTracking(progress: Float) {}
             }

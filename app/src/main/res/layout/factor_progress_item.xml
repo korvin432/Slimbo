@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/factor_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:text="Worked out"
+        android:textColor="@color/colorWhiteText"
+        android:textSize="13sp"/>
+
+    <TextView
+        android:id="@+id/percentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:text="@string/percentage"
+        android:textColor="@color/colorWhiteText"
+        android:textSize="13sp"/>
+
+    <ProgressBar
+        android:id="@+id/sleep_progress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:layout_marginTop="4dp"
+        android:layout_below="@id/factor_name"
+        android:max="100"
+        android:progress="60"
+        android:progressDrawable="@drawable/good_progress"
+        android:splitTrack="false" />
+
+</RelativeLayout>
