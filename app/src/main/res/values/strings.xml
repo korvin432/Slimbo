@@ -111,6 +111,7 @@
     <string name="snore_frequency">Snore frequency</string>
     <string name="year">Year</string>
     <string name="sleep_duration">Sleep duration</string>
+    <string name="snore_duration">Snore duration</string>
     <string-array name="repeat_minutes">
         <item>Never</item>
         <item>5</item>

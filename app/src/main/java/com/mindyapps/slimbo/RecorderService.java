@@ -96,7 +96,7 @@ public class RecorderService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent.getAction().equals(START_ACTION)) {
+        if (intent != null && intent.getAction().equals(START_ACTION)) {
             isActive = true;
             factors = intent.getParcelableArrayListExtra(SELECTED_FACTORS);
             startSleepingTime = System.currentTimeMillis();

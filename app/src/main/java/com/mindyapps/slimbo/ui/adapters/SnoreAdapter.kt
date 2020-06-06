@@ -70,14 +70,11 @@ class SnoreAdapter(
         }
         snoreViewHolder.createdAtText.text = convertDate(snore.creation_date!!, timeFormat)
 
-        var timeInSeconds: Int = (snore.duration!! / 1000).toInt()
-        val hours: Int
-        val minutes: Int
-        hours = timeInSeconds / 3600
-        timeInSeconds -= hours * 3600
-        minutes = timeInSeconds / 60
-
-        snoreViewHolder.durationText.text = String.format("%02d", minutes) + ":" + String.format("%02d", timeInSeconds)
+        snoreViewHolder.durationText.text =
+            String.format("%02d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes(snore.duration!!),
+                TimeUnit.MILLISECONDS.toSeconds(snore.duration) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(snore.duration)))
         snoreViewHolder.snore = snore
     }
 

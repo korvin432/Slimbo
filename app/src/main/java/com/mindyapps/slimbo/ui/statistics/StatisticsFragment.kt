@@ -24,6 +24,7 @@ import kotlinx.coroutines.launch
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 
@@ -36,7 +37,8 @@ class StatisticsFragment : Fragment() {
     private lateinit var goodRecordings: List<Recording>
     private lateinit var badRecordings: List<Recording>
     private lateinit var frequencyChart: BarChart
-    private lateinit var durationChart: LineChart
+    private lateinit var sleepDurationChart: LineChart
+    private lateinit var snoreDurationChart: LineChart
 
     private var root: View? = null
 
@@ -47,7 +49,8 @@ class StatisticsFragment : Fragment() {
         if (root == null) {
             root = inflater.inflate(R.layout.statistics_fragment, container, false)
             frequencyChart = root!!.findViewById(R.id.frequency_chart)
-            durationChart = root!!.findViewById(R.id.duration_chart)
+            sleepDurationChart = root!!.findViewById(R.id.duration_chart)
+            snoreDurationChart = root!!.findViewById(R.id.snore_duration_chart)
         }
         return root
     }
@@ -55,6 +58,7 @@ class StatisticsFragment : Fragment() {
     private fun initCharts() {
         setFrequencyChart()
         setDurationChart()
+        setSnoreDurationChart()
     }
 
     private fun setFrequencyChart() {
@@ -73,7 +77,6 @@ class StatisticsFragment : Fragment() {
         barChartRender.setContext(requireContext())
         barChartRender.setRadius(40)
         frequencyChart.renderer = barChartRender
-
 
         val xAxis = frequencyChart.xAxis
         xAxis.position = XAxisPosition.BOTTOM
@@ -108,16 +111,60 @@ class StatisticsFragment : Fragment() {
 
     }
 
-    private fun setDurationChart() {
-        durationChart.description.isEnabled = false
-        durationChart.setDrawGridBackground(false)
-        durationChart.setDrawMarkers(false)
-        durationChart.setPinchZoom(false)
-        durationChart.setTouchEnabled(false)
-        durationChart.setScaleEnabled(false)
-        durationChart.legend.isEnabled = false
+    private fun getSnoreCountList(): Map<String, Int> {
+        val snoreMap = mutableMapOf<String, Int>()
+        allRecordings.forEach { rec ->
+            val sdf = SimpleDateFormat("EEE")
+            val dayString: String = sdf.format(Date(rec.sleep_at_time!!))
+            if (rec.recordings != null && rec.recordings.size > 0) {
+                snoreMap[dayString] = rec.recordings.size
+            } else {
+                snoreMap[dayString] = 0
+            }
+        }
+        val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
+        daysOfTheWeek.forEach {
+            if (!snoreMap.keys.contains(it) && it != "") {
+                snoreMap[it] = 0
+            }
+        }
+        return snoreMap
+    }
 
-        val xAxis = durationChart.xAxis
+    private fun setFrequencyData(map: Map<String, Int>): BarData {
+        val entries: ArrayList<BarEntry> = ArrayList()
+        val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
+        entries.add(BarEntry(0f, (map[daysOfTheWeek[2]])!!.toFloat()))
+        entries.add(BarEntry(1f, (map[daysOfTheWeek[3]])!!.toFloat()))
+        entries.add(BarEntry(2f, (map[daysOfTheWeek[4]])!!.toFloat()))
+        entries.add(BarEntry(3f, (map[daysOfTheWeek[5]])!!.toFloat()))
+        entries.add(BarEntry(4f, (map[daysOfTheWeek[6]])!!.toFloat()))
+        entries.add(BarEntry(5f, (map[daysOfTheWeek[7]])!!.toFloat()))
+        entries.add(BarEntry(6f, (map[daysOfTheWeek[1]])!!.toFloat()))
+
+
+        val barDataSet = BarDataSet(entries, "")
+        barDataSet.setDrawValues(false)
+        val startColor = ContextCompat.getColor(requireContext(), R.color.colorAccent)
+        val endColor = ContextCompat.getColor(requireContext(), R.color.colorPrimary)
+
+        val gradientColors: MutableList<GradientColor> = ArrayList()
+        gradientColors.add(GradientColor(endColor, startColor))
+        barDataSet.gradientColors = gradientColors
+        return BarData(barDataSet, barDataSet)
+    }
+
+
+    private fun setDurationChart() {
+        sleepDurationChart.description.isEnabled = false
+        sleepDurationChart.setDrawGridBackground(false)
+        sleepDurationChart.setDrawMarkers(false)
+        sleepDurationChart.setPinchZoom(false)
+        sleepDurationChart.setTouchEnabled(false)
+        sleepDurationChart.setScaleEnabled(false)
+        sleepDurationChart.legend.isEnabled = false
+
+        val xAxis = sleepDurationChart.xAxis
         xAxis.position = XAxisPosition.BOTTOM
         xAxis.setDrawGridLines(false)
         xAxis.setDrawAxisLine(false)
@@ -126,16 +173,16 @@ class StatisticsFragment : Fragment() {
         xAxis.textColor = ContextCompat.getColor(requireContext(), R.color.colorLightHint)
         xAxis.textSize = 12f
 
-        durationChart.axisLeft.setDrawGridLines(true)
-        durationChart.axisLeft.gridColor = R.color.colorLightHint
-        durationChart.axisLeft.setDrawAxisLine(false)
-        durationChart.axisRight.isEnabled = false
-        durationChart.axisLeft.textColor =
+        sleepDurationChart.axisLeft.setDrawGridLines(true)
+        sleepDurationChart.axisLeft.gridColor = R.color.colorLightHint
+        sleepDurationChart.axisLeft.setDrawAxisLine(false)
+        sleepDurationChart.axisRight.isEnabled = false
+        sleepDurationChart.axisLeft.textColor =
             ContextCompat.getColor(requireContext(), R.color.colorLightHint)
-        durationChart.axisLeft.textSize = 15f
-        durationChart.axisLeft.granularity = 1.0f
-        durationChart.axisLeft.isGranularityEnabled = true
-        durationChart.axisLeft.valueFormatter = object : ValueFormatter() {
+        sleepDurationChart.axisLeft.textSize = 15f
+        sleepDurationChart.axisLeft.granularity = 1.0f
+        sleepDurationChart.axisLeft.isGranularityEnabled = true
+        sleepDurationChart.axisLeft.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
                 return try {
                     var timeInSeconds: Int = (value.toLong() / 1000).toInt()
@@ -160,28 +207,8 @@ class StatisticsFragment : Fragment() {
                 } else ""
             }
         }
-        durationChart.data = setDurationData(getSleepDurationList())
-        durationChart.animateY(1000)
-    }
-
-    private fun getSnoreCountList(): Map<String, Int> {
-        val snoreMap = mutableMapOf<String, Int>()
-        allRecordings.forEach { rec ->
-            val sdf = SimpleDateFormat("EEE")
-            val dayString: String = sdf.format(Date(rec.sleep_at_time!!))
-            if (rec.recordings != null && rec.recordings.size > 0) {
-                snoreMap[dayString] = rec.recordings.size
-            } else {
-                snoreMap[dayString] = 0
-            }
-        }
-        val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
-        daysOfTheWeek.forEach {
-            if (!snoreMap.keys.contains(it) && it != "") {
-                snoreMap[it] = 0
-            }
-        }
-        return snoreMap
+        sleepDurationChart.data = setDurationData(getSleepDurationList())
+        sleepDurationChart.animateY(1000)
     }
 
     private fun getSleepDurationList(): Map<String, Long> {
@@ -229,29 +256,84 @@ class StatisticsFragment : Fragment() {
         return LineData(lineDataSet, lineDataSet)
     }
 
-    private fun setFrequencyData(map: Map<String, Int>): BarData {
-        val entries: ArrayList<BarEntry> = ArrayList()
-        val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
-        entries.add(BarEntry(0f, (map[daysOfTheWeek[2]])!!.toFloat()))
-        entries.add(BarEntry(1f, (map[daysOfTheWeek[3]])!!.toFloat()))
-        entries.add(BarEntry(2f, (map[daysOfTheWeek[4]])!!.toFloat()))
-        entries.add(BarEntry(3f, (map[daysOfTheWeek[5]])!!.toFloat()))
-        entries.add(BarEntry(4f, (map[daysOfTheWeek[6]])!!.toFloat()))
-        entries.add(BarEntry(5f, (map[daysOfTheWeek[7]])!!.toFloat()))
-        entries.add(BarEntry(6f, (map[daysOfTheWeek[1]])!!.toFloat()))
 
+    private fun setSnoreDurationChart() {
+        snoreDurationChart.description.isEnabled = false
+        snoreDurationChart.setDrawGridBackground(false)
+        snoreDurationChart.setDrawMarkers(false)
+        snoreDurationChart.setPinchZoom(false)
+        snoreDurationChart.setTouchEnabled(false)
+        snoreDurationChart.setScaleEnabled(false)
+        snoreDurationChart.legend.isEnabled = false
 
-        val barDataSet = BarDataSet(entries, "")
-        barDataSet.setDrawValues(false)
-        val startColor = ContextCompat.getColor(requireContext(), R.color.colorAccent)
-        val endColor = ContextCompat.getColor(requireContext(), R.color.colorPrimary)
+        val xAxis = snoreDurationChart.xAxis
+        xAxis.position = XAxisPosition.BOTTOM
+        xAxis.setDrawGridLines(false)
+        xAxis.setDrawAxisLine(false)
+        xAxis.isGranularityEnabled = true
+        xAxis.labelCount = 7
+        xAxis.textColor = ContextCompat.getColor(requireContext(), R.color.colorLightHint)
+        xAxis.textSize = 12f
 
-        val gradientColors: MutableList<GradientColor> = ArrayList()
-        gradientColors.add(GradientColor(endColor, startColor))
-        barDataSet.gradientColors = gradientColors
-        return BarData(barDataSet, barDataSet)
+        snoreDurationChart.axisLeft.setDrawGridLines(true)
+        snoreDurationChart.axisLeft.gridColor = R.color.colorLightHint
+        snoreDurationChart.axisLeft.setDrawAxisLine(false)
+        snoreDurationChart.axisRight.isEnabled = false
+        snoreDurationChart.axisLeft.textColor =
+            ContextCompat.getColor(requireContext(), R.color.colorLightHint)
+        snoreDurationChart.axisLeft.textSize = 15f
+        snoreDurationChart.axisLeft.granularity = 1.0f
+        snoreDurationChart.axisLeft.isGranularityEnabled = true
+        snoreDurationChart.axisLeft.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                return try {
+                    String.format("%02d:%02d",
+                        TimeUnit.MILLISECONDS.toMinutes(value.toLong()),
+                        TimeUnit.MILLISECONDS.toSeconds(value.toLong()) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(value.toLong()))
+                    )
+                } catch (e: Exception) {
+                    value.toString()
+                }
+            }
+
+        }
+
+        val daysOfTheWeek = resources.getStringArray(R.array.days_of_week)
+        xAxis.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                return if (value.toInt() > -1 && value.toInt() < 7) {
+                    daysOfTheWeek[value.toInt()]
+                } else ""
+            }
+        }
+        snoreDurationChart.data = setDurationData(getSnoreDurationList())
+        snoreDurationChart.animateY(1000)
     }
 
+    private fun getSnoreDurationList(): Map<String, Long> {
+        val snoreMap = mutableMapOf<String, Long>()
+        allRecordings.forEach { rec ->
+            var duration: Long = 0
+
+            rec.recordings!!.forEach {
+                Log.d("qwwe", "duration ${it.duration}")
+                duration += it.duration!!
+            }
+            val sdf = SimpleDateFormat("EEE")
+            val dayString: String = sdf.format(Date(rec.sleep_at_time!!))
+            snoreMap[dayString] = duration
+        }
+
+        val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
+        daysOfTheWeek.forEach {
+            if (!snoreMap.keys.contains(it) && it != "") {
+                snoreMap[it] = 0
+            }
+        }
+        Log.d("qwwe", "map ${snoreMap}")
+        return snoreMap
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
