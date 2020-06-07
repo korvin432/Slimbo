@@ -52,13 +52,24 @@ class StatisticsViewModel(
                     ) { recordings.value = it }
                 }
                 30 -> {
-                    val calendar = Calendar.getInstance();
+                    val calendar = Calendar.getInstance()
                     calendar.add(Calendar.MONTH, -1)
                     recordings.addSource(
                         slimboRepository.getRecordingsBetween(
                             slimboDao,
                             System.currentTimeMillis(),
-                            System.currentTimeMillis() - calendar.timeInMillis
+                            System.currentTimeMillis() - 2592000000
+                        )
+                    ) { recordings.value = it }
+                }
+                365 -> {
+                    val calendar = Calendar.getInstance()
+                    calendar.add(Calendar.YEAR, -1)
+                    recordings.addSource(
+                        slimboRepository.getRecordingsBetween(
+                            slimboDao,
+                            System.currentTimeMillis(),
+                            System.currentTimeMillis() - 2592000000 * 12
                         )
                     ) { recordings.value = it }
                 }
