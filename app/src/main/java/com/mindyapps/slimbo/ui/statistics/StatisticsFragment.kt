@@ -104,8 +104,8 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
         )
         barChartRender.setContext(requireContext())
         barChartRender.setRadius(50)
-        if (chartDays == 30){
-            barChartRender.setRadius(25)
+        if (chartDays == 30) {
+            barChartRender.setRadius(10)
         }
         frequencyChart.renderer = barChartRender
 
@@ -137,7 +137,7 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
                     } else ""
                 }
             }
-        } else if (chartDays == 30){
+        } else if (chartDays == 30) {
             xAxis.valueFormatter = null
             xAxis.labelRotationAngle = -90f
             xAxis.textSize = 10f
@@ -150,57 +150,65 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
 
     private fun getSnoreCountList(): Map<String, Int> {
         val snoreMap = mutableMapOf<String, Int>()
-        if (chartDays == 7) {
-            allRecordings.forEach { rec ->
-                val sdf = SimpleDateFormat("EEE")
-                val dayString: String = sdf.format(Date(rec.sleep_at_time!!))
-                if (rec.recordings != null && rec.recordings.size > 0) {
-                    snoreMap[dayString] = rec.recordings.size
-                } else {
-                    snoreMap[dayString] = 0
+        allRecordings.forEach { rec ->
+            val sdf = when (chartDays) {
+                7 -> {
+                    SimpleDateFormat("EEE")
+                }
+                30 -> {
+                    SimpleDateFormat("d")
+                }
+                else -> {
+                    SimpleDateFormat("EEE")
                 }
             }
-            val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
-            daysOfTheWeek.forEach {
-                if (!snoreMap.keys.contains(it) && it != "") {
-                    snoreMap[it] = 0
-                }
-            }
-        } else if (chartDays == 30) {
-            allRecordings.forEach {  rec ->
-                val sdf = SimpleDateFormat("d")
-                val dayString: String = sdf.format(Date(rec.sleep_at_time!!))
 
-                if (rec.recordings != null && rec.recordings.size > 0) {
-                    snoreMap[dayString] = rec.recordings.size
-                } else {
-                    snoreMap[dayString] = 0
+            val dayString: String = sdf.format(Date(rec.sleep_at_time!!))
+            if (rec.recordings != null && rec.recordings.size > 0) {
+                snoreMap[dayString] = rec.recordings.size
+            } else {
+                snoreMap[dayString] = 0
+            }
+        }
+        when (chartDays) {
+            7 -> {
+                val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
+                daysOfTheWeek.forEach {
+                    if (!snoreMap.keys.contains(it) && it != "") {
+                        snoreMap[it] = 0
+                    }
                 }
             }
-            for (i in 1..30) {
-                if (!snoreMap.keys.contains(i.toString())) {
-                    snoreMap[i.toString()] = 0
+            30 -> {
+                for (i in 1..30) {
+                    if (!snoreMap.keys.contains(i.toString())) {
+                        snoreMap[i.toString()] = 0
+                    }
                 }
             }
         }
+
         return snoreMap
     }
 
     private fun setFrequencyData(map: Map<String, Int>): BarData {
         val entries: ArrayList<BarEntry> = ArrayList()
 
-        if (chartDays == 7) {
-            val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
-            entries.add(BarEntry(0f, (map[daysOfTheWeek[2]])!!.toFloat()))
-            entries.add(BarEntry(1f, (map[daysOfTheWeek[3]])!!.toFloat()))
-            entries.add(BarEntry(2f, (map[daysOfTheWeek[4]])!!.toFloat()))
-            entries.add(BarEntry(3f, (map[daysOfTheWeek[5]])!!.toFloat()))
-            entries.add(BarEntry(4f, (map[daysOfTheWeek[6]])!!.toFloat()))
-            entries.add(BarEntry(5f, (map[daysOfTheWeek[7]])!!.toFloat()))
-            entries.add(BarEntry(6f, (map[daysOfTheWeek[1]])!!.toFloat()))
-        } else if (chartDays == 30) {
-            for (i in 1..30) {
-                entries.add(BarEntry(i.toFloat(), (map[i.toString()])!!.toFloat()))
+        when (chartDays) {
+            7 -> {
+                val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
+                entries.add(BarEntry(0f, (map[daysOfTheWeek[2]])!!.toFloat()))
+                entries.add(BarEntry(1f, (map[daysOfTheWeek[3]])!!.toFloat()))
+                entries.add(BarEntry(2f, (map[daysOfTheWeek[4]])!!.toFloat()))
+                entries.add(BarEntry(3f, (map[daysOfTheWeek[5]])!!.toFloat()))
+                entries.add(BarEntry(4f, (map[daysOfTheWeek[6]])!!.toFloat()))
+                entries.add(BarEntry(5f, (map[daysOfTheWeek[7]])!!.toFloat()))
+                entries.add(BarEntry(6f, (map[daysOfTheWeek[1]])!!.toFloat()))
+            }
+            30 -> {
+                for (i in 1..30) {
+                    entries.add(BarEntry(i.toFloat(), (map[i.toString()])!!.toFloat()))
+                }
             }
         }
 
@@ -260,69 +268,87 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
 
         }
 
-        if (chartDays == 7) {
-            val daysOfTheWeek = resources.getStringArray(R.array.days_of_week)
-            xAxis.valueFormatter = object : ValueFormatter() {
-                override fun getFormattedValue(value: Float): String {
-                    return if (value.toInt() > -1 && value.toInt() < 7) {
-                        daysOfTheWeek[value.toInt()]
-                    } else ""
+        when (chartDays) {
+            7 -> {
+                val daysOfTheWeek = resources.getStringArray(R.array.days_of_week)
+                xAxis.valueFormatter = object : ValueFormatter() {
+                    override fun getFormattedValue(value: Float): String {
+                        return if (value.toInt() > -1 && value.toInt() < 7) {
+                            daysOfTheWeek[value.toInt()]
+                        } else ""
+                    }
                 }
             }
-        } else if (chartDays == 30){
-            xAxis.valueFormatter = null
-            xAxis.labelRotationAngle = -90f
-            xAxis.textSize = 10f
+            30 -> {
+                xAxis.valueFormatter = null
+                xAxis.labelRotationAngle = -90f
+                xAxis.textSize = 10f
+            }
         }
+
         sleepDurationChart.data = setDurationData(getSleepDurationList())
         sleepDurationChart.animateY(1000)
     }
 
     private fun getSleepDurationList(): Map<String, Long> {
         val snoreMap = mutableMapOf<String, Long>()
-        if (chartDays == 7) {
-            allRecordings.forEach { rec ->
-                val sdf = SimpleDateFormat("EEE")
-                val dayString: String = sdf.format(Date(rec.sleep_at_time!!))
-                snoreMap[dayString] = rec.wake_up_time!! - rec.sleep_at_time
-            }
-
-            val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
-            daysOfTheWeek.forEach {
-                if (!snoreMap.keys.contains(it) && it != "") {
-                    snoreMap[it] = 0
+        allRecordings.forEach { rec ->
+            val sdf = when (chartDays) {
+                7 -> {
+                    SimpleDateFormat("EEE")
+                }
+                30 -> {
+                    SimpleDateFormat("d")
+                }
+                else -> {
+                    SimpleDateFormat("EEE")
                 }
             }
-        } else if (chartDays == 30){
-            allRecordings.forEach {  rec ->
-                val sdf = SimpleDateFormat("d")
-                val dayString: String = sdf.format(Date(rec.sleep_at_time!!))
-                snoreMap[dayString] = rec.wake_up_time!! - rec.sleep_at_time
+            val dayString: String = sdf.format(Date(rec.sleep_at_time!!))
+            snoreMap[dayString] = rec.wake_up_time!! - rec.sleep_at_time
+        }
+
+        when (chartDays) {
+            7 -> {
+                val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
+                daysOfTheWeek.forEach {
+                    if (!snoreMap.keys.contains(it) && it != "") {
+                        snoreMap[it] = 0
+                    }
+                }
             }
-            for (i in 1..30) {
-                if (!snoreMap.keys.contains(i.toString())) {
-                    snoreMap[i.toString()] = 0
+            30 -> {
+                for (i in 1..30) {
+                    if (!snoreMap.keys.contains(i.toString())) {
+                        snoreMap[i.toString()] = 0
+                    }
                 }
             }
         }
+
         return snoreMap
+
     }
 
     private fun setDurationData(map: Map<String, Long>): LineData {
         val entries: ArrayList<Entry> = ArrayList()
-        if (chartDays == 7) {
-            val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
-            entries.add(Entry(0f, (map[daysOfTheWeek[2]])!!.toFloat()))
-            entries.add(Entry(1f, (map[daysOfTheWeek[3]])!!.toFloat()))
-            entries.add(Entry(2f, (map[daysOfTheWeek[4]])!!.toFloat()))
-            entries.add(Entry(3f, (map[daysOfTheWeek[5]])!!.toFloat()))
-            entries.add(Entry(4f, (map[daysOfTheWeek[6]])!!.toFloat()))
-            entries.add(Entry(5f, (map[daysOfTheWeek[7]])!!.toFloat()))
-            entries.add(Entry(6f, (map[daysOfTheWeek[1]])!!.toFloat()))
-        } else if (chartDays == 30) {
-            for (i in 1..30) {
-                if (map[i.toString()]?.toFloat() != null) {
-                    entries.add(BarEntry(i.toFloat(), (map[i.toString()])!!.toFloat()))
+        when (chartDays) {
+            7 -> {
+                val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
+                entries.add(Entry(0f, (map[daysOfTheWeek[2]])!!.toFloat()))
+                entries.add(Entry(1f, (map[daysOfTheWeek[3]])!!.toFloat()))
+                entries.add(Entry(2f, (map[daysOfTheWeek[4]])!!.toFloat()))
+                entries.add(Entry(3f, (map[daysOfTheWeek[5]])!!.toFloat()))
+                entries.add(Entry(4f, (map[daysOfTheWeek[6]])!!.toFloat()))
+                entries.add(Entry(5f, (map[daysOfTheWeek[7]])!!.toFloat()))
+                entries.add(Entry(6f, (map[daysOfTheWeek[1]])!!.toFloat()))
+
+            }
+            30 -> {
+                for (i in 1..30) {
+                    if (map[i.toString()]?.toFloat() != null) {
+                        entries.add(BarEntry(i.toFloat(), (map[i.toString()])!!.toFloat()))
+                    }
                 }
             }
         }
@@ -357,7 +383,7 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
         xAxis.setDrawGridLines(false)
         xAxis.setDrawAxisLine(false)
         xAxis.isGranularityEnabled = true
-        xAxis.labelCount = 7
+        xAxis.labelCount = chartDays
         xAxis.textColor = ContextCompat.getColor(requireContext(), R.color.colorLightHint)
         xAxis.textSize = 12f
 
@@ -383,17 +409,26 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
                     value.toString()
                 }
             }
-
         }
 
-        val daysOfTheWeek = resources.getStringArray(R.array.days_of_week)
-        xAxis.valueFormatter = object : ValueFormatter() {
-            override fun getFormattedValue(value: Float): String {
-                return if (value.toInt() > -1 && value.toInt() < 7) {
-                    daysOfTheWeek[value.toInt()]
-                } else ""
+        when (chartDays) {
+            7 -> {
+                val daysOfTheWeek = resources.getStringArray(R.array.days_of_week)
+                xAxis.valueFormatter = object : ValueFormatter() {
+                    override fun getFormattedValue(value: Float): String {
+                        return if (value.toInt() > -1 && value.toInt() < 7) {
+                            daysOfTheWeek[value.toInt()]
+                        } else ""
+                    }
+                }
+            }
+            30 -> {
+                xAxis.valueFormatter = null
+                xAxis.labelRotationAngle = -90f
+                xAxis.textSize = 10f
             }
         }
+
         snoreDurationChart.data = setDurationData(getSnoreDurationList())
         snoreDurationChart.animateY(1000)
     }
@@ -402,22 +437,38 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
         val snoreMap = mutableMapOf<String, Long>()
         allRecordings.forEach { rec ->
             var duration: Long = 0
-
             rec.recordings!!.forEach {
                 duration += it.duration!!
             }
-            val sdf = SimpleDateFormat("EEE")
+            val sdf = when (chartDays) {
+                7 -> SimpleDateFormat("EEE")
+                30 -> SimpleDateFormat("d")
+                else -> SimpleDateFormat("EEE")
+            }
+
             val dayString: String = sdf.format(Date(rec.sleep_at_time!!))
             snoreMap[dayString] = duration
-        }
 
-        val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
-        daysOfTheWeek.forEach {
-            if (!snoreMap.keys.contains(it) && it != "") {
-                snoreMap[it] = 0
+
+            when (chartDays) {
+                7 -> {
+                    val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
+                    daysOfTheWeek.forEach {
+                        if (!snoreMap.keys.contains(it) && it != "") {
+                            snoreMap[it] = 0
+                        }
+                    }
+                }
+                30 -> {
+                    for (i in 1..30) {
+                        if (!snoreMap.keys.contains(i.toString())) {
+                            snoreMap[i.toString()] = 0
+                        }
+                    }
+                }
             }
+
         }
-        Log.d("qwwe", "map ${snoreMap}")
         return snoreMap
     }
 
