@@ -43,16 +43,24 @@ class StatisticsViewModel(
         CoroutineScope(Dispatchers.Main).launch {
             when (days) {
                 7 -> {
-                    Log.d("qwwe", "setting 7")
                     recordings.addSource(
                         slimboRepository.getRecordingsBetween(
                             slimboDao,
                             System.currentTimeMillis(),
                             System.currentTimeMillis() - oneDayInMills * 7
                         )
-                    ) {
-                        recordings.value = it
-                    }
+                    ) { recordings.value = it }
+                }
+                30 -> {
+                    val calendar = Calendar.getInstance();
+                    calendar.add(Calendar.MONTH, -1)
+                    recordings.addSource(
+                        slimboRepository.getRecordingsBetween(
+                            slimboDao,
+                            System.currentTimeMillis(),
+                            System.currentTimeMillis() - calendar.timeInMillis
+                        )
+                    ) { recordings.value = it }
                 }
             }
 

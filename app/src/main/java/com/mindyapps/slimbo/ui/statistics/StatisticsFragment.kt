@@ -51,6 +51,7 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
     private lateinit var yearChip: Chip
     private lateinit var allChip: Chip
 
+    private var chartDays = 7
     private var root: View? = null
 
     override fun onCreateView(
@@ -88,6 +89,7 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
     }
 
     private fun setFrequencyChart() {
+        frequencyChart.clear()
         frequencyChart.setDrawBarShadow(false)
         frequencyChart.description.isEnabled = false
         frequencyChart.legend.isEnabled = false
@@ -101,14 +103,14 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
             frequencyChart.viewPortHandler
         )
         barChartRender.setContext(requireContext())
-        barChartRender.setRadius(40)
+        barChartRender.setRadius(50)
         frequencyChart.renderer = barChartRender
 
         val xAxis = frequencyChart.xAxis
         xAxis.position = XAxisPosition.BOTTOM
         xAxis.setDrawGridLines(false)
         xAxis.setDrawAxisLine(false)
-        xAxis.labelCount = 7
+        xAxis.labelCount = chartDays
         xAxis.textColor = ContextCompat.getColor(requireContext(), R.color.colorLightHint)
         xAxis.textSize = 12f
 
@@ -123,13 +125,19 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
         frequencyChart.axisLeft.isGranularityEnabled = true
 
 
-        val daysOfTheWeek = resources.getStringArray(R.array.days_of_week)
-        xAxis.valueFormatter = object : ValueFormatter() {
-            override fun getFormattedValue(value: Float): String {
-                return if (value.toInt() > -1 && value.toInt() < 7) {
-                    daysOfTheWeek[value.toInt()]
-                } else ""
+        if (chartDays == 7) {
+            val daysOfTheWeek = resources.getStringArray(R.array.days_of_week)
+            xAxis.valueFormatter = object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    return if (value.toInt() > -1 && value.toInt() < 7) {
+                        daysOfTheWeek[value.toInt()]
+                    } else ""
+                }
             }
+        } else if (chartDays == 30){
+            xAxis.valueFormatter = null
+            xAxis.labelRotationAngle = -90f
+            xAxis.textSize = 10f
         }
 
         frequencyChart.data = setFrequencyData(getSnoreCountList())
@@ -139,19 +147,37 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
 
     private fun getSnoreCountList(): Map<String, Int> {
         val snoreMap = mutableMapOf<String, Int>()
-        allRecordings.forEach { rec ->
-            val sdf = SimpleDateFormat("EEE")
-            val dayString: String = sdf.format(Date(rec.sleep_at_time!!))
-            if (rec.recordings != null && rec.recordings.size > 0) {
-                snoreMap[dayString] = rec.recordings.size
-            } else {
-                snoreMap[dayString] = 0
+        if (chartDays == 7) {
+            allRecordings.forEach { rec ->
+                val sdf = SimpleDateFormat("EEE")
+                val dayString: String = sdf.format(Date(rec.sleep_at_time!!))
+                if (rec.recordings != null && rec.recordings.size > 0) {
+                    snoreMap[dayString] = rec.recordings.size
+                } else {
+                    snoreMap[dayString] = 0
+                }
             }
-        }
-        val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
-        daysOfTheWeek.forEach {
-            if (!snoreMap.keys.contains(it) && it != "") {
-                snoreMap[it] = 0
+            val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
+            daysOfTheWeek.forEach {
+                if (!snoreMap.keys.contains(it) && it != "") {
+                    snoreMap[it] = 0
+                }
+            }
+        } else if (chartDays == 30) {
+            allRecordings.forEach {  rec ->
+                val sdf = SimpleDateFormat("d")
+                val dayString: String = sdf.format(Date(rec.sleep_at_time!!))
+
+                if (rec.recordings != null && rec.recordings.size > 0) {
+                    snoreMap[dayString] = rec.recordings.size
+                } else {
+                    snoreMap[dayString] = 0
+                }
+            }
+            for (i in 1..30) {
+                if (!snoreMap.keys.contains(i.toString())) {
+                    snoreMap[i.toString()] = 0
+                }
             }
         }
         return snoreMap
@@ -159,14 +185,21 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
 
     private fun setFrequencyData(map: Map<String, Int>): BarData {
         val entries: ArrayList<BarEntry> = ArrayList()
-        val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
-        entries.add(BarEntry(0f, (map[daysOfTheWeek[2]])!!.toFloat()))
-        entries.add(BarEntry(1f, (map[daysOfTheWeek[3]])!!.toFloat()))
-        entries.add(BarEntry(2f, (map[daysOfTheWeek[4]])!!.toFloat()))
-        entries.add(BarEntry(3f, (map[daysOfTheWeek[5]])!!.toFloat()))
-        entries.add(BarEntry(4f, (map[daysOfTheWeek[6]])!!.toFloat()))
-        entries.add(BarEntry(5f, (map[daysOfTheWeek[7]])!!.toFloat()))
-        entries.add(BarEntry(6f, (map[daysOfTheWeek[1]])!!.toFloat()))
+
+        if (chartDays == 7) {
+            val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
+            entries.add(BarEntry(0f, (map[daysOfTheWeek[2]])!!.toFloat()))
+            entries.add(BarEntry(1f, (map[daysOfTheWeek[3]])!!.toFloat()))
+            entries.add(BarEntry(2f, (map[daysOfTheWeek[4]])!!.toFloat()))
+            entries.add(BarEntry(3f, (map[daysOfTheWeek[5]])!!.toFloat()))
+            entries.add(BarEntry(4f, (map[daysOfTheWeek[6]])!!.toFloat()))
+            entries.add(BarEntry(5f, (map[daysOfTheWeek[7]])!!.toFloat()))
+            entries.add(BarEntry(6f, (map[daysOfTheWeek[1]])!!.toFloat()))
+        } else if (chartDays == 30) {
+            for (i in 1..30) {
+                entries.add(BarEntry(i.toFloat(), (map[i.toString()])!!.toFloat()))
+            }
+        }
 
 
         val barDataSet = BarDataSet(entries, "")
@@ -250,7 +283,6 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
                 snoreMap[it] = 0
             }
         }
-        Log.d("qwwe", "map ${snoreMap}")
         return snoreMap
     }
 
@@ -342,7 +374,6 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
             var duration: Long = 0
 
             rec.recordings!!.forEach {
-                Log.d("qwwe", "duration ${it.duration}")
                 duration += it.duration!!
             }
             val sdf = SimpleDateFormat("EEE")
@@ -481,6 +512,11 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
         when (v!!.id) {
             R.id.week_chip -> {
                 viewModel.setRecordings(7)
+                chartDays = 7
+            }
+            R.id.month_chip -> {
+                viewModel.setRecordings(30)
+                chartDays = 30
             }
         }
     }
