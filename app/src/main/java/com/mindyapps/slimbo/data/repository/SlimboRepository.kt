@@ -1,6 +1,7 @@
 package com.mindyapps.slimbo.data.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.mindyapps.slimbo.data.db.SlimboDao
 import com.mindyapps.slimbo.data.model.Factor
 import com.mindyapps.slimbo.data.model.Music

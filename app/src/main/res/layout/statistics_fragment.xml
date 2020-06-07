@@ -22,33 +22,68 @@
             app:flexWrap="wrap"
             app:justifyContent="center">
 
-            <com.google.android.material.chip.Chip
+            <com.google.android.material.chip.ChipGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/week"
-                android:textColor="@color/colorWhiteText"
-                app:chipSurfaceColor="@color/colorCardChipTransparent" />
+                app:selectionRequired="true"
+                app:singleSelection="true">
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/month"
-                android:textColor="@color/colorWhiteText"
-                app:chipSurfaceColor="@color/colorCardChipTransparent" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/week_chip"
+                    style="@style/CustomChipChoice"
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="@string/week"
+                    android:textAlignment="center"
+                    app:checkedIconEnabled="false"
+                    app:chipMinTouchTargetSize="0dp" />
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/year"
-                android:textColor="@color/colorWhiteText"
-                app:chipSurfaceColor="@color/colorCardChipTransparent" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/month_chip"
+                    style="@style/CustomChipChoice"
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="@string/month"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhiteText"
+                    app:checkedIconEnabled="false"
+                    app:chipMinTouchTargetSize="0dp" />
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/all"
-                android:textColor="@color/colorWhiteText"
-                app:chipSurfaceColor="@color/colorCardChipTransparent" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/year_chip"
+                    style="@style/CustomChipChoice"
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="@string/year"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhiteText"
+                    app:checkedIconEnabled="false"
+                    app:chipMinTouchTargetSize="0dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/all_chip"
+                    style="@style/CustomChipChoice"
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="@string/all"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhiteText"
+                    app:checkedIconEnabled="false"
+                    app:chipMinTouchTargetSize="0dp" />
+
+            </com.google.android.material.chip.ChipGroup>
 
         </com.google.android.flexbox.FlexboxLayout>
 
@@ -188,10 +223,10 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/good_recycler"
-                    android:layout_below="@id/good_sleep"
-                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/good_sleep"
+                    android:layout_marginTop="5dp" />
 
             </RelativeLayout>
 
@@ -223,10 +258,10 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/bad_recycler"
-                    android:layout_below="@id/bad_sleep"
-                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/bad_sleep"
+                    android:layout_marginTop="5dp" />
 
             </RelativeLayout>
 

@@ -28,6 +28,8 @@
     <color name="colorScarlet">#EF6484</color>
     <color name="colorRed">#DA3145</color>
     <color name="colorBadBack">#942E35B1</color>
+    <color name="colorStatChip">#2E3671</color>
+    <color name="colorSelectedChip">#0294AE</color>
 
 
 </resources>

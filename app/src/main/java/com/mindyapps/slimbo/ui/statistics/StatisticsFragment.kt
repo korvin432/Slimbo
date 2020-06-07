@@ -18,6 +18,7 @@ import com.github.mikephil.charting.components.XAxis.XAxisPosition
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.model.GradientColor
+import com.google.android.material.chip.Chip
 import com.mindyapps.slimbo.R
 import com.mindyapps.slimbo.data.model.Factor
 import com.mindyapps.slimbo.data.model.Recording
@@ -33,7 +34,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 
-class StatisticsFragment : Fragment() {
+class StatisticsFragment : Fragment(), View.OnClickListener {
 
     private var repository = SlimboRepositoryImpl()
     private lateinit var viewModel: StatisticsViewModel
@@ -45,6 +46,10 @@ class StatisticsFragment : Fragment() {
     private lateinit var goodRecyclerView: RecyclerView
     private lateinit var badRecyclerView: RecyclerView
     private lateinit var progressAdapter: FactorProgressAdapter
+    private lateinit var weekChip: Chip
+    private lateinit var monthChip: Chip
+    private lateinit var yearChip: Chip
+    private lateinit var allChip: Chip
 
     private var root: View? = null
 
@@ -59,6 +64,17 @@ class StatisticsFragment : Fragment() {
             snoreDurationChart = root!!.findViewById(R.id.snore_duration_chart)
             goodRecyclerView = root!!.findViewById(R.id.good_recycler)
             badRecyclerView = root!!.findViewById(R.id.bad_recycler)
+            weekChip = root!!.findViewById(R.id.week_chip)
+            monthChip = root!!.findViewById(R.id.month_chip)
+            yearChip = root!!.findViewById(R.id.year_chip)
+            allChip = root!!.findViewById(R.id.all_chip)
+
+            weekChip.isChecked = true
+
+            weekChip.setOnClickListener(this)
+            monthChip.setOnClickListener(this)
+            yearChip.setOnClickListener(this)
+            allChip.setOnClickListener(this)
         }
         return root
     }
@@ -447,7 +463,7 @@ class StatisticsFragment : Fragment() {
 
     private fun setSubscriber() {
         observerRecordings = Observer { recordings ->
-            if (recordings.isNotEmpty()) {
+            if (recordings != null && recordings.isNotEmpty()) {
                 allRecordings = recordings
                 initCharts()
             }
@@ -458,6 +474,14 @@ class StatisticsFragment : Fragment() {
     private fun loaRecordings() {
         lifecycleScope.launch {
             viewModel.recordings.observe(viewLifecycleOwner, observerRecordings)
+        }
+    }
+
+    override fun onClick(v: View?) {
+        when (v!!.id) {
+            R.id.week_chip -> {
+                viewModel.setRecordings(7)
+            }
         }
     }
 }

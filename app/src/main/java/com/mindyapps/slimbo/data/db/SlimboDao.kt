@@ -1,6 +1,7 @@
 package com.mindyapps.slimbo.data.db
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 import com.mindyapps.slimbo.data.model.*
 
