@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -49,7 +51,8 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
     private lateinit var weekChip: Chip
     private lateinit var monthChip: Chip
     private lateinit var yearChip: Chip
-    private lateinit var allChip: Chip
+    private lateinit var noGoodText: TextView
+    private lateinit var noBadText: TextView
 
     private var chartDays = 7
     private var root: View? = null
@@ -68,14 +71,14 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
             weekChip = root!!.findViewById(R.id.week_chip)
             monthChip = root!!.findViewById(R.id.month_chip)
             yearChip = root!!.findViewById(R.id.year_chip)
-            allChip = root!!.findViewById(R.id.all_chip)
+            noGoodText = root!!.findViewById(R.id.no_good_text)
+            noBadText = root!!.findViewById(R.id.no_bad_text)
 
             weekChip.isChecked = true
 
             weekChip.setOnClickListener(this)
             monthChip.setOnClickListener(this)
             yearChip.setOnClickListener(this)
-            allChip.setOnClickListener(this)
         }
         return root
     }
@@ -125,13 +128,14 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
         frequencyChart.axisRight.isEnabled = false
         frequencyChart.axisLeft.textColor =
             ContextCompat.getColor(requireContext(), R.color.colorLightHint)
-        frequencyChart.axisLeft.textSize = 15f
+        frequencyChart.axisLeft.textSize = 13f
         frequencyChart.axisLeft.granularity = 1.0f
         frequencyChart.axisLeft.isGranularityEnabled = true
 
 
         when (chartDays) {
             7 -> {
+                xAxis.labelRotationAngle = 0f
                 val daysOfTheWeek = resources.getStringArray(R.array.days_of_week)
                 xAxis.valueFormatter = object : ValueFormatter() {
                     override fun getFormattedValue(value: Float): String {
@@ -273,7 +277,7 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
         sleepDurationChart.axisRight.isEnabled = false
         sleepDurationChart.axisLeft.textColor =
             ContextCompat.getColor(requireContext(), R.color.colorLightHint)
-        sleepDurationChart.axisLeft.textSize = 15f
+        sleepDurationChart.axisLeft.textSize = 13f
         sleepDurationChart.axisLeft.granularity = 1.0f
         sleepDurationChart.axisLeft.isGranularityEnabled = true
         sleepDurationChart.axisLeft.valueFormatter = object : ValueFormatter() {
@@ -295,6 +299,7 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
 
         when (chartDays) {
             7 -> {
+                xAxis.labelRotationAngle = 0f
                 val daysOfTheWeek = resources.getStringArray(R.array.days_of_week)
                 xAxis.valueFormatter = object : ValueFormatter() {
                     override fun getFormattedValue(value: Float): String {
@@ -445,7 +450,7 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
         snoreDurationChart.axisRight.isEnabled = false
         snoreDurationChart.axisLeft.textColor =
             ContextCompat.getColor(requireContext(), R.color.colorLightHint)
-        snoreDurationChart.axisLeft.textSize = 15f
+        snoreDurationChart.axisLeft.textSize = 13f
         snoreDurationChart.axisLeft.granularity = 1.0f
         snoreDurationChart.axisLeft.isGranularityEnabled = true
         snoreDurationChart.axisLeft.valueFormatter = object : ValueFormatter() {
@@ -473,6 +478,7 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
                         } else ""
                     }
                 }
+                xAxis.labelRotationAngle = 0f
             }
             30 -> {
                 xAxis.valueFormatter = null
@@ -590,6 +596,11 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
         )
         goodRecyclerView.layoutManager = linearLayoutManager
         goodRecyclerView.adapter = progressAdapter
+        if (progressAdapter.itemCount == 0){
+            noGoodText.visibility = View.VISIBLE
+        } else {
+            noGoodText.visibility = View.GONE
+        }
     }
 
     private fun setBadRecyclerView() {
@@ -635,6 +646,11 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
         )
         badRecyclerView.layoutManager = linearLayoutManager
         badRecyclerView.adapter = progressAdapter
+        if (progressAdapter.itemCount == 0){
+            noBadText.visibility = View.VISIBLE
+        } else {
+            noBadText.visibility = View.GONE
+        }
     }
 
 

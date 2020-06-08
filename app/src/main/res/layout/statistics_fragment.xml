@@ -69,19 +69,6 @@
                     app:checkedIconEnabled="false"
                     app:chipMinTouchTargetSize="0dp" />
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/all_chip"
-                    style="@style/CustomChipChoice"
-                    android:layout_width="75dp"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="@string/all"
-                    android:textAlignment="center"
-                    android:textColor="@color/colorWhiteText"
-                    app:checkedIconEnabled="false"
-                    app:chipMinTouchTargetSize="0dp" />
 
             </com.google.android.material.chip.ChipGroup>
 
@@ -91,9 +78,9 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:cardBackgroundColor="@color/card_bg"
             android:layout_marginTop="10dp"
+            android:visibility="visible"
+            app:cardBackgroundColor="@color/colorTransparent"
             app:cardCornerRadius="8dp"
             app:cardUseCompatPadding="true">
 
@@ -101,7 +88,9 @@
                 android:id="@+id/rec_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/card_background_gradient"
+                android:background="@drawable/recording_card_background_gradient"
+                android:backgroundTint="@color/colorFifthCard"
+                android:backgroundTintMode="src_over"
                 android:paddingVertical="10dp">
 
                 <TextView
@@ -114,7 +103,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/snore_frequency"
                     android:textColor="@color/colorWhiteText"
-                    android:textSize="21sp" />
+                    android:textSize="19sp" />
 
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/frequency_chart"
@@ -130,14 +119,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            app:cardBackgroundColor="@color/card_bg"
+            app:cardBackgroundColor="@color/colorTransparent"
             app:cardCornerRadius="8dp"
             app:cardUseCompatPadding="true">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/card_background_gradient"
+                android:background="@drawable/recording_card_background_gradient"
+                android:backgroundTint="@color/colorFifthCard"
+                android:backgroundTintMode="src_over"
                 android:padding="10dp">
 
                 <TextView
@@ -150,7 +141,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/sleep_duration"
                     android:textColor="@color/colorWhiteText"
-                    android:textSize="21sp" />
+                    android:textSize="19sp" />
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/duration_chart"
@@ -166,14 +157,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            app:cardBackgroundColor="@color/card_bg"
+            app:cardBackgroundColor="@color/colorTransparent"
             app:cardCornerRadius="8dp"
             app:cardUseCompatPadding="true">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/card_background_gradient"
+                android:background="@drawable/recording_card_background_gradient"
+                android:backgroundTint="@color/colorFifthCard"
+                android:backgroundTintMode="src_over"
                 android:padding="10dp">
 
                 <TextView
@@ -186,7 +179,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/snore_duration"
                     android:textColor="@color/colorWhiteText"
-                    android:textSize="21sp" />
+                    android:textSize="19sp" />
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/snore_duration_chart"
@@ -201,14 +194,16 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/card_bg"
+            app:cardBackgroundColor="@color/colorTransparent"
             app:cardCornerRadius="8dp"
             app:cardUseCompatPadding="true">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/card_background_gradient"
+                android:background="@drawable/recording_card_background_gradient"
+                android:backgroundTint="@color/colorFifthCard"
+                android:backgroundTintMode="src_over"
                 android:padding="10dp">
 
                 <TextView
@@ -220,7 +215,17 @@
                     android:gravity="center_vertical"
                     android:text="@string/good_sleep"
                     android:textColor="@color/colorWhiteText"
-                    android:textSize="21sp" />
+                    android:textSize="19sp" />
+
+                <TextView
+                    android:id="@+id/no_good_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_marginVertical="5dp"
+                    android:layout_below="@id/good_sleep"
+                    android:text="@string/not_enough_data"
+                    android:textColor="@color/colorLightHint" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/good_recycler"
@@ -236,14 +241,16 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/card_bg"
+            app:cardBackgroundColor="@color/colorTransparent"
             app:cardCornerRadius="8dp"
             app:cardUseCompatPadding="true">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/card_background_gradient"
+                android:background="@drawable/recording_card_background_gradient"
+                android:backgroundTint="@color/colorFifthCard"
+                android:backgroundTintMode="src_over"
                 android:padding="10dp">
 
                 <TextView
@@ -255,7 +262,17 @@
                     android:gravity="center_vertical"
                     android:text="@string/bad_sleep"
                     android:textColor="@color/colorWhiteText"
-                    android:textSize="21sp" />
+                    android:textSize="19sp" />
+
+                <TextView
+                    android:id="@+id/no_bad_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_marginVertical="5dp"
+                    android:layout_below="@id/bad_sleep"
+                    android:text="@string/not_enough_data"
+                    android:textColor="@color/colorLightHint" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/bad_recycler"
