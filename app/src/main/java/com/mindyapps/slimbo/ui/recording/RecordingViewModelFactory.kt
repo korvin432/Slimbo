@@ -6,11 +6,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.mindyapps.slimbo.data.repository.SlimboRepository
 
 class RecordingViewModelFactory(
-    private val application: Application
+    private val application: Application,
+    val slimboRepository: SlimboRepository
 ) :
     ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return RecordingViewModel(application) as T
+        return RecordingViewModel(slimboRepository, application) as T
     }
 }

@@ -116,6 +116,8 @@
     <string name="percentage"> \%%</string>
     <string name="bad_sleep">Bad sleep</string>
     <string name="not_enough_data">Not enough data</string>
+    <string name="delete">Delete</string>
+    <string name="delete_rec_text">Do you really want to delete this entry?</string>
     <string-array name="repeat_minutes">
         <item>Never</item>
         <item>5</item>

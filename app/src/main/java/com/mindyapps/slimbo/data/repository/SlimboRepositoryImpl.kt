@@ -46,4 +46,8 @@ class SlimboRepositoryImpl : SlimboRepository {
     ): LiveData<List<Recording>> {
         return slimboDao.getRecordingsBetween(startTime, endTime)
     }
+
+    override fun deleteRecording(slimboDao: SlimboDao, recording: Recording) {
+        return slimboDao.deleteRecording(recording)
+    }
 }

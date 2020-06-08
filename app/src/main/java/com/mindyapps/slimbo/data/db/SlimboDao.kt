@@ -39,4 +39,7 @@ interface SlimboDao {
 
     @Query("SELECT * FROM recordings WHERE sleep_at_time BETWEEN :endTime AND :startTime")
     fun getRecordingsBetween(startTime: Long, endTime: Long): LiveData<List<Recording>>
+
+    @Delete
+    fun deleteRecording(recording: Recording)
 }

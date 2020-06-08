@@ -7,17 +7,18 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -67,6 +68,7 @@ class RecordingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.recording_fragment, container, false)
+        setHasOptionsMenu(true)
 
         progress = root.findViewById(R.id.sleep_progress)
         factorsRecycler = root.findViewById(R.id.selected_factors_recycler)
@@ -120,6 +122,34 @@ class RecordingFragment : Fragment() {
         checkEmptyData()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.recording_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.delete) {
+            val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogCustom)
+            with(builder)
+            {
+                setMessage(getString(R.string.delete_rec_text))
+                setPositiveButton(android.R.string.yes) { _, _ ->
+                    viewModel.deleteRecording(recording)
+                    requireActivity().supportFragmentManager.popBackStack()
+                }
+                setNegativeButton(android.R.string.no) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                show()
+            }
+            return true
+        }
+        return NavigationUI.onNavDestinationSelected(
+            item,
+            requireView().findNavController()
+        ) || super.onOptionsItemSelected(item)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         if (snoreAdapter.mediaPlayer != null && snoreAdapter.mediaPlayer!!.isPlaying) {
@@ -161,7 +191,7 @@ class RecordingFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(
-            this, RecordingViewModelFactory(requireActivity().application)
+            this, RecordingViewModelFactory(requireActivity().application, repository)
         ).get(RecordingViewModel::class.java)
         factorsRecyclerAdapter.setFactors(selectedFactors)
     }

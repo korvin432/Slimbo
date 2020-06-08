@@ -12,13 +12,20 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class RecordingViewModel(application: Application) :
+class RecordingViewModel(val slimboRepository: SlimboRepository, application: Application) :
     ViewModel() {
+
     val slimboDao = SlimboDatabase.getDatabase(application).slimboDao()
 
     fun updateRecording(id: Int, rating: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            slimboDao.updateRecording(id, rating)
+            slimboRepository.updateRecording(slimboDao, id, rating)
+        }
+    }
+
+    fun deleteRecording(recording: Recording) {
+        CoroutineScope(Dispatchers.IO).launch {
+            slimboRepository.deleteRecording(slimboDao, recording)
         }
     }
 }
