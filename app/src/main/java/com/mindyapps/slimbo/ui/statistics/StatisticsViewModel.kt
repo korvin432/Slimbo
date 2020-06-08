@@ -28,11 +28,17 @@ class StatisticsViewModel(
 
 
     init {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.clear(Calendar.MINUTE)
+        calendar.clear(Calendar.SECOND)
+        calendar.clear(Calendar.MILLISECOND)
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
         recordings.addSource(
             slimboRepository.getRecordingsBetween(
                 slimboDao,
                 System.currentTimeMillis(),
-                System.currentTimeMillis() - oneDayInMills * 7
+                calendar.timeInMillis
             )
         ) {
             recordings.value = it
@@ -43,11 +49,18 @@ class StatisticsViewModel(
         CoroutineScope(Dispatchers.Main).launch {
             when (days) {
                 7 -> {
+                    val calendar = Calendar.getInstance()
+                    calendar.set(Calendar.HOUR_OF_DAY, 0)
+                    calendar.clear(Calendar.MINUTE)
+                    calendar.clear(Calendar.SECOND)
+                    calendar.clear(Calendar.MILLISECOND)
+                    calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
+
                     recordings.addSource(
                         slimboRepository.getRecordingsBetween(
                             slimboDao,
                             System.currentTimeMillis(),
-                            System.currentTimeMillis() - oneDayInMills * 7
+                            calendar.timeInMillis
                         )
                     ) { recordings.value = it }
                 }

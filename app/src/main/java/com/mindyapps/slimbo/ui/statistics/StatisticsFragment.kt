@@ -106,7 +106,7 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
         barChartRender.setRadius(50)
         if (chartDays == 30) {
             barChartRender.setRadius(12)
-        } else if (chartDays == 12){
+        } else if (chartDays == 12) {
             barChartRender.setRadius(35)
         }
         frequencyChart.renderer = barChartRender
@@ -130,7 +130,7 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
         frequencyChart.axisLeft.isGranularityEnabled = true
 
 
-        when (chartDays){
+        when (chartDays) {
             7 -> {
                 val daysOfTheWeek = resources.getStringArray(R.array.days_of_week)
                 xAxis.valueFormatter = object : ValueFormatter() {
@@ -174,23 +174,15 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
 
             val dayString: String = sdf.format(Date(rec.sleep_at_time!!))
             if (rec.recordings != null && rec.recordings.size > 0) {
-                if (chartDays != 12) {
-                    snoreMap[dayString] = rec.recordings.size
+                if (snoreMap[dayString] != null) {
+                    snoreMap[dayString] = snoreMap.getValue(dayString) + rec.recordings.size
                 } else {
-                    // неправильной подсчитывает
-                    if (snoreMap[dayString] != null) {
-                        Log.d("qwwe", "!= ${snoreMap.getValue(dayString) + rec.recordings.size}")
-                        snoreMap[dayString] = snoreMap.getValue(dayString) + rec.recordings.size
-                    } else {
-                        Log.d("qwwe", "null: ${rec.recordings.size}")
-                        snoreMap[dayString] = rec.recordings.size
-                    }
+                    snoreMap[dayString] = rec.recordings.size
                 }
-            } else {
-                snoreMap[dayString] = 0
             }
 
         }
+        Log.d("qwwe", "snoremap $snoreMap")
         when (chartDays) {
             7 -> {
                 val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
@@ -339,8 +331,16 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
                     SimpleDateFormat("EEE")
                 }
             }
+
+
             val dayString: String = sdf.format(Date(rec.sleep_at_time!!))
-            snoreMap[dayString] = rec.wake_up_time!! - rec.sleep_at_time
+            if (snoreMap[dayString] != null) {
+                snoreMap[dayString] =
+                    snoreMap.getValue(dayString) + (rec.wake_up_time!! - rec.sleep_at_time)
+            } else {
+                snoreMap[dayString] = rec.wake_up_time!! - rec.sleep_at_time
+            }
+
         }
 
         when (chartDays) {
@@ -482,8 +482,11 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
             }
 
             val dayString: String = sdf.format(Date(rec.sleep_at_time!!))
-            snoreMap[dayString] = duration
-
+            if (snoreMap[dayString] != null) {
+                snoreMap[dayString] = snoreMap.getValue(dayString) + duration
+            } else {
+                snoreMap[dayString] = duration
+            }
 
             when (chartDays) {
                 7 -> {
