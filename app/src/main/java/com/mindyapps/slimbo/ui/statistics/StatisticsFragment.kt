@@ -182,7 +182,6 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
             }
 
         }
-        Log.d("qwwe", "snoremap $snoreMap")
         when (chartDays) {
             7 -> {
                 val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
@@ -235,7 +234,6 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
                 months.forEachIndexed { index, s ->
                     entries.add(BarEntry(index.toFloat(), (map[s.toString()])!!.toFloat()))
                 }
-
             }
         }
 
@@ -311,6 +309,16 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
                 xAxis.labelRotationAngle = -90f
                 xAxis.textSize = 10f
             }
+            12 -> {
+                val months = DateFormatSymbols.getInstance().shortMonths
+                xAxis.valueFormatter = object : ValueFormatter() {
+                    override fun getFormattedValue(value: Float): String {
+                        return if (value.toInt() > -1 && value.toInt() < 12) {
+                            months[value.toInt()]
+                        } else ""
+                    }
+                }
+            }
         }
 
         sleepDurationChart.data = setDurationData(getSleepDurationList())
@@ -321,15 +329,10 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
         val snoreMap = mutableMapOf<String, Long>()
         allRecordings.forEach { rec ->
             val sdf = when (chartDays) {
-                7 -> {
-                    SimpleDateFormat("EEE")
-                }
-                30 -> {
-                    SimpleDateFormat("d")
-                }
-                else -> {
-                    SimpleDateFormat("EEE")
-                }
+                7 ->  SimpleDateFormat("EEE")
+                30 ->  SimpleDateFormat("d")
+                12 -> SimpleDateFormat("MMM")
+                else -> SimpleDateFormat("EEE")
             }
 
 
@@ -359,6 +362,14 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
                     }
                 }
             }
+            12 -> {
+                val months = DateFormatSymbols.getInstance().shortMonths
+                months.forEach {
+                    if (!snoreMap.keys.contains(it) && it != "") {
+                        snoreMap[it] = 0
+                    }
+                }
+            }
         }
 
         return snoreMap
@@ -384,6 +395,12 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
                     if (map[i.toString()]?.toFloat() != null) {
                         entries.add(BarEntry(i.toFloat(), (map[i.toString()])!!.toFloat()))
                     }
+                }
+            }
+            12 -> {
+                val months = DateFormatSymbols.getInstance().shortMonths
+                months.forEachIndexed { index, s ->
+                    entries.add(BarEntry(index.toFloat(), (map[s.toString()])!!.toFloat()))
                 }
             }
         }
@@ -462,6 +479,17 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
                 xAxis.labelRotationAngle = -90f
                 xAxis.textSize = 10f
             }
+
+            12 -> {
+                val months = DateFormatSymbols.getInstance().shortMonths
+                xAxis.valueFormatter = object : ValueFormatter() {
+                    override fun getFormattedValue(value: Float): String {
+                        return if (value.toInt() > -1 && value.toInt() < 12) {
+                            months[value.toInt()]
+                        } else ""
+                    }
+                }
+            }
         }
 
         snoreDurationChart.data = setDurationData(getSnoreDurationList())
@@ -478,6 +506,7 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
             val sdf = when (chartDays) {
                 7 -> SimpleDateFormat("EEE")
                 30 -> SimpleDateFormat("d")
+                12 -> SimpleDateFormat("MMM")
                 else -> SimpleDateFormat("EEE")
             }
 
@@ -501,6 +530,14 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
                     for (i in 1..30) {
                         if (!snoreMap.keys.contains(i.toString())) {
                             snoreMap[i.toString()] = 0
+                        }
+                    }
+                }
+                12 -> {
+                    val months = DateFormatSymbols.getInstance().shortMonths
+                    months.forEach {
+                        if (!snoreMap.keys.contains(it) && it != "") {
+                            snoreMap[it] = 0
                         }
                     }
                 }
