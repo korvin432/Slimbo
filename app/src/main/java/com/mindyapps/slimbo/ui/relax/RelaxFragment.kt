@@ -131,7 +131,6 @@ class RelaxFragment : Fragment(), View.OnClickListener {
     }
 
     private fun stopPlaying() {
-        Log.d("qwwe", "onstop")
         if (player != null && player!!.isPlaying) player!!.stop()
         if (musicAdapter.mediaPlayer != null && musicAdapter.mediaPlayer!!.isPlaying) {
             musicAdapter.mediaPlayer!!.stop()

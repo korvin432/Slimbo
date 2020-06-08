@@ -7,14 +7,14 @@
     android:background="@drawable/card_background_gradient"
     app:backgroundTint="@null"
     android:orientation="vertical"
-    android:padding="15dp"
+    android:padding="5dp"
     tools:context=".ui.dialogs.music_select.SelectMusicFragment">
 
     <org.angmarch.views.NiceSpinner
         android:id="@+id/nice_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimaryDark"
+        android:backgroundTint="@color/colorTransparent"
         android:layout_marginTop="5dp"
         android:textSize="18sp"/>
 
@@ -28,7 +28,7 @@
         style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/button_ripple"
         app:backgroundTint="@null"
         android:text="@string/confirm"
