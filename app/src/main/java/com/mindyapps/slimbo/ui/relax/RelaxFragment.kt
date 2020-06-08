@@ -3,6 +3,7 @@ package com.mindyapps.slimbo.ui.relax
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -130,9 +131,17 @@ class RelaxFragment : Fragment(), View.OnClickListener {
     }
 
     private fun stopPlaying() {
+        Log.d("qwwe", "onstop")
         if (player != null && player!!.isPlaying) player!!.stop()
         if (musicAdapter.mediaPlayer != null && musicAdapter.mediaPlayer!!.isPlaying) {
             musicAdapter.mediaPlayer!!.stop()
+        }
+        val mediaList: List<MediaPlayer?> = listOf(birdsPlayer, cricketPlayer, natureSoundsPlayer,
+            pinkNoisePlayer, rainInCarPlayer, rainOnTheRoofPlayer, streetNoisePlayer, thunderPlayer,
+            waterStreamPlayer, fanPlayer, forestPlayer, lightRainPlayer, mediumRainPlayer, rainPlayer,
+            seaWavesPlayer, thunderAndWindPlayer, thunderRainLoadPlayer)
+        mediaList.forEach {
+            it?.stop()
         }
     }
 
