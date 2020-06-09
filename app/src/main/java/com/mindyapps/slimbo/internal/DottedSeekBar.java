@@ -5,6 +5,9 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.SeekBar;
@@ -91,8 +94,9 @@ public class DottedSeekBar extends androidx.appcompat.widget.AppCompatSeekBar {
         if (null != mDotsPositions && 0 != mDotsPositions.length && null != mDotBitmap) {
             // draw dots if we have ones
             for (int position : mDotsPositions) {
-                canvas.drawBitmap(mDotBitmap, position * step, 16, null);
+                canvas.drawBitmap(mDotBitmap, position * step, (getHeight() - mDotBitmap.getHeight()) /2f, null);
             }
         }
     }
+
 }

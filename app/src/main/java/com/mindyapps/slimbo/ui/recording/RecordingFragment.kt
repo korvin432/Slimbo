@@ -14,7 +14,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -74,6 +73,7 @@ class RecordingFragment : Fragment() {
         factorsRecycler = root.findViewById(R.id.selected_factors_recycler)
         snoreRecycler = root.findViewById(R.id.snore_recycler)
         sleepRatingBar = root.findViewById(R.id.sleep_rating)
+
 
         if (recording.rating == null) {
             sleepRatingBar.setIsIndicator(false)
@@ -185,6 +185,7 @@ class RecordingFragment : Fragment() {
             dotList.add(((it.creation_date!! / 1000) - (recording.sleep_at_time!! / 1000)).toInt() / 2)
         }
         progress.setDots(dotList.toIntArray())
+        //indicatorProgressBar.indicatorPositions = dotList.toIntArray().toList()
         progress.setDotsDrawable(R.drawable.vertical_line)
     }
 

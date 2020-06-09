@@ -10,6 +10,7 @@
     <color name="colorChipTransparent">#16FFFFFF</color>
     <color name="colorCardChipTransparent">#07FFFFFF</color>
     <color name="colorTransparent">#00000000</color>
+    <color name="colorGray">#A8454545</color>
     <color name="colorWhiteText">#FFFFFF</color>
     <color name="colorTextHint">#CDCDCD</color>
     <color name="colorLightHint">#5CFFFFFF</color>

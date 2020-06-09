@@ -55,7 +55,7 @@ public class RecorderService extends Service {
     private int ONE_MIN_BYTES = 5292000;
     private int THIRTY_SEC_BYTES = 2646000;
     private byte RECORDER_BPP = (byte) 16;
-    private int minVolumeLevel = 15;
+    private int minVolumeLevel = 8;
     private int resID;
 
     private boolean isActive;
