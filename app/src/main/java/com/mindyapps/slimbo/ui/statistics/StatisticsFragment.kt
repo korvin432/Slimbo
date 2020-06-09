@@ -93,6 +93,7 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
 
     private fun setFrequencyChart() {
         frequencyChart.clear()
+        frequencyChart.setNoDataText("")
         frequencyChart.setDrawBarShadow(false)
         frequencyChart.description.isEnabled = false
         frequencyChart.legend.isEnabled = false
@@ -255,6 +256,7 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
 
     private fun setDurationChart() {
         sleepDurationChart.description.isEnabled = false
+        sleepDurationChart.setNoDataText("")
         sleepDurationChart.setDrawGridBackground(false)
         sleepDurationChart.setDrawMarkers(false)
         sleepDurationChart.setPinchZoom(false)
@@ -428,6 +430,7 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
 
     private fun setSnoreDurationChart() {
         snoreDurationChart.description.isEnabled = false
+        snoreDurationChart.setNoDataText("")
         snoreDurationChart.setDrawGridBackground(false)
         snoreDurationChart.setDrawMarkers(false)
         snoreDurationChart.setPinchZoom(false)

@@ -65,72 +65,65 @@
             android:background="@drawable/factors_back"
             app:cardBackgroundColor="@color/card_bg"
             app:cardCornerRadius="10dp"
-            app:cardElevation="8dp"
+            android:layout_marginHorizontal="10dp"
+            app:cardElevation="0dp"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true">
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@drawable/factors_back"
-                android:backgroundTint="@color/colorPrimaryDark"
-                android:backgroundTintMode="multiply"
-                android:orientation="vertical">
+                android:layout_height="100dp">
 
-                <FrameLayout
+                <LinearLayout
+                    android:id="@+id/factors_linear"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/factors_back"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:backgroundTintMode="multiply"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/selected_factors_recycler"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                </LinearLayout>
+
+                <io.alterac.blurkit.BlurLayout xmlns:blurkit="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/blurLayoutFactors"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.45"
+                    android:layout_gravity="bottom"
+                    blurkit:blk_blurRadius="15"
+                    blurkit:blk_downscaleFactor="0.10"
+                    blurkit:blk_fps="0">
 
                     <LinearLayout
-                        android:id="@+id/factors_linear"
+                        android:id="@+id/factors_blur"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/factors_back"
-                        android:backgroundTint="@color/colorPrimary"
-                        android:backgroundTintMode="multiply"
-                        android:orientation="vertical">
+                        android:orientation="horizontal"
+                        android:padding="5dp">
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/selected_factors_recycler"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="15dp"
-                            android:orientation="horizontal"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:text="@string/factors"
+                            android:textColor="@color/colorWhiteText"
+                            android:textSize="18sp" />
 
                     </LinearLayout>
 
-                    <io.alterac.blurkit.BlurLayout xmlns:blurkit="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/blurLayoutFactors"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        blurkit:blk_blurRadius="15"
-                        blurkit:blk_downscaleFactor="0.10"
-                        blurkit:blk_fps="0">
+                </io.alterac.blurkit.BlurLayout>
 
-                        <LinearLayout
-                            android:id="@+id/factors_blur"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="5dp">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="5dp"
-                                android:text="@string/factors"
-                                android:textColor="@color/colorWhiteText"
-                                android:textSize="18sp" />
-
-                        </LinearLayout>
-
-                    </io.alterac.blurkit.BlurLayout>
-
-                </FrameLayout>
-            </LinearLayout>
+            </FrameLayout>
 
         </androidx.cardview.widget.CardView>
 
@@ -140,8 +133,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/card_bg"
+            android:layout_marginHorizontal="10dp"
             app:cardCornerRadius="10dp"
-            app:cardElevation="8dp"
+            app:cardElevation="0dp"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true">
 

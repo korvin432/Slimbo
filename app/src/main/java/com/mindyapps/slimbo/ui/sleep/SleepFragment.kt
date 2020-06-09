@@ -77,10 +77,12 @@ class SleepFragment : Fragment(), View.OnClickListener {
                 ViewModelProvider(this, SleepViewModelFactory()).get(SleepViewModel::class.java)
             val loginActivityBackground: Drawable =
                 root!!.findViewById<RelativeLayout>(R.id.sleep_layout).background
-            loginActivityBackground.alpha = 35
+            loginActivityBackground.alpha = 55
 
             factorsCard = root!!.findViewById(R.id.factors_card)
+            factorsCard.background.alpha = 10
             musicCard = root!!.findViewById(R.id.sound_card)
+            musicCard.background.alpha = 10
             musicBlurLayout = root!!.findViewById(R.id.blurLayoutMusic)
             factorsBlurLayout = root!!.findViewById(R.id.blurLayoutFactors)
             recyclerView = root!!.findViewById(R.id.selected_factors_recycler)
@@ -143,6 +145,9 @@ class SleepFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        factors_linear.background.alpha = 68
+        sound_linear.background.alpha = 68
 
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<ArrayList<Factor>>(
             "factors"
