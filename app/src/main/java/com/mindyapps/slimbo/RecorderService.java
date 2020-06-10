@@ -259,7 +259,7 @@ public class RecorderService extends Service {
                         isSaving = true;
                         Log.d("qwwe", "Save audio to file.");
                         // Save audio to file.
-                        String filepath = Environment.getExternalStorageDirectory().getPath();
+                        String filepath = getApplicationContext().getExternalCacheDir().getPath();
                         File file = new File(filepath, "AudioRecorder");
                         if (!file.exists())
                             file.mkdirs();

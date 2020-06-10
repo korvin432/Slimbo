@@ -118,6 +118,16 @@
     <string name="not_enough_data">Not enough data</string>
     <string name="delete">Delete</string>
     <string name="delete_rec_text">Do you really want to delete this entry?</string>
+    <string name="settings">Settings</string>
+    <string name="cache">Cache</string>
+    <string name="clear_music">Clear music cache</string>
+    <string name="clear_snores">Clear snores cache</string>
+    <string name="other">Other</string>
+    <string name="more_apps">More apps</string>
+    <string name="feedback">Feedback</string>
+    <string name="delete_music_alert">Do you really want to delete all downloaded music? You will be able to download it again at any time.</string>
+    <string name="cache_cleared">Cache cleared</string>
+    <string name="delete_snores_alert">Do you really want to permanently delete all snoring records?</string>
     <string-array name="repeat_minutes">
         <item>Never</item>
         <item>5</item>

@@ -2,6 +2,7 @@ package com.mindyapps.slimbo.ui.settings.snore
 
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Switch
@@ -45,19 +46,14 @@ class AntiSnoreFragment : Fragment(), BubbleSeekBar.OnProgressChangedListener {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.anti_snore_fragment, container, false)
-        viewModel = ViewModelProvider(
-            this,
-            AntiSnoreViewModelFactory(
-                repository,
-                requireActivity().application
-            )
+        viewModel = ViewModelProvider(this,
+            AntiSnoreViewModelFactory(repository, requireActivity().application)
         ).get(AntiSnoreViewModel::class.java)
 
         setHasOptionsMenu(true)
 
         recyclerView = root.findViewById(R.id.alarm_recycler)
         durationSeekBar = root.findViewById(R.id.duration_seekbar)
-        durationSeekBar.onProgressChangedListener = this
         snoreSwitch = root.findViewById(R.id.snore_switch)
         sleepingStore = SleepingStore(
             PreferenceManager.getDefaultSharedPreferences
@@ -122,6 +118,7 @@ class AntiSnoreFragment : Fragment(), BubbleSeekBar.OnProgressChangedListener {
         snoreSwitch.isChecked = sleepingStore.useAntiSnore
         selectedSignal = Gson().fromJson(sleepingStore.antiSnoreSound, Music::class.java)
         durationSeekBar.setProgress(sleepingStore.antiSnoreDuration.toFloat())
+        durationSeekBar.onProgressChangedListener = this
     }
 
     private fun savePreferences() {

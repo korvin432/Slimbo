@@ -1,15 +1,17 @@
 package com.mindyapps.slimbo.ui.sleep
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -61,8 +63,9 @@ class SleepFragment : Fragment(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         if ((activity as MainActivity?)!!.recording != null) {
             val bundle = bundleOf(
-                "recording" to ((activity as MainActivity?)!!.recording))
-                        findNavController().navigate(R.id.recordingFragment, bundle)
+                "recording" to ((activity as MainActivity?)!!.recording)
+            )
+            findNavController().navigate(R.id.recordingFragment, bundle)
         }
     }
 
@@ -123,24 +126,18 @@ class SleepFragment : Fragment(), View.OnClickListener {
 
     override fun onStart() {
         super.onStart()
-        musicBlurLayout.startBlur()
-        factorsBlurLayout.startBlur()
-        musicBlurLayout.lockView()
-        factorsBlurLayout.lockView()
     }
 
     override fun onResume() {
         super.onResume()
-        musicBlurLayout.startBlur()
-        factorsBlurLayout.startBlur()
         requireContext().theme.applyStyle(R.style.AppThemeTransparent, true)
-        (requireActivity() as AppCompatActivity).supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        (requireActivity() as AppCompatActivity).supportActionBar!!.setBackgroundDrawable(
+            ColorDrawable(Color.TRANSPARENT)
+        )
     }
 
     override fun onPause() {
         super.onPause()
-        musicBlurLayout.pauseBlur()
-        factorsBlurLayout.pauseBlur()
         (requireActivity() as AppCompatActivity).supportActionBar!!.setBackgroundDrawable(
             ColorDrawable(ContextCompat.getColor(requireContext(), R.color.activity_bg))
         )

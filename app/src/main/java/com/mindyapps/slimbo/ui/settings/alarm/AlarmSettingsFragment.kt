@@ -162,13 +162,6 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
             }
             val intent = Intent(requireContext(), AlarmReceiver::class.java)
             val pendingIntent = PendingIntent.getBroadcast(requireContext(), it + 1, intent, 0)
-            Log.d(
-                "qwwe",
-                "set alarm on ${DateFormat.format(
-                    "dd/MM/yyyy hh:mm:ss a",
-                    calendar.timeInMillis
-                )}"
-            )
             alarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
                 calendar.timeInMillis,

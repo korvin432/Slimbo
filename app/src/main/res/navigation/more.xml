@@ -9,6 +9,25 @@
         android:id="@+id/navigation_more"
         android:name="com.mindyapps.slimbo.ui.more.MoreFragment"
         tools:layout="@layout/fragment_more"
-        android:label="@string/title_more" />
+        android:label="@string/title_more" >
+        <action
+            android:id="@+id/action_navigation_more_to_alarmSettingsFragment"
+            app:destination="@id/alarmSettingsFragment" />
+        <action
+            android:id="@+id/action_navigation_more_to_antiSnoreFragment"
+            app:destination="@id/antiSnoreFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/alarmSettingsFragment"
+        android:name="com.mindyapps.slimbo.ui.settings.alarm.AlarmSettingsFragment"
+        android:label="@string/alarm_settings"
+        tools:layout="@layout/fragment_alarm_settings"/>
+
+    <fragment
+        android:id="@+id/antiSnoreFragment"
+        android:name="com.mindyapps.slimbo.ui.settings.snore.AntiSnoreFragment"
+        android:label="@string/anti_snore"
+        tools:layout="@layout/anti_snore_fragment" />
 
 </navigation>

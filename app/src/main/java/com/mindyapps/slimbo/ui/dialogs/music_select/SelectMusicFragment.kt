@@ -198,6 +198,7 @@ class SelectMusicFragment : DialogFragment() {
                     player = MediaPlayer.create(requireContext(), resID)
                     player!!.start()
                 }
+
             }
             selectedMusic = music
         }

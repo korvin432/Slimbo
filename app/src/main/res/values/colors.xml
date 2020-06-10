@@ -19,6 +19,7 @@
     <color name="activity_bg">#222B6C</color>
     <color name="bottom_navigation_bg">#182061</color>
     <color name="card_bg">#2E3671</color>
+    <color name="card_divider">#343D80</color>
     <color name="card_bg2">#3C458F</color>
     <color name="factor_tint">#9b9db7</color>
     <color name="colorFirstCard">#40182061</color>
