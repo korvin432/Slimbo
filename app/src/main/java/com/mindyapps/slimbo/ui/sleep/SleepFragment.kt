@@ -77,7 +77,7 @@ class SleepFragment : Fragment(), View.OnClickListener {
                 ViewModelProvider(this, SleepViewModelFactory()).get(SleepViewModel::class.java)
             val loginActivityBackground: Drawable =
                 root!!.findViewById<RelativeLayout>(R.id.sleep_layout).background
-            loginActivityBackground.alpha = 99
+            loginActivityBackground.alpha = 85
 
             factorsCard = root!!.findViewById(R.id.factors_card)
             factorsCard.background.alpha = 20

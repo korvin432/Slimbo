@@ -28,21 +28,14 @@
                 android:background="@drawable/card_background_gradient"
                 android:orientation="vertical">
 
-
-                <com.google.android.material.button.MaterialButton
-                    style="@style/Base.Widget.AppCompat.Button.Borderless"
-                    android:layout_width="100dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:alpha="0.8"
-                    android:background="@drawable/chip_gradient"
-                    android:backgroundTintMode="src_over"
-                    android:scaleX="0.65"
-                    android:scaleY="0.65"
                     android:text="@string/sounds"
-                    android:textAllCaps="false"
                     android:textColor="@color/colorWhiteText"
-                    android:textSize="19sp"
-                    app:backgroundTint="@color/colorChipTransparent" />
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
+                    android:textSize="19sp"/>
 
 
                 <androidx.core.widget.NestedScrollView
@@ -1051,20 +1044,14 @@
                 android:orientation="vertical">
 
 
-                <com.google.android.material.button.MaterialButton
-                    style="@style/Base.Widget.AppCompat.Button.Borderless"
-                    android:layout_width="100dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:alpha="0.8"
-                    android:background="@drawable/chip_gradient"
-                    android:backgroundTintMode="src_over"
-                    android:scaleX="0.65"
-                    android:scaleY="0.65"
                     android:text="@string/music"
-                    android:textAllCaps="false"
                     android:textColor="@color/colorWhiteText"
-                    android:textSize="19sp"
-                    app:backgroundTint="@color/colorChipTransparent" />
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
+                    android:textSize="19sp"/>
 
 
                 <androidx.recyclerview.widget.RecyclerView

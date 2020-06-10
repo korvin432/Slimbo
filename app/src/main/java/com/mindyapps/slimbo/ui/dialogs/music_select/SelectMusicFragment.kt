@@ -124,7 +124,9 @@ class SelectMusicFragment : DialogFragment() {
 
     private fun loadMusic() {
         lifecycleScope.launch {
-            viewModel.allMusic.observe(viewLifecycleOwner, observerMusic)
+            if (view != null) {
+                viewModel.allMusic.observe(viewLifecycleOwner, observerMusic)
+            }
         }
     }
 

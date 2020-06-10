@@ -76,15 +76,6 @@ class Utils(val context: Context) {
         )
         musicList.add(
             Music(
-                null, "Ambient intro", "ambient_intro", true, TYPE_MUSIC,
-                getDurationLength(
-                    context,
-                    R.raw.ambient_intro
-                )
-            )
-        )
-        musicList.add(
-            Music(
                 null, "Asian meditation", "asian_meditation", false, TYPE_MUSIC,
                 600000
             )

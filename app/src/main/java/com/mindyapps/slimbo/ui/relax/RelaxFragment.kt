@@ -121,7 +121,8 @@ class RelaxFragment : Fragment(), View.OnClickListener {
 
     private fun loadMusic() {
         lifecycleScope.launch {
-            viewModel.allMusic.observe(viewLifecycleOwner, observerMusic)
+                viewModel.allMusic.observe(viewLifecycleOwner, observerMusic)
+
         }
     }
 
@@ -206,9 +207,11 @@ class RelaxFragment : Fragment(), View.OnClickListener {
         val myFile = File(storagePath, fileName)
 
         gsReference.getFile(myFile).addOnSuccessListener {
-            setSubscriber()
-            checkLoadedFiles()
-            setUpPaidPlayers()
+            if (view != null) {
+                setSubscriber()
+                checkLoadedFiles()
+                setUpPaidPlayers()
+            }
         }.addOnFailureListener {
             Toast.makeText(requireContext(), getString(R.string.error), Toast.LENGTH_SHORT).show()
         }

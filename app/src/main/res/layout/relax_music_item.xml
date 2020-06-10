@@ -18,12 +18,11 @@
         android:id="@+id/relax_music_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Zen Stones"
         android:textColor="@color/colorWhiteText"
         android:layout_toEndOf="@id/play_music_btn"
         android:layout_centerVertical="true"
         android:layout_marginStart="10dp"
-        android:textSize="17sp"/>
+        android:textSize="16sp"/>
 
     <LinearLayout
         android:id="@+id/paid_layout"
@@ -47,7 +46,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorWhiteText"
             android:layout_marginStart="15dp"
-            android:textSize="17sp"/>
+            android:textSize="16sp"/>
     </LinearLayout>
 
 
