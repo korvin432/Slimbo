@@ -37,6 +37,9 @@ class Utils(val context: Context) {
         factors.add(Factor(null, "shower", "ic_showe"))
         factors.add(Factor(null, "wine", "ic_wine"))
         factors.add(Factor(null, "workout", "ic_workout"))
+        factors.add(Factor(null, "late_dinner", "ic_late_dinner"))
+        factors.add(Factor(null, "not_my_bed", "ic_not_my_bed"))
+        factors.add(Factor(null, "tired", "ic_tired"))
         return factors
     }
 

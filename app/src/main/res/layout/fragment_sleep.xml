@@ -62,58 +62,40 @@
             android:id="@+id/factors_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
             android:layout_marginTop="20dp"
             app:cardBackgroundColor="@color/colorTransparentWhite"
             app:cardCornerRadius="10dp"
-            android:layout_marginHorizontal="10dp"
             app:cardElevation="0dp"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true">
 
-            <FrameLayout
+
+            <LinearLayout
+                android:id="@+id/factors_blur"
                 android:layout_width="match_parent"
-                android:layout_height="100dp">
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:minHeight="100dp"
+                android:orientation="vertical"
+                android:padding="5dp">
 
-                <io.alterac.blurkit.BlurLayout xmlns:blurkit="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/blurLayoutFactors"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/selected_factors_recycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal" />
+
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="bottom"
-                    blurkit:blk_blurRadius="8"
-                    blurkit:blk_downscaleFactor="0.68"
-                    blurkit:blk_fps="0">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/factors"
+                    android:textColor="@color/colorWhiteText"
+                    android:textSize="18sp" />
 
-                    <LinearLayout
-                        android:id="@+id/factors_blur"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:gravity="bottom"
-                        android:padding="5dp">
-
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/selected_factors_recycler"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:orientation="horizontal"
-                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:text="@string/factors"
-                            android:textColor="@color/colorWhiteText"
-                            android:textSize="18sp" />
-
-                    </LinearLayout>
-
-                </io.alterac.blurkit.BlurLayout>
-
-            </FrameLayout>
+            </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
@@ -122,61 +104,44 @@
             android:id="@+id/sound_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/colorTransparentWhite"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="10dp"
+            app:cardBackgroundColor="@color/colorTransparentWhite"
             app:cardCornerRadius="10dp"
             app:cardElevation="0dp"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dp">
 
-                <io.alterac.blurkit.BlurLayout xmlns:blurkit="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/blurLayoutMusic"
+            <RelativeLayout
+                android:id="@+id/music_blur"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/selected_music_textview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="bottom"
-                    blurkit:blk_blurRadius="8"
-                    blurkit:blk_downscaleFactor="0.68"
-                    blurkit:blk_fps="0">
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:maxHeight="100dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhiteText"
+                    android:textSize="22sp"
+                    android:visibility="gone" />
 
-                    <RelativeLayout
-                        android:id="@+id/music_blur"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:padding="5dp">
-
-                        <TextView
-                            android:id="@+id/selected_music_textview"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="20dp"
-                            android:fontFamily="sans-serif-thin"
-                            android:maxHeight="100dp"
-                            android:textAlignment="center"
-                            android:visibility="gone"
-                            android:textColor="@color/colorWhiteText"
-                            android:textSize="22sp"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="5dp"
-                            android:layout_alignParentBottom="true"
-                            android:text="@string/music"
-                            android:textColor="@color/colorWhiteText"
-                            android:textSize="18sp" />
-                    </RelativeLayout>
-
-                </io.alterac.blurkit.BlurLayout>
-
-
-            </FrameLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/music"
+                    android:textColor="@color/colorWhiteText"
+                    android:textSize="18sp" />
+            </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
 

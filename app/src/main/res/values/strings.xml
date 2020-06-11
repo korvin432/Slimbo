@@ -8,10 +8,13 @@
     <string name="confirm">Confirm</string>
     <string name="coffee">Coffee</string>
     <string name="disease">Disease</string>
-    <string name="nose">Runny nose</string>
+    <string name="nose">Stuffy nose</string>
     <string name="shower">Shower</string>
     <string name="wine">Alcohol</string>
     <string name="workout">Worked out</string>
+    <string name="late_dinner">Late dinner</string>
+    <string name="not_my_bed">Not my bed</string>
+    <string name="tired">Tired</string>
     <string name="factors">Factors</string>
     <string name="do_not_use">Do not use</string>
     <string name="start">Start</string>

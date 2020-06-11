@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
@@ -32,7 +33,6 @@ import com.mindyapps.slimbo.preferences.AlarmStore
 import com.mindyapps.slimbo.preferences.SleepingStore
 import com.mindyapps.slimbo.ui.adapters.SelectedFactorsRecyclerAdapter
 import com.mindyapps.slimbo.ui.sleeping.SleepingActivity
-import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.fragment_sleep.*
 
 
@@ -42,8 +42,6 @@ class SleepFragment : Fragment(), View.OnClickListener {
     private lateinit var factorsCard: CardView
     private lateinit var musicCard: CardView
     private lateinit var recyclerView: RecyclerView
-    private lateinit var musicBlurLayout: BlurLayout
-    private lateinit var factorsBlurLayout: BlurLayout
     private lateinit var startButton: MaterialButton
     private lateinit var alarmChip: Chip
     private lateinit var snoreChip: Chip
@@ -80,14 +78,12 @@ class SleepFragment : Fragment(), View.OnClickListener {
                 ViewModelProvider(this, SleepViewModelFactory()).get(SleepViewModel::class.java)
             val loginActivityBackground: Drawable =
                 root!!.findViewById<RelativeLayout>(R.id.sleep_layout).background
-            loginActivityBackground.alpha = 85
+            loginActivityBackground.alpha = 40
 
             factorsCard = root!!.findViewById(R.id.factors_card)
             factorsCard.background.alpha = 20
             musicCard = root!!.findViewById(R.id.sound_card)
             musicCard.background.alpha = 20
-            musicBlurLayout = root!!.findViewById(R.id.blurLayoutMusic)
-            factorsBlurLayout = root!!.findViewById(R.id.blurLayoutFactors)
             recyclerView = root!!.findViewById(R.id.selected_factors_recycler)
             startButton = root!!.findViewById(R.id.start_sleeping_button)
             alarmChip = root!!.findViewById(R.id.alarm_chip)
@@ -115,18 +111,12 @@ class SleepFragment : Fragment(), View.OnClickListener {
             alarmChip.setOnClickListener(this)
             snoreChip.setOnClickListener(this)
 
-        } else {
-            musicBlurLayout.startBlur()
-            factorsBlurLayout.startBlur()
         }
 
 
         return root
     }
 
-    override fun onStart() {
-        super.onStart()
-    }
 
     override fun onResume() {
         super.onResume()
@@ -221,6 +211,7 @@ class SleepFragment : Fragment(), View.OnClickListener {
     private fun bindFactorsRecycler(factors: ArrayList<Factor>) {
         selectedFactorsRecyclerAdapter =
             SelectedFactorsRecyclerAdapter(factors, requireActivity().applicationContext)
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), 6)
         recyclerView.adapter = selectedFactorsRecyclerAdapter
     }
 
