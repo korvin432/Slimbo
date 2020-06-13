@@ -79,6 +79,9 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
             weekChip.setOnClickListener(this)
             monthChip.setOnClickListener(this)
             yearChip.setOnClickListener(this)
+            sleepDurationChart.setNoDataText("")
+            snoreDurationChart.setNoDataText("")
+            frequencyChart.setNoDataText("")
         }
         return root
     }
@@ -256,7 +259,6 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
 
     private fun setDurationChart() {
         sleepDurationChart.description.isEnabled = false
-        sleepDurationChart.setNoDataText("")
         sleepDurationChart.setDrawGridBackground(false)
         sleepDurationChart.setDrawMarkers(false)
         sleepDurationChart.setPinchZoom(false)

@@ -16,7 +16,7 @@ class SleepingStore(preferences: SharedPreferences) {
         private const val IS_WORKING = "is_working"
         private const val SHOW_TIP = "show_tip"
         private const val MINIMUM_REACHED = "min_reached"
-        private const val USE_ANTI_SNORE = "use_anti_snore"
+        const val USE_ANTI_SNORE = "use_anti_snore"
         private const val ANTI_SNORE_SOUND = "anti_snore_sound"
         private const val ANTI_SNORE_DURATION = "anti_snore_duration"
     }

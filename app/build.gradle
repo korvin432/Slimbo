@@ -60,9 +60,6 @@ dependencies {
     // Gson
     implementation "com.google.code.gson:gson:2.8.6"
 
-    //Blur
-    implementation 'io.alterac.blurkit:blurkit:1.1.0'
-
     //Spinner
     implementation 'com.github.arcadefire:nice-spinner:1.4.4'
 

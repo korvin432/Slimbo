@@ -1,9 +1,12 @@
 package com.mindyapps.slimbo.ui.settings.alarm
 
+import android.Manifest
+import android.Manifest.permission.SET_ALARM
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
@@ -14,6 +17,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -60,7 +65,8 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
     ): View? {
         val root = inflater.inflate(R.layout.fragment_alarm_settings, container, false)
         viewModel = ViewModelProvider(
-            this,AlarmViewModelFactory(repository,requireActivity().application
+            this, AlarmViewModelFactory(
+                repository, requireActivity().application
             )
         ).get(AlarmViewModel::class.java)
 
@@ -92,11 +98,19 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
         sunCheckBox.setOnCheckedChangeListener(this)
         satCheckBox.setOnCheckedChangeListener(this)
         alarmSwitch.setOnCheckedChangeListener { compoundButton, b ->
-            lifecycleScope.launch {
-                findNavController().previousBackStackEntry?.savedStateHandle?.set(
-                    "use_alarm",
-                    alarmSwitch.isChecked
-                )
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    SET_ALARM
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(requireActivity(), arrayOf(SET_ALARM), 12)
+            } else {
+                lifecycleScope.launch {
+                    findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                        "use_alarm",
+                        alarmSwitch.isChecked
+                    )
+                }
             }
         }
         timePicker.setOnTimeChangedListener { b, hour, min ->
@@ -253,7 +267,7 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
         }
     }
 
-    fun stringToWords(s: String) = s.trim().splitToSequence(',')
+    private fun stringToWords(s: String) = s.trim().splitToSequence(',')
         .filter { it.isNotEmpty() } // or: .filter { it.isNotBlank() }
         .toList()
 

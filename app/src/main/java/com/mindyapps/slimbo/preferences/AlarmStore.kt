@@ -32,8 +32,8 @@ class AlarmStore(preferences: SharedPreferences) {
     )
 
     companion object {
-        private const val USE_ALARM = "use_alarm"
-        private const val ALARM_TIME = "alarm_time"
+        const val USE_ALARM = "use_alarm"
+        const val ALARM_TIME = "alarm_time"
         private const val REPEAT_DAYS = "repeat_days"
         private const val ALARM_SOUND = "alarm_sound"
         private const val REPEAT_MINUTES = "repeat_minutes"

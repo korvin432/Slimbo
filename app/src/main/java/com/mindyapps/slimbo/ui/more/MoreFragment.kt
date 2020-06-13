@@ -25,14 +25,11 @@ import java.io.File
 
 class MoreFragment : Fragment(), View.OnClickListener {
 
-    private lateinit var preferences: SharedPreferences
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        preferences  = PreferenceManager.getDefaultSharedPreferences(requireContext())
         return inflater.inflate(R.layout.fragment_more, container, false)
     }
 
@@ -47,20 +44,6 @@ class MoreFragment : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onResume() {
-        super.onResume()
-        preferences.registerOnSharedPreferenceChangeListener(listener)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        preferences.unregisterOnSharedPreferenceChangeListener(listener)
-    }
-
-    private var listener: SharedPreferences.OnSharedPreferenceChangeListener =
-        SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-            restartActivity()
-        }
 
     private fun restartActivity() {
         requireActivity().finish()
@@ -74,9 +57,7 @@ class MoreFragment : Fragment(), View.OnClickListener {
                 File(folder, it).delete()
             }
         }
-        Toast.makeText(requireContext(), getString(R.string.cache_cleared), Toast.LENGTH_SHORT)
-            .show()
-        restartActivity()
+        Toast.makeText(requireContext(), getString(R.string.cache_cleared), Toast.LENGTH_SHORT).show()
     }
 
     override fun onClick(v: View?) {

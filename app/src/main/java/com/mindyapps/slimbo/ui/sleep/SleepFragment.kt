@@ -1,7 +1,11 @@
 package com.mindyapps.slimbo.ui.sleep
 
+import android.Manifest
+import android.Manifest.permission.*
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -14,6 +18,7 @@ import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -31,6 +36,7 @@ import com.mindyapps.slimbo.data.model.Factor
 import com.mindyapps.slimbo.data.model.Music
 import com.mindyapps.slimbo.preferences.AlarmStore
 import com.mindyapps.slimbo.preferences.SleepingStore
+import com.mindyapps.slimbo.preferences.SleepingStore.Companion.USE_ANTI_SNORE
 import com.mindyapps.slimbo.ui.adapters.SelectedFactorsRecyclerAdapter
 import com.mindyapps.slimbo.ui.sleeping.SleepingActivity
 import kotlinx.android.synthetic.main.fragment_sleep.*
@@ -54,11 +60,14 @@ class SleepFragment : Fragment(), View.OnClickListener {
     private var alarmChipText: String? = null
     private var useAlarm: Boolean? = null
     private var useAntiSnore: Boolean? = null
+    private lateinit var preferences: SharedPreferences
 
     private var root: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        preferences.registerOnSharedPreferenceChangeListener(listener)
         if ((activity as MainActivity?)!!.recording != null) {
             val bundle = bundleOf(
                 "recording" to ((activity as MainActivity?)!!.recording)
@@ -66,6 +75,24 @@ class SleepFragment : Fragment(), View.OnClickListener {
             findNavController().navigate(R.id.recordingFragment, bundle)
         }
     }
+
+    private var listener: SharedPreferences.OnSharedPreferenceChangeListener =
+        SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+            if (key == AlarmStore.USE_ALARM || key == AlarmStore.ALARM_TIME){
+                if (!alarmStore.useAlarm) {
+                    alarmChip.text = getString(R.string.off)
+                } else {
+                    alarmChip.text = alarmStore.alarmTime
+                }
+            }
+            if (key == USE_ANTI_SNORE){
+                if (!sleepingStore.useAntiSnore) {
+                    snoreChip.text = getString(R.string.off)
+                } else {
+                    snoreChip.text = getString(R.string.on)
+                }
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -243,20 +270,37 @@ class SleepFragment : Fragment(), View.OnClickListener {
                 findNavController().navigate(R.id.antiSnoreFragment)
             }
             R.id.start_sleeping_button -> {
-                if (SleepingStore(PreferenceManager.getDefaultSharedPreferences(requireContext())).showTip) {
-                    val bundle = bundleOf(
-                        "selected_music" to selectedMusic,
-                        "selected_length" to selectedLength,
-                        "selected_factors" to selectedFactors!!
+                if (ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        WRITE_EXTERNAL_STORAGE
+                    ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        RECORD_AUDIO
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    ActivityCompat.requestPermissions(
+                        requireActivity(),
+                        arrayOf(WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE, WAKE_LOCK,
+                            RECEIVE_BOOT_COMPLETED, RECORD_AUDIO, FOREGROUND_SERVICE),
+                        12
                     )
-                    findNavController().navigate(R.id.sleeping_tip_fragment, bundle)
-                } else {
-                    val intent = Intent(requireContext(), SleepingActivity::class.java)
-                    intent.putExtra("music", selectedMusic)
-                    intent.putExtra("duration", selectedLength)
-                    intent.putExtra("factors", selectedFactors)
-                    startActivity(intent)
                 }
+                    //Do the stuff that requires permission...
+                    if (SleepingStore(PreferenceManager.getDefaultSharedPreferences(requireContext())).showTip) {
+                        val bundle = bundleOf(
+                            "selected_music" to selectedMusic,
+                            "selected_length" to selectedLength,
+                            "selected_factors" to selectedFactors!!
+                        )
+                        findNavController().navigate(R.id.sleeping_tip_fragment, bundle)
+                    } else {
+                        val intent = Intent(requireContext(), SleepingActivity::class.java)
+                        intent.putExtra("music", selectedMusic)
+                        intent.putExtra("duration", selectedLength)
+                        intent.putExtra("factors", selectedFactors)
+                        startActivity(intent)
+                    }
+
             }
         }
     }
