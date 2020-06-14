@@ -36,6 +36,29 @@
 
         <include layout="@layout/alarm_divider" />
 
+        <Switch
+            android:id="@+id/smart_alarm_switch"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/card_bg"
+            android:padding="10dp"
+            android:text="@string/smart_alarm"
+            android:textColor="@color/colorWhiteText"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/smart_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:background="@color/card_bg"
+            android:textColor="@color/colorLightHint"
+            android:padding="10dp"
+            android:text="@string/smart_alarm_text"
+            />
+
+        <include layout="@layout/alarm_divider" />
+
         <LinearLayout
             android:id="@+id/repeat_container"
             android:layout_width="match_parent"

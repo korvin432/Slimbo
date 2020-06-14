@@ -49,6 +49,7 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
     private lateinit var selectedMusicAdapter: SelectMusicAdapter
     private lateinit var timePicker: TimePicker
     private lateinit var alarmSwitch: Switch
+    private lateinit var smartAlarmSwitch: Switch
     private lateinit var repeatSpinner: Spinner
     private lateinit var alarmStore: AlarmStore
 
@@ -56,6 +57,7 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
     private var AM_PM: String = ""
     private var selectedAlarm: Music? = null
     private var selectedTime: String = "00:00"
+    private var selectedSmartTime: String = ""
     private var selectedDays: ArrayList<Int> = ArrayList()
     var player: MediaPlayer? = null
 
@@ -73,6 +75,7 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
         recyclerView = root.findViewById(R.id.alarm_recycler)
         timePicker = root.findViewById(R.id.alarm_time_picker)
         alarmSwitch = root.findViewById(R.id.alarm_switch)
+        smartAlarmSwitch = root.findViewById(R.id.smart_alarm_switch)
         repeatSpinner = root.findViewById(R.id.repeat_spinner)
         alarmStore = AlarmStore(
             PreferenceManager.getDefaultSharedPreferences
@@ -98,10 +101,8 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
         sunCheckBox.setOnCheckedChangeListener(this)
         satCheckBox.setOnCheckedChangeListener(this)
         alarmSwitch.setOnCheckedChangeListener { compoundButton, b ->
-            if (ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    SET_ALARM
-                ) != PackageManager.PERMISSION_GRANTED
+            if (ContextCompat.checkSelfPermission(requireContext(), SET_ALARM)
+                != PackageManager.PERMISSION_GRANTED
             ) {
                 ActivityCompat.requestPermissions(requireActivity(), arrayOf(SET_ALARM), 12)
             } else {
@@ -131,6 +132,23 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
                 selectedTime
             )
         }
+        smartAlarmSwitch.setOnCheckedChangeListener { compoundButton, b ->
+            if (smartAlarmSwitch.isChecked) {
+                val dateFormat = if (!DateFormat.is24HourFormat(requireContext())) {
+                    SimpleDateFormat("HH:mm a")
+                } else {
+                    SimpleDateFormat("HH:mm")
+                }
+                val date = dateFormat.parse(selectedTime)
+                val minusDate = Date(date.time - (0..1800000).random())
+                Log.d("qwwe", "minutes time : ${dateFormat.format(minusDate)}")
+                selectedSmartTime = dateFormat.format(minusDate)
+                alarmStore.smartAlarmTime = selectedSmartTime
+            } else {
+                selectedSmartTime = ""
+                alarmStore.smartAlarmTime = ""
+            }
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -147,29 +165,33 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
     override fun onDetach() {
         super.onDetach()
         if (alarmSwitch.isChecked) {
-            setAlarm()
+            if (!smartAlarmSwitch.isChecked) {
+                setAlarm(selectedTime)
+            } else {
+                setAlarm(selectedSmartTime)
+            }
         }
         stopPlaying()
         savePreferences()
     }
 
-    private fun setAlarm() {
+    private fun setAlarm(time: String) {
         val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         selectedDays.forEach {
             val calendar = Calendar.getInstance()
             calendar.set(Calendar.DAY_OF_WEEK, it + 1)
             if (DateFormat.is24HourFormat(requireContext())) {
-                calendar.set(Calendar.HOUR_OF_DAY, selectedTime.substringBefore(":").toInt())
+                calendar.set(Calendar.HOUR_OF_DAY, time.substringBefore(":").toInt())
             } else {
-                calendar.set(Calendar.HOUR, selectedTime.substringBefore(":").toInt())
+                calendar.set(Calendar.HOUR, time.substringBefore(":").toInt())
                 if (AM_PM == "AM") {
                     calendar.set(Calendar.AM_PM, 0)
                 } else {
                     calendar.set(Calendar.AM_PM, 1)
                 }
             }
-            val min = selectedTime.substringBefore(" ")
+            val min = time.substringBefore(" ")
             calendar.set(Calendar.MINUTE, min.substringAfter(":").toInt())
             if (Calendar.getInstance().timeInMillis >= calendar.timeInMillis) {
                 calendar.add(Calendar.DATE, 7)
@@ -191,6 +213,7 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
     private fun loadPreferences() {
         alarmSwitch.isChecked = alarmStore.useAlarm
         repeatSpinner.setSelection(alarmStore.repeatMinutes)
+        smartAlarmSwitch.isChecked = alarmStore.smartAlarmTime != ""
         if (alarmStore.alarmTime != "00:00") {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 timePicker.hour = (alarmStore.alarmTime).substringBefore(":").toInt()
@@ -226,6 +249,7 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
     private fun savePreferences() {
         alarmStore.useAlarm = alarmSwitch.isChecked
         alarmStore.alarmTime = selectedTime
+        alarmStore.smartAlarmTime = selectedSmartTime
         alarmStore.alarmSound = Gson().toJson(selectedAlarm)
         alarmStore.repeatDays = selectedDays.toString().replace("[", "").replace("]", "")
         alarmStore.repeatMinutes = repeatSpinner.selectedItemPosition

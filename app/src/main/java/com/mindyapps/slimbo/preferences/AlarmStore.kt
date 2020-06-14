@@ -15,6 +15,11 @@ class AlarmStore(preferences: SharedPreferences) {
         ALARM_TIME,
         "00:00"
     )
+    var smartAlarmTime: String by PreferencesDelegate(
+        preferences,
+        SMART_ALARM_TIME,
+        ""
+    )
     var repeatDays: String by PreferencesDelegate(
         preferences,
         REPEAT_DAYS,
@@ -34,6 +39,7 @@ class AlarmStore(preferences: SharedPreferences) {
     companion object {
         const val USE_ALARM = "use_alarm"
         const val ALARM_TIME = "alarm_time"
+        const val SMART_ALARM_TIME = "smart_alarm_time"
         private const val REPEAT_DAYS = "repeat_days"
         private const val ALARM_SOUND = "alarm_sound"
         private const val REPEAT_MINUTES = "repeat_minutes"
