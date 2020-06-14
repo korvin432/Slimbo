@@ -17,6 +17,8 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
@@ -62,6 +64,7 @@ public class RecorderService extends Service {
     private boolean signalCompleted = true;
     private boolean forceSave = false;
     private boolean isSaving;
+    private Vibrator v;
     private Handler timeHandler, signalHandler;
     private MediaPlayer player;
     private SleepingStore sleepingStore;
@@ -85,7 +88,9 @@ public class RecorderService extends Service {
         super.onCreate();
         sleepingStore = new SleepingStore(PreferenceManager
                 .getDefaultSharedPreferences(getApplicationContext()));
-        selectedSignal = new Gson().fromJson(sleepingStore.getAntiSnoreSound(), Music.class);
+        if (!sleepingStore.getUseVibration()) {
+            selectedSignal = new Gson().fromJson(sleepingStore.getAntiSnoreSound(), Music.class);
+        }
 
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         if (pm != null) {
@@ -151,10 +156,17 @@ public class RecorderService extends Service {
         }
     };
 
+    Runnable stopVibrationTask = new Runnable() {
+        public void run() {
+            v.cancel();
+            signalCompleted = true;
+        }
+    };
+
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (wakeLock.isHeld()){
+        if (wakeLock.isHeld()) {
             wakeLock.release();
         }
         if (timeHandler != null) {
@@ -230,15 +242,26 @@ public class RecorderService extends Service {
                 if (temp > minVolumeLevel && !recording && !isSaving) {
                     Log.d("qwwe", "got sound");
                     if (sleepingStore.getUseAntiSnore() && sleepingStore.getMinimalTimeReached() && signalCompleted) {
-                        resID = getApplicationContext().getResources()
-                                .getIdentifier(selectedSignal.getFileName(), "raw",
-                                        getApplicationContext().getPackageName());
-                        player = MediaPlayer.create(getApplicationContext(), resID);
-                        player.setLooping(true);
-                        player.start();
-                        Log.d("qwwe", "setting handler");
-                        signalHandler.postDelayed(stopPlayerTask, sleepingStore.getAntiSnoreDuration() * 1000);
-                        signalCompleted = false;
+                        if (!sleepingStore.getUseVibration()) {
+                            resID = getApplicationContext().getResources()
+                                    .getIdentifier(selectedSignal.getFileName(), "raw",
+                                            getApplicationContext().getPackageName());
+                            player = MediaPlayer.create(getApplicationContext(), resID);
+                            player.setLooping(true);
+                            player.start();
+                            Log.d("qwwe", "setting handler");
+                            signalHandler.postDelayed(stopPlayerTask, sleepingStore.getAntiSnoreDuration() * 1000);
+                            signalCompleted = false;
+                        } else {
+                            v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                            signalHandler.postDelayed(stopVibrationTask, sleepingStore.getAntiSnoreDuration() * 1000);
+                            signalCompleted = false;
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                v.vibrate(VibrationEffect.createOneShot(sleepingStore.getAntiSnoreDuration() * 1000, VibrationEffect.DEFAULT_AMPLITUDE));
+                            } else {
+                                v.vibrate(sleepingStore.getAntiSnoreDuration() * 1000);
+                            }
+                        }
                     } else {
                         recording = true;
                     }

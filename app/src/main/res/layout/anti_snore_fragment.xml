@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:animateLayoutChanges="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/activity_bg"
@@ -12,17 +13,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="70dp"
         android:padding="10dp">
 
         <Switch
             android:id="@+id/snore_switch"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="20dp"
             android:background="@color/card_bg"
             android:padding="10dp"
             android:text="@string/activate_anti_snore"
+            android:textColor="@color/colorWhiteText"
+            android:textSize="16sp" />
+
+        <include layout="@layout/alarm_divider" />
+
+        <Switch
+            android:id="@+id/vibration_switch"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/card_bg"
+            android:padding="10dp"
+            android:text="@string/vibration"
             android:textColor="@color/colorWhiteText"
             android:textSize="16sp" />
 
@@ -48,6 +60,7 @@
                 android:id="@+id/alarm_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clickable="true"
                 android:layout_marginTop="5dp" />
 
         </LinearLayout>

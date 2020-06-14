@@ -21,8 +21,7 @@ class SelectMusicAdapter(
 ) : RecyclerView.Adapter<SelectMusicAdapter.MusicHolder>() {
 
     var onItemClick: ((Music) -> Unit)? = null
-
-    private var lastChecked: CompoundButton? = null
+    var lastChecked: CompoundButton? = null
 
     override fun onCreateViewHolder(
         viewGroup: ViewGroup,
@@ -41,12 +40,6 @@ class SelectMusicAdapter(
     override fun onBindViewHolder(holder: MusicHolder, position: Int) {
         val music: Music = music[position]
         setPropertiesForMusicViewHolder(holder, music)
-    }
-
-    fun setMusic(newMusic: List<Music>) {
-        music.clear()
-        music.addAll(newMusic)
-        notifyDataSetChanged()
     }
 
     private fun setPropertiesForMusicViewHolder(

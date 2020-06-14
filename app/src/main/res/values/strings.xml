@@ -131,6 +131,7 @@
     <string name="delete_music_alert">Do you really want to delete all downloaded music? You will be able to download it again at any time.</string>
     <string name="cache_cleared">Cache cleared</string>
     <string name="delete_snores_alert">Do you really want to permanently delete all snoring records?</string>
+    <string name="vibration">Vibration</string>
     <string-array name="repeat_minutes">
         <item>Never</item>
         <item>5</item>

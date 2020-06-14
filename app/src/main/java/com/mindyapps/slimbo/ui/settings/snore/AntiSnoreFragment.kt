@@ -24,6 +24,7 @@ import com.mindyapps.slimbo.data.repository.SlimboRepositoryImpl
 import com.mindyapps.slimbo.preferences.SleepingStore
 import com.mindyapps.slimbo.ui.adapters.SelectMusicAdapter
 import com.xw.repo.BubbleSeekBar
+import kotlinx.android.synthetic.main.anti_snore_fragment.*
 import kotlinx.coroutines.launch
 
 class AntiSnoreFragment : Fragment(), BubbleSeekBar.OnProgressChangedListener {
@@ -34,6 +35,7 @@ class AntiSnoreFragment : Fragment(), BubbleSeekBar.OnProgressChangedListener {
     private lateinit var selectedMusicAdapter: SelectMusicAdapter
     private lateinit var observerMusic: Observer<List<Music>>
     private lateinit var snoreSwitch: Switch
+    private lateinit var vibrationSwitch: Switch
     private lateinit var sleepingStore: SleepingStore
 
     private var selectedSignal: Music? = null
@@ -55,6 +57,7 @@ class AntiSnoreFragment : Fragment(), BubbleSeekBar.OnProgressChangedListener {
         recyclerView = root.findViewById(R.id.alarm_recycler)
         durationSeekBar = root.findViewById(R.id.duration_seekbar)
         snoreSwitch = root.findViewById(R.id.snore_switch)
+        vibrationSwitch = root.findViewById(R.id.vibration_switch)
         sleepingStore = SleepingStore(
             PreferenceManager.getDefaultSharedPreferences
                 (requireActivity().applicationContext)
@@ -71,6 +74,15 @@ class AntiSnoreFragment : Fragment(), BubbleSeekBar.OnProgressChangedListener {
                     "use_anti_snore",
                     snoreSwitch.isChecked
                 )
+            }
+        }
+        vibrationSwitch.setOnCheckedChangeListener { button, b ->
+            if (button.isChecked) {
+                sleepingStore.useVibration = true
+                sound_container.visibility = View.GONE
+            } else {
+                sleepingStore.useVibration = false
+                sound_container.visibility = View.VISIBLE
             }
         }
     }
@@ -116,6 +128,7 @@ class AntiSnoreFragment : Fragment(), BubbleSeekBar.OnProgressChangedListener {
 
     private fun loadPreferences() {
         snoreSwitch.isChecked = sleepingStore.useAntiSnore
+        vibrationSwitch.isChecked = sleepingStore.useVibration
         selectedSignal = Gson().fromJson(sleepingStore.antiSnoreSound, Music::class.java)
         durationSeekBar.setProgress(sleepingStore.antiSnoreDuration.toFloat())
         durationSeekBar.onProgressChangedListener = this
