@@ -46,7 +46,7 @@ class StatisticsViewModel(
     }
 
     fun setRecordings(days: Int) {
-        CoroutineScope(Dispatchers.Main).launch {
+        CoroutineScope(Main).launch {
             when (days) {
                 7 -> {
                     val calendar = Calendar.getInstance()
