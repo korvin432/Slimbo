@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.os.bundleOf
@@ -26,6 +27,7 @@ import com.mindyapps.slimbo.R
 import com.mindyapps.slimbo.data.model.Recording
 import com.mindyapps.slimbo.data.repository.SlimboRepositoryImpl
 import com.mindyapps.slimbo.ui.adapters.RecordingsRecyclerAdapter
+import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
@@ -39,6 +41,7 @@ class HistoryFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var recordingsAdapter: RecordingsRecyclerAdapter
     private lateinit var observerRecordings: Observer<List<Recording>>
+    private lateinit var noRecLayout: LinearLayout
 
     private var root: View? = null
 
@@ -52,6 +55,7 @@ class HistoryFragment : Fragment() {
         if (root == null) {
             root = inflater.inflate(R.layout.fragment_history, container, false)
             recyclerView = root!!.findViewById(R.id.recordings_recycler)
+            noRecLayout = root!!.findViewById(R.id.no_rec_layout)
 
             viewModel = ViewModelProvider(
                 this, HistoryViewModelFactory(repository, requireActivity().application)
@@ -142,9 +146,11 @@ class HistoryFragment : Fragment() {
 
     private fun setSubscriber() {
         observerRecordings = Observer { recordings ->
-            Log.d("qwwe", "got $recordings")
+            recordingsAdapter.setRecordings(recordings)
             if (recordings.isNotEmpty()) {
-                recordingsAdapter.setRecordings(recordings)
+                noRecLayout.visibility = View.GONE
+            } else {
+                noRecLayout.visibility = View.VISIBLE
             }
         }
         loaRecordings()
@@ -158,8 +164,7 @@ class HistoryFragment : Fragment() {
 
     private fun bindRecyclerView() {
         val linearLayoutManager = LinearLayoutManager(requireContext())
-        recordingsAdapter =
-            RecordingsRecyclerAdapter(
+        recordingsAdapter = RecordingsRecyclerAdapter(
                 ArrayList<Recording>().toMutableList(),
                 requireActivity().applicationContext
             )

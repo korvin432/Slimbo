@@ -1,12 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/activity_bg"
     tools:context=".ui.history.HistoryFragment">
+
+    <LinearLayout
+        android:id="@+id/no_rec_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:tint="@color/colorRippleButton"
+            android:layout_gravity="center_horizontal"
+            android:tintMode="multiply"
+            android:src="@drawable/book"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_recordings"
+            android:textAlignment="center"
+            android:textColor="@color/colorLightHint"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -16,4 +41,4 @@
         android:layout_marginTop="80dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-</LinearLayout>
+</RelativeLayout>
