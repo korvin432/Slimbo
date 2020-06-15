@@ -135,6 +135,7 @@
     <string name="smart_alarm">Smart alarm</string>
     <string name="smart_alarm_text">Alarm will be activated in a convenient sleep cycle between %1$s and %2$d</string>
     <string name="no_recordings">No recordings</string>
+    <string name="this_is_demo_data">This is demo data. Track at least one dream to see your statistics.</string>
     <string-array name="repeat_minutes">
         <item>Never</item>
         <item>5</item>

@@ -10,7 +10,7 @@ import com.mindyapps.slimbo.data.model.Factor
 class ListConverter {
 
     @TypeConverter
-    fun fromAudioRecordList(value: List<AudioRecord>): String {
+    fun fromAudioRecordList(value: List<AudioRecord>?): String {
         val gson = Gson()
         val type = object : TypeToken<List<AudioRecord>>() {}.type
         return gson.toJson(value, type)
@@ -25,7 +25,7 @@ class ListConverter {
 
 
     @TypeConverter
-    fun fromFactorList(value: List<Factor>): String {
+    fun fromFactorList(value: List<Factor>?): String {
         val gson = Gson()
         val type = object : TypeToken<List<Factor>>() {}.type
         return gson.toJson(value, type)

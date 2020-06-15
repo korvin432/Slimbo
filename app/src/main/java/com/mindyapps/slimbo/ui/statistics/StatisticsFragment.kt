@@ -20,6 +20,7 @@ import com.github.mikephil.charting.components.XAxis.XAxisPosition
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.model.GradientColor
+import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.chip.Chip
 import com.mindyapps.slimbo.R
 import com.mindyapps.slimbo.data.model.Factor
@@ -53,9 +54,11 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
     private lateinit var yearChip: Chip
     private lateinit var noGoodText: TextView
     private lateinit var noBadText: TextView
+    private lateinit var demoText: TextView
 
     private var chartDays = 7
     private var root: View? = null
+    private var isDemo = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,6 +76,7 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
             yearChip = root!!.findViewById(R.id.year_chip)
             noGoodText = root!!.findViewById(R.id.no_good_text)
             noBadText = root!!.findViewById(R.id.no_bad_text)
+            demoText = root!!.findViewById(R.id.demo_text)
 
             weekChip.isChecked = true
 
@@ -221,28 +225,38 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
     private fun setFrequencyData(map: Map<String, Int>): BarData {
         val entries: ArrayList<BarEntry> = ArrayList()
 
-        when (chartDays) {
-            7 -> {
-                val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
-                entries.add(BarEntry(0f, (map[daysOfTheWeek[2]])!!.toFloat()))
-                entries.add(BarEntry(1f, (map[daysOfTheWeek[3]])!!.toFloat()))
-                entries.add(BarEntry(2f, (map[daysOfTheWeek[4]])!!.toFloat()))
-                entries.add(BarEntry(3f, (map[daysOfTheWeek[5]])!!.toFloat()))
-                entries.add(BarEntry(4f, (map[daysOfTheWeek[6]])!!.toFloat()))
-                entries.add(BarEntry(5f, (map[daysOfTheWeek[7]])!!.toFloat()))
-                entries.add(BarEntry(6f, (map[daysOfTheWeek[1]])!!.toFloat()))
-            }
-            30 -> {
-                for (i in 1..30) {
-                    entries.add(BarEntry(i.toFloat(), (map[i.toString()])!!.toFloat()))
+        if (!isDemo) {
+            when (chartDays) {
+                7 -> {
+                    val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
+                    entries.add(BarEntry(0f, (map[daysOfTheWeek[2]])!!.toFloat()))
+                    entries.add(BarEntry(1f, (map[daysOfTheWeek[3]])!!.toFloat()))
+                    entries.add(BarEntry(2f, (map[daysOfTheWeek[4]])!!.toFloat()))
+                    entries.add(BarEntry(3f, (map[daysOfTheWeek[5]])!!.toFloat()))
+                    entries.add(BarEntry(4f, (map[daysOfTheWeek[6]])!!.toFloat()))
+                    entries.add(BarEntry(5f, (map[daysOfTheWeek[7]])!!.toFloat()))
+                    entries.add(BarEntry(6f, (map[daysOfTheWeek[1]])!!.toFloat()))
+                }
+                30 -> {
+                    for (i in 1..30) {
+                        entries.add(BarEntry(i.toFloat(), (map[i.toString()])!!.toFloat()))
+                    }
+                }
+                12 -> {
+                    val months = DateFormatSymbols.getInstance().shortMonths
+                    months.forEachIndexed { index, s ->
+                        entries.add(BarEntry(index.toFloat(), (map[s.toString()])!!.toFloat()))
+                    }
                 }
             }
-            12 -> {
-                val months = DateFormatSymbols.getInstance().shortMonths
-                months.forEachIndexed { index, s ->
-                    entries.add(BarEntry(index.toFloat(), (map[s.toString()])!!.toFloat()))
-                }
-            }
+        } else {
+            entries.add(BarEntry(0f, 2f))
+            entries.add(BarEntry(1f, 4f))
+            entries.add(BarEntry(2f, 3f))
+            entries.add(BarEntry(3f, 8f))
+            entries.add(BarEntry(4f, 5f))
+            entries.add(BarEntry(5f, 3f))
+            entries.add(BarEntry(6f, 6f))
         }
 
 
@@ -330,7 +344,7 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
             }
         }
 
-        sleepDurationChart.data = setDurationData(getSleepDurationList())
+        sleepDurationChart.data = setDurationData(getSleepDurationList(), true)
         sleepDurationChart.animateY(1000)
     }
 
@@ -338,8 +352,8 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
         val snoreMap = mutableMapOf<String, Long>()
         allRecordings.forEach { rec ->
             val sdf = when (chartDays) {
-                7 ->  SimpleDateFormat("EEE")
-                30 ->  SimpleDateFormat("d")
+                7 -> SimpleDateFormat("EEE")
+                30 -> SimpleDateFormat("d")
                 12 -> SimpleDateFormat("MMM")
                 else -> SimpleDateFormat("EEE")
             }
@@ -385,32 +399,52 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
 
     }
 
-    private fun setDurationData(map: Map<String, Long>): LineData {
+    private fun setDurationData(map: Map<String, Long>, isSleep: Boolean): LineData {
         val entries: ArrayList<Entry> = ArrayList()
-        when (chartDays) {
-            7 -> {
-                val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
-                entries.add(Entry(0f, (map[daysOfTheWeek[2]])!!.toFloat()))
-                entries.add(Entry(1f, (map[daysOfTheWeek[3]])!!.toFloat()))
-                entries.add(Entry(2f, (map[daysOfTheWeek[4]])!!.toFloat()))
-                entries.add(Entry(3f, (map[daysOfTheWeek[5]])!!.toFloat()))
-                entries.add(Entry(4f, (map[daysOfTheWeek[6]])!!.toFloat()))
-                entries.add(Entry(5f, (map[daysOfTheWeek[7]])!!.toFloat()))
-                entries.add(Entry(6f, (map[daysOfTheWeek[1]])!!.toFloat()))
+        if (!isDemo) {
+            when (chartDays) {
+                7 -> {
+                    val daysOfTheWeek = DateFormatSymbols.getInstance().shortWeekdays
+                    entries.add(Entry(0f, (map[daysOfTheWeek[2]])!!.toFloat()))
+                    entries.add(Entry(1f, (map[daysOfTheWeek[3]])!!.toFloat()))
+                    entries.add(Entry(2f, (map[daysOfTheWeek[4]])!!.toFloat()))
+                    entries.add(Entry(3f, (map[daysOfTheWeek[5]])!!.toFloat()))
+                    entries.add(Entry(4f, (map[daysOfTheWeek[6]])!!.toFloat()))
+                    entries.add(Entry(5f, (map[daysOfTheWeek[7]])!!.toFloat()))
+                    entries.add(Entry(6f, (map[daysOfTheWeek[1]])!!.toFloat()))
 
-            }
-            30 -> {
-                for (i in 1..30) {
-                    if (map[i.toString()]?.toFloat() != null) {
-                        entries.add(BarEntry(i.toFloat(), (map[i.toString()])!!.toFloat()))
+                }
+                30 -> {
+                    for (i in 1..30) {
+                        if (map[i.toString()]?.toFloat() != null) {
+                            entries.add(BarEntry(i.toFloat(), (map[i.toString()])!!.toFloat()))
+                        }
+                    }
+                }
+                12 -> {
+                    val months = DateFormatSymbols.getInstance().shortMonths
+                    months.forEachIndexed { index, s ->
+                        entries.add(BarEntry(index.toFloat(), (map[s.toString()])!!.toFloat()))
                     }
                 }
             }
-            12 -> {
-                val months = DateFormatSymbols.getInstance().shortMonths
-                months.forEachIndexed { index, s ->
-                    entries.add(BarEntry(index.toFloat(), (map[s.toString()])!!.toFloat()))
-                }
+        } else {
+            if (isSleep) {
+                entries.add(BarEntry(0f, 21800000f))
+                entries.add(BarEntry(1f, 28900000f))
+                entries.add(BarEntry(2f, 23440000f))
+                entries.add(BarEntry(3f, 25720000f))
+                entries.add(BarEntry(4f, 22700000f))
+                entries.add(BarEntry(5f, 21620000f))
+                entries.add(BarEntry(6f, 21600000f))
+            } else {
+                entries.add(BarEntry(0f, 75000f))
+                entries.add(BarEntry(1f, 60000f))
+                entries.add(BarEntry(2f, 80000f))
+                entries.add(BarEntry(3f, 45000f))
+                entries.add(BarEntry(4f, 58000f))
+                entries.add(BarEntry(5f, 64000f))
+                entries.add(BarEntry(6f, 90000f))
             }
         }
 
@@ -503,7 +537,7 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
             }
         }
 
-        snoreDurationChart.data = setDurationData(getSnoreDurationList())
+        snoreDurationChart.data = setDurationData(getSnoreDurationList(), false)
         snoreDurationChart.animateY(1000)
     }
 
@@ -567,30 +601,37 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
         val finalMap = mutableMapOf<Factor, Int>()
         var goodCount = 0
 
-        allRecordings.forEach { rec ->
-            if (rec.rating in 4..5) {
-                goodCount++
-                if (rec.factors != null && rec.factors.size > 0) {
-                    goodFactors.addAll(rec.factors)
-                }
-            }
-        }
-
-        allRecordings.forEach { rec ->
-            if (rec.factors != null) {
-                rec.factors.forEach { fac ->
-                    val count = Collections.frequency(goodFactors, fac)
-                    if (count > 0) {
-                        goodMap[fac] = count
+        if (!isDemo) {
+            allRecordings.forEach { rec ->
+                if (rec.rating in 4..5) {
+                    goodCount++
+                    if (rec.factors != null && rec.factors.size > 0) {
+                        goodFactors.addAll(rec.factors)
                     }
                 }
             }
-        }
 
-        for ((key, value) in Sorter().entriesSortedByValues(goodMap)) {
-            if (finalMap.size < 3) {
-                finalMap[key] = value
+            allRecordings.forEach { rec ->
+                if (rec.factors != null) {
+                    rec.factors.forEach { fac ->
+                        val count = Collections.frequency(goodFactors, fac)
+                        if (count > 0) {
+                            goodMap[fac] = count
+                        }
+                    }
+                }
             }
+
+            for ((key, value) in Sorter().entriesSortedByValues(goodMap)) {
+                if (finalMap.size < 3) {
+                    finalMap[key] = value
+                }
+            }
+        } else {
+            goodCount = 5
+            finalMap[Factor(null, "workout", "ic_workout")] = 3
+            finalMap[Factor(null, "shower", "ic_showe")] = 2
+            finalMap[Factor(null, "wine", "ic_wine")] = 1
         }
 
         progressAdapter = FactorProgressAdapter(
@@ -601,7 +642,7 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
         )
         goodRecyclerView.layoutManager = linearLayoutManager
         goodRecyclerView.adapter = progressAdapter
-        if (progressAdapter.itemCount == 0){
+        if (progressAdapter.itemCount == 0) {
             noGoodText.visibility = View.VISIBLE
         } else {
             noGoodText.visibility = View.GONE
@@ -617,30 +658,37 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
         val finalMap = mutableMapOf<Factor, Int>()
         var badCount = 0
 
-        allRecordings.forEach { rec ->
-            if (rec.rating in 1..2) {
-                badCount++
-                if (rec.factors != null && rec.factors.size > 0) {
-                    badFactors.addAll(rec.factors)
-                }
-            }
-        }
-
-        allRecordings.forEach { rec ->
-            if (rec.factors != null) {
-                rec.factors.forEach { fac ->
-                    val count = Collections.frequency(badFactors, fac)
-                    if (count > 0) {
-                        badMap[fac] = count
+        if (!isDemo) {
+            allRecordings.forEach { rec ->
+                if (rec.rating in 1..2) {
+                    badCount++
+                    if (rec.factors != null && rec.factors.size > 0) {
+                        badFactors.addAll(rec.factors)
                     }
                 }
             }
-        }
 
-        for ((key, value) in Sorter().entriesSortedByValues(badMap)) {
-            if (finalMap.size < 3) {
-                finalMap[key] = value
+
+            allRecordings.forEach { rec ->
+                if (rec.factors != null) {
+                    rec.factors.forEach { fac ->
+                        val count = Collections.frequency(badFactors, fac)
+                        if (count > 0) {
+                            badMap[fac] = count
+                        }
+                    }
+                }
             }
+
+            for ((key, value) in Sorter().entriesSortedByValues(badMap)) {
+                if (finalMap.size < 3) {
+                    finalMap[key] = value
+                }
+            }
+        } else {
+            badCount = 2
+            finalMap[Factor(null, "coffee", "ic_coffee")] = 1
+            finalMap[Factor(null, "nose", "ic_nose")] = 1
         }
 
         progressAdapter = FactorProgressAdapter(
@@ -651,7 +699,7 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
         )
         badRecyclerView.layoutManager = linearLayoutManager
         badRecyclerView.adapter = progressAdapter
-        if (progressAdapter.itemCount == 0){
+        if (progressAdapter.itemCount == 0) {
             noBadText.visibility = View.VISIBLE
         } else {
             noBadText.visibility = View.GONE
@@ -671,10 +719,20 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
 
     private fun setSubscriber() {
         observerRecordings = Observer { recordings ->
+            allRecordings = recordings
             if (recordings != null && recordings.isNotEmpty()) {
-                allRecordings = recordings
-                initCharts()
+                isDemo = false
+                demoText.visibility = View.GONE
+                weekChip.isClickable = true
+                monthChip.isClickable = true
+                yearChip.isClickable = true
+            } else {
+                demoText.visibility = View.VISIBLE
+                weekChip.isClickable = false
+                monthChip.isClickable = false
+                yearChip.isClickable = false
             }
+            initCharts()
         }
         loaRecordings()
     }
