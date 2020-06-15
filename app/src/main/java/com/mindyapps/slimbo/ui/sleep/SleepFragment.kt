@@ -14,12 +14,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getColor
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -151,13 +153,15 @@ class SleepFragment : Fragment(), View.OnClickListener {
         (requireActivity() as AppCompatActivity).supportActionBar!!.setBackgroundDrawable(
             ColorDrawable(Color.TRANSPARENT)
         )
+        requireActivity().window.statusBarColor = getColor(requireContext(), R.color.colorTransparent)
     }
 
     override fun onPause() {
         super.onPause()
         (requireActivity() as AppCompatActivity).supportActionBar!!.setBackgroundDrawable(
-            ColorDrawable(ContextCompat.getColor(requireContext(), R.color.activity_bg))
+            ColorDrawable(getColor(requireContext(), R.color.activity_bg))
         )
+        requireActivity().window.statusBarColor = getColor(requireContext(), R.color.activity_bg)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
