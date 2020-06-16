@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_sleep"
-        android:name="com.mindyapps.slimbo.ui.sleep.SleepFragment"
+        android:name="com.mindyapps.asleep.ui.sleep.SleepFragment"
         android:label="@string/title_sleep"
         tools:layout="@layout/fragment_sleep">
         <action
@@ -34,20 +34,20 @@
 
     <dialog
         android:id="@+id/factors_dialog"
-        android:name="com.mindyapps.slimbo.ui.dialogs.factors.FactorsFragment"
+        android:name="com.mindyapps.asleep.ui.dialogs.factors.FactorsFragment"
         tools:layout="@layout/factors_fragment">
         <argument
             android:name="selected_factors"
-            app:argType="com.mindyapps.slimbo.data.model.Factor[]"/>
+            app:argType="com.mindyapps.asleep.data.model.Factor[]"/>
     </dialog>
 
     <dialog
         android:id="@+id/select_music_dialog"
-        android:name="com.mindyapps.slimbo.ui.dialogs.music_select.SelectMusicFragment"
+        android:name="com.mindyapps.asleep.ui.dialogs.music_select.SelectMusicFragment"
         tools:layout="@layout/select_music_fragment">
         <argument
             android:name="selected_music"
-            app:argType="com.mindyapps.slimbo.data.model.Music"/>
+            app:argType="com.mindyapps.asleep.data.model.Music"/>
         <argument
             android:name="selected_length"
             app:argType="string"/>
@@ -56,7 +56,7 @@
 
     <fragment
         android:id="@+id/sleeping_tip_fragment"
-        android:name="com.mindyapps.slimbo.ui.sleeping.SleepingTipFragment"
+        android:name="com.mindyapps.asleep.ui.sleeping.SleepingTipFragment"
         tools:layout="@layout/fragment_sleeping_tip" >
         <action
             android:id="@+id/action_sleeping_tip_fragment_to_sleepingActivity"
@@ -66,7 +66,7 @@
     </fragment>
     <fragment
         android:id="@+id/alarmSettingsFragment"
-        android:name="com.mindyapps.slimbo.ui.settings.alarm.AlarmSettingsFragment"
+        android:name="com.mindyapps.asleep.ui.settings.alarm.AlarmSettingsFragment"
         android:label="@string/alarm_settings"
         tools:layout="@layout/fragment_alarm_settings">
         <argument
@@ -78,17 +78,17 @@
     </fragment>
     <activity
         android:id="@+id/sleepingActivity"
-        android:name="com.mindyapps.slimbo.ui.sleeping.SleepingActivity"
+        android:name="com.mindyapps.asleep.ui.sleeping.SleepingActivity"
         android:label="activity_sleeping"
         tools:layout="@layout/activity_sleeping" />
     <fragment
         android:id="@+id/antiSnoreFragment"
-        android:name="com.mindyapps.slimbo.ui.settings.snore.AntiSnoreFragment"
+        android:name="com.mindyapps.asleep.ui.settings.snore.AntiSnoreFragment"
         android:label="@string/anti_snore"
         tools:layout="@layout/anti_snore_fragment" />
     <fragment
         android:id="@+id/recordingFragment"
-        android:name="com.mindyapps.slimbo.ui.recording.RecordingFragment"
+        android:name="com.mindyapps.asleep.ui.recording.RecordingFragment"
         android:label="Recording"
         tools:layout="@layout/recording_fragment" />
 

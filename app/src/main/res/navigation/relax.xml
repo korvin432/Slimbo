@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_relax"
-        android:name="com.mindyapps.slimbo.ui.relax.RelaxFragment"
+        android:name="com.mindyapps.asleep.ui.relax.RelaxFragment"
         android:label="@string/title_relax"
         tools:layout="@layout/fragment_relax" />
 

@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "1098375305348",
-    "firebase_url": "https://slimbo-9b6a7.firebaseio.com",
-    "project_id": "slimbo-9b6a7",
-    "storage_bucket": "slimbo-9b6a7.appspot.com"
+    "project_number": "48382549010",
+    "firebase_url": "https://asleep-ed29b.firebaseio.com",
+    "project_id": "asleep-ed29b",
+    "storage_bucket": "asleep-ed29b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1098375305348:android:197f374ad8020b765b0ad1",
+        "mobilesdk_app_id": "1:48382549010:android:12b34a96086d057f2f0ccb",
         "android_client_info": {
-          "package_name": "com.mindyapps.slimbo"
+          "package_name": "com.mindyapps.asleep"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1098375305348-l2sbfio145fbao88dbbdep08781msj9r.apps.googleusercontent.com",
+          "client_id": "48382549010-31hs76jnjr6b5gc0hklp3qpvve13pu94.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB7JRqKE_6mDpwBrU7DSws7_L0WPyAT1gI"
+          "current_key": "AIzaSyBDdViMlNW-d-A__GSooqnJh9ZxIHkMhQo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1098375305348-l2sbfio145fbao88dbbdep08781msj9r.apps.googleusercontent.com",
+              "client_id": "48382549010-31hs76jnjr6b5gc0hklp3qpvve13pu94.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

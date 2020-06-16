@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_history"
-        android:name="com.mindyapps.slimbo.ui.history.HistoryFragment"
+        android:name="com.mindyapps.asleep.ui.history.HistoryFragment"
         tools:layout="@layout/fragment_history"
         android:label="@string/title_history" >
         <action
@@ -16,11 +16,11 @@
     </fragment>
     <fragment
         android:id="@+id/recording_fragment"
-        android:name="com.mindyapps.slimbo.ui.recording.RecordingFragment"
+        android:name="com.mindyapps.asleep.ui.recording.RecordingFragment"
         android:label="Recording"
         tools:layout="@layout/recording_fragment">
         <argument
             android:name="recording"
-            app:argType="com.mindyapps.slimbo.data.model.Recording"/>
+            app:argType="com.mindyapps.asleep.data.model.Recording"/>
     </fragment>
 </navigation>

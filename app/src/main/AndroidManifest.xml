@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mindyapps.slimbo">
+    package="com.mindyapps.asleep">
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -21,7 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.SplashActivity"
+            android:name="com.mindyapps.asleep.ui.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,29 +30,29 @@
         </activity>
 
         <service
-            android:name=".RecorderService"
+            android:name="com.mindyapps.asleep.RecorderService"
             android:enabled="true"
             android:exported="true" />
 
         <activity
-            android:name=".ui.AlarmActivity"
+            android:name="com.mindyapps.asleep.ui.AlarmActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.sleeping.SleepingActivity"
+            android:name="com.mindyapps.asleep.ui.sleeping.SleepingActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:hardwareAccelerated="false"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.mindyapps.asleep.MainActivity"
             android:label="@string/app_name">
         </activity>
 
         <receiver
-            android:name=".receivers.AlarmReceiver"
+            android:name="com.mindyapps.asleep.receivers.AlarmReceiver"
             android:enabled="true"
             android:exported="false" />
         <receiver
-            android:name=".receivers.StartUpReceiver"
+            android:name="com.mindyapps.asleep.receivers.StartUpReceiver"
             android:enabled="true"
             android:exported="false"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
