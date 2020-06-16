@@ -34,7 +34,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/colorLightHint"
-                android:textSize="19sp"/>
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/alarm_settings"
@@ -42,7 +42,8 @@
                 android:layout_height="50dp"
                 android:padding="10dp"
                 android:gravity="center_vertical"
-                android:textSize="19sp"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-light"
                 android:textColor="@color/colorWhiteText"
                 android:text="@string/alarm_settings" />
 
@@ -57,7 +58,8 @@
                 android:layout_height="50dp"
                 android:padding="10dp"
                 android:gravity="center_vertical"
-                android:textSize="19sp"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-light"
                 android:textColor="@color/colorWhiteText"
                 android:text="@string/anti_snore" />
 
@@ -85,7 +87,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/colorLightHint"
-                android:textSize="20sp"/>
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/music_cache"
@@ -93,7 +95,8 @@
                 android:layout_height="50dp"
                 android:padding="10dp"
                 android:gravity="center_vertical"
-                android:textSize="19sp"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-light"
                 android:textColor="@color/colorWhiteText"
                 android:text="@string/clear_music" />
 
@@ -108,7 +111,8 @@
                 android:layout_height="50dp"
                 android:padding="10dp"
                 android:gravity="center_vertical"
-                android:textSize="19sp"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-light"
                 android:textColor="@color/colorWhiteText"
                 android:text="@string/clear_snores" />
 
@@ -123,7 +127,8 @@
                 android:layout_height="50dp"
                 android:padding="10dp"
                 android:gravity="center_vertical"
-                android:textSize="19sp"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-light"
                 android:textColor="@color/colorWhiteText"
                 android:text="@string/more_apps" />
 
@@ -138,7 +143,8 @@
                 android:layout_height="50dp"
                 android:padding="10dp"
                 android:gravity="center_vertical"
-                android:textSize="19sp"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-light"
                 android:textColor="@color/colorWhiteText"
                 android:text="@string/feedback" />
 
