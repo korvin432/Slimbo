@@ -136,6 +136,10 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
                         intent.getLongExtra(START_TIME, 0)
                     )
 
+                    if (!openDetails){
+                        finish()
+                    }
+
                     if (openDetails || fromAlarm) {
                         finish()
                         if (!fromAlarm) {

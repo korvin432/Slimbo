@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Asleep</string>
+    <string name="app_name">asleep</string>
     <string name="title_sleep">Sleep</string>
     <string name="title_history">History</string>
     <string name="title_relax">Relax</string>
@@ -136,6 +136,7 @@
     <string name="smart_alarm_text">Alarm will be activated in a convenient sleep cycle between %1$s and %2$d</string>
     <string name="no_recordings">No recordings</string>
     <string name="this_is_demo_data">This is demo data. Track at least one dream to see your statistics.</string>
+    <string name="lullaby">Lullaby</string>
     <string-array name="repeat_minutes">
         <item>Never</item>
         <item>5</item>

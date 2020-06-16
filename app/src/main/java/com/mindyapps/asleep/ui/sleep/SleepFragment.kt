@@ -142,23 +142,6 @@ class SleepFragment : Fragment(), View.OnClickListener {
     }
 
 
-    override fun onResume() {
-        super.onResume()
-        requireContext().theme.applyStyle(R.style.AppThemeTransparent, true)
-        (requireActivity() as AppCompatActivity).supportActionBar!!.setBackgroundDrawable(
-            ColorDrawable(Color.TRANSPARENT)
-        )
-        requireActivity().window.statusBarColor = getColor(requireContext(), R.color.colorTransparent)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        (requireActivity() as AppCompatActivity).supportActionBar!!.setBackgroundDrawable(
-            ColorDrawable(getColor(requireContext(), R.color.activity_bg))
-        )
-        requireActivity().window.statusBarColor = getColor(requireContext(), R.color.activity_bg)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
