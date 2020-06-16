@@ -38,6 +38,7 @@ import com.mindyapps.slimbo.data.model.Music
 import com.mindyapps.slimbo.data.model.Recording
 import com.mindyapps.slimbo.data.repository.SlimboRepositoryImpl
 import com.mindyapps.slimbo.preferences.SleepingStore
+import com.mindyapps.slimbo.ui.AlarmActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -127,6 +128,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
                     sleepingStore.isWorking = false
                     factors = intent.getParcelableArrayListExtra(SELECTED_FACTORS)
                     audioRecords = intent.getParcelableArrayListExtra(AUDIO_RECORDS)
+                    val fromAlarm = intent.getBooleanExtra(FROM_ALARM, false)
 
                     val recording = Recording(
                         null, audioRecords, factors, null,
@@ -135,12 +137,19 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
                         intent.getLongExtra(START_TIME, 0)
                     )
 
-                    if (openDetails || intent.getBooleanExtra(FROM_ALARM, false)) {
-                        openRecording(recording)
+                    if (openDetails || fromAlarm) {
+                        finish()
+                        if (!fromAlarm) {
+                            openRecording(recording)
+                        } else {
+                            val alarmIntent = Intent(this@SleepingActivity, AlarmActivity::class.java)
+                            alarmIntent.putExtra("recording", recording)
+                            startActivity(alarmIntent)
+                        }
                     }
                     LocalBroadcastManager.getInstance(context!!)
                         .unregisterReceiver(broadcastReceiver)
-                    finish()
+
                 }
             }
         }
