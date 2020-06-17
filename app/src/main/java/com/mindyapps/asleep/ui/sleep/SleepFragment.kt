@@ -137,7 +137,6 @@ class SleepFragment : Fragment(), View.OnClickListener {
 
         }
 
-
         return root
     }
 

@@ -82,9 +82,7 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
         )
 
         timePicker.setIs24HourView(DateFormat.is24HourFormat(requireContext()))
-
         val minutes = resources.getStringArray(R.array.repeat_minutes)
-
         repeatSpinner.adapter =
             ArrayAdapter<String>(requireContext(), R.layout.spinner_item, minutes)
         return root
@@ -140,7 +138,6 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
                 }
                 val date = dateFormat.parse(selectedTime)
                 val minusDate = Date(date.time - (0..1800000).random())
-                Log.d("qwwe", "minutes time : ${dateFormat.format(minusDate)}")
                 selectedSmartTime = dateFormat.format(minusDate)
                 alarmStore.smartAlarmTime = selectedSmartTime
             } else {

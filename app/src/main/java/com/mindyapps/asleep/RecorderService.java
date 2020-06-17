@@ -62,6 +62,7 @@ public class RecorderService extends Service {
     private boolean signalCompleted = true;
     private boolean forceSave = false;
     private boolean isSaving;
+    private boolean stop;
     private Vibrator v;
     private Handler timeHandler, signalHandler;
     private MediaPlayer player;
@@ -109,7 +110,7 @@ public class RecorderService extends Service {
             PendingIntent pendingIntent = PendingIntent.getActivity(this,
                     0, notificationIntent, 0);
             Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setContentTitle("Monitoring is on")
+                    .setContentTitle(getString(R.string.monitoring))
                     .setSmallIcon(R.drawable.ic_sleep)
                     .setContentIntent(pendingIntent)
                     .build();
@@ -143,7 +144,9 @@ public class RecorderService extends Service {
 
     Runnable minTimeTask = new Runnable() {
         public void run() {
-            sleepingStore.setMinimalTimeReached(true);
+            if (!stop) {
+                sleepingStore.setMinimalTimeReached(true);
+            }
         }
     };
 
@@ -168,6 +171,7 @@ public class RecorderService extends Service {
             wakeLock.release();
         }
         if (timeHandler != null) {
+            stop = true;
             timeHandler.removeCallbacks(minTimeTask);
             signalHandler.removeCallbacks(stopPlayerTask);
             if (player != null) {
@@ -177,7 +181,6 @@ public class RecorderService extends Service {
         if (!sleepingStore.getMinimalTimeReached()) {
             for (int i = 0; i < audioRecords.size(); i++) {
                 String filePath = audioRecords.get(i).getFile_name();
-                Log.d("qwwe", "deleting " + filePath);
                 File fdelete = new File(filePath);
                 fdelete.delete();
             }
@@ -186,8 +189,6 @@ public class RecorderService extends Service {
     }
 
     public void arm() {
-
-
         // Get the minimum buffer size required for the successful creation of an AudioRecord object.
         android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_AUDIO);
         // Get the minimum buffer size required for the successful creation of an AudioRecord object.

@@ -30,7 +30,7 @@ class AlarmActivity : AppCompatActivity() {
     private lateinit var player: MediaPlayer
     private var repeatDelay: Int = 0
     private lateinit var handler: Handler
-    private lateinit var rec: Recording
+    private var rec: Recording? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +65,9 @@ class AlarmActivity : AppCompatActivity() {
         stopButton.setOnClickListener {
             player.stop()
             finish()
-            openRecording(rec)
+            if (rec != null) {
+                openRecording(rec!!)
+            }
         }
     }
 

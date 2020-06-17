@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">asleep</string>
+    <string name="title_sleep">Сон</string>
+    <string name="title_history">История</string>
+    <string name="title_relax">Отдых</string>
+    <string name="title_more">Ещё</string>
+    <string name="statistics">Статистика</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="coffee">Кофе</string>
+    <string name="disease">Болезнь</string>
+    <string name="nose">Заложенный нос</string>
+    <string name="shower">Душ</string>
+    <string name="wine">Алкоголь</string>
+    <string name="workout">Работа</string>
+    <string name="late_dinner">Поздний ужин</string>
+    <string name="not_my_bed">Не моя кровать</string>
+    <string name="tired">Усталость</string>
+    <string name="factors">Факторы</string>
+    <string name="do_not_use">Не использовать</string>
+    <string name="start">Начать</string>
+    <string name="five_minutes">5 мин</string>
+    <string name="ten_minutes">10 мин</string>
+    <string name="twenty_minutes">20 мин</string>
+    <string name="thirty_minutes">30 мин</string>
+    <string name="ffive_minutes">45 мин</string>
+    <string name="length">Длительность</string>
+    <string name="sleeping_tip_text">Положите телефон лицевой стороной вниз рядом с кроватью и подключите его к зарядному устройству</string>
+    <string name="continue_tip">Продолжить</string>
+    <string name="title_activity_sleeping">Сон</string>
+    <string name="alarm_settings">Настройки будильника</string>
+    <string name="activate_alarm">Активировать будильник</string>
+    <string name="off">Выкл</string>
+    <string name="stop">Стоп</string>
+    <string name="repeat_after">Повторить через</string>
+    <string name="sound">Звук</string>
+    <string name="sun">Вос</string>
+    <string name="sat">Суб</string>
+    <string name="fri">Пят</string>
+    <string name="thu">Чет</string>
+    <string name="wed">Сре</string>
+    <string name="tue">Вто</string>
+    <string name="mon">Пон</string>
+    <string name="repeat">Повторить</string>
+    <string name="minutes">минуты</string>
+    <string name="long_press_to_stop">Зажмите для остановки</string>
+    <string name="monitoring_will_start_in_10_minutes">Мониторинг начнется через 10 минут</string>
+    <string name="monitoring_will_start">Мониторинг начнется через </string>
+    <string name="sleep_quit_text">Мониторинг должен работать не менее 30 минут. Отчет будет удален, если вы уйдете сейчас. Вы уверены?</string>
+    <string name="title_alert">Оповещение</string>
+    <string name="activate_anti_snore">Активировать анти-храп</string>
+    <string name="anti_snore_tip">Выбранный сигнал будет воспроизводиться при обнаружении каких-либо звуков. Ваш храп не будет записан, если вы используете эту функцию.</string>
+    <string name="signal">Сигнал</string>
+    <string name="on">Вкл</string>
+    <string name="anti_snore">Анти-храп</string>
+    <string name="duration">Длительность</string>
+    <string name="error">Ошибка</string>
+    <string name="how_do_you_feel">Как вы себя чувствуете?</string>
+    <string name="sleep_at">Отход ко сну</string>
+    <string name="wake_up">Пробуждение</string>
+    <string name="sleep_time">Время сна</string>
+    <string name="noise">Шум</string>
+    <string name="snore">Храп</string>
+    <string name="sleep_graph">График сна</string>
+    <string name="audio_file_not_found">Аудио файл не найден</string>
+    <string name="downloading">Загрузка</string>
+    <string name="about">Подробнее</string>
+    <string name="no_data">Нет данных</string>
+    <string name="no_sounds_detected">Звуки не обнаружены</string>
+    <string name="sounds">Звуки</string>
+    <string name="birds">Птицы</string>
+    <string name="nature_sounds">Звуки природы</string>
+    <string name="cricket">Сверчки</string>
+    <string name="pink_noise">Розовый шум</string>
+    <string name="rain_in_a_car">Дождь в машине</string>
+    <string name="rain_on_the_roof">Дождь на крыше</string>
+    <string name="street_noise">Уличный шум</string>
+    <string name="thunder">Гром</string>
+    <string name="water_stream">Поток воды</string>
+    <string name="music">Музыка</string>
+    <string name="fan">Фен</string>
+    <string name="forest">Лес</string>
+    <string name="light_rain">Легкий дождь</string>
+    <string name="medium_rain">Средний дождь</string>
+    <string name="rain">Дождь</string>
+    <string name="sea_waves">Морские волны</string>
+    <string name="thunder_and_wind">Гром и ветер</string>
+    <string name="thunder_rain">Гром и дождь</string>
+    <string name="title_statistics">Статистика</string>
+    <string name="day">День</string>
+    <string name="week">Неделя</string>
+    <string name="month">Месяц</string>
+    <string name="all">Всё</string>
+    <string name="snore_frequency">Частота храпа</string>
+    <string name="year">Год</string>
+    <string name="sleep_duration">Длительность сна</string>
+    <string name="snore_duration">Длительность храпа</string>
+    <string name="good_sleep">Хороший сон</string>
+    <string name="percentage"> \%%</string>
+    <string name="bad_sleep">Плохой сон</string>
+    <string name="not_enough_data">Недостаточно данных</string>
+    <string name="delete">Удалить</string>
+    <string name="delete_rec_text">Вы действительно хотите удалить эту запись?</string>
+    <string name="settings">Настройки</string>
+    <string name="cache">Кэш</string>
+    <string name="clear_music">Очистить кэш музыки</string>
+    <string name="clear_snores">Очистить кэш храпа</string>
+    <string name="other">Другое</string>
+    <string name="more_apps">Больше приложений</string>
+    <string name="feedback">Обратная связь</string>
+    <string name="delete_music_alert">Вы действительно хотите удалить всю загруженную музыку? Вы сможете загрузить её снова в любое время.</string>
+    <string name="cache_cleared">Кэш очищен</string>
+    <string name="delete_snores_alert">Вы действительно хотите навсегда удалить все записи храпа?</string>
+    <string name="vibration">Вибрация</string>
+    <string name="smart_alarm">Умный будильник</string>
+    <string name="smart_alarm_text">Будильник будет активирован в удобном цикле сна между %1$s %2$d</string>
+    <string name="no_recordings">Нет записей</string>
+    <string name="this_is_demo_data">Это демонстрационные данные. Отследите хотя бы один сон, чтобы увидеть свою статистику.</string>
+    <string name="lullaby">Колыбельная</string>
+    <string name="about_app">О приложении</string>
+    <string name="credits">Музыка:\nhttp://www.orangefreesounds.com\nMystic Sea by Glitch | https://soundcloud.com/glitch\nMusic promoted by https://www.free-stock-music.com\nCreative Commons Attribution 3.0 Unported License\nhttps://creativecommons.org/licenses/by/3.0/deed.en_US\nLooking At The Night Sky by Glitch | https://soundcloud.com/glitch\nMusic promoted by https://www.free-stock-music.com\nCreative Commons Attribution 3.0 Unported License\nhttps://creativecommons.org/licenses/by/3.0/deed.en_US\n reNovation by airtone © copyright 2019 Licensed under a Creative Commons Attribution (3.0) license. http://dig.ccmixter.org/files/airtone/60674\nBlack to the Night (1000 Ways Mix) by SackJo22 © copyright 2019 Licensed under a Creative Commons Attribution (3.0) license. http://dig.ccmixter.org/files/SackJo22/60660 Ft: Scomber\nAutumn\'s Dream Lullaby by gurdonark © copyright 2017 Licensed under a Creative Commons Attribution license. http://dig.ccmixter.org/files/gurdonark/56524 Ft: Scomber</string>
+    <string name="monitoring">Мониторинг</string>
+    <string name="don_t_show">Не показывать это сообщение снова</string>
+
+    <string-array name="repeat_minutes">
+        <item>Никогда</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>30</item>
+    </string-array>
+
+    <string-array name="days_of_week">
+        <item>Пон</item>
+        <item>Вто</item>
+        <item>Сре</item>
+        <item>Чет</item>
+        <item>Пят</item>
+        <item>Суб</item>
+        <item>Вос</item>
+    </string-array>
+</resources>

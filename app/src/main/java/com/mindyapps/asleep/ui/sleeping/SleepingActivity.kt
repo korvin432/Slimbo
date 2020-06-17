@@ -125,7 +125,6 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
                 val message = intent.getStringExtra(RECEIVER_MESSAGE)
                 if (message == "stop") {
                     Log.d("qwwe", "GOT STOP MESSAGE")
-                    sleepingStore.isWorking = false
                     factors = intent.getParcelableArrayListExtra(SELECTED_FACTORS)
                     audioRecords = intent.getParcelableArrayListExtra(AUDIO_RECORDS)
                     val fromAlarm = intent.getBooleanExtra(FROM_ALARM, false)
@@ -233,7 +232,6 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
             setMessage(getString(R.string.sleep_quit_text))
             setPositiveButton(android.R.string.yes) { _, _ ->
                 stopService(false)
-                sleepingStore.minimalTimeReached = false
             }
             setNegativeButton(android.R.string.no) { dialog, _ ->
                 dialog.dismiss()
@@ -292,7 +290,6 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
             animation.start()
         } else if (event.action == ACTION_UP) {
             if (progressBar.progress == 70) {
-                Log.d("qwwe", "minimalTimeReached ${sleepingStore.minimalTimeReached}")
                 if (!sleepingStore.minimalTimeReached) {
                     showDialog()
                 } else {

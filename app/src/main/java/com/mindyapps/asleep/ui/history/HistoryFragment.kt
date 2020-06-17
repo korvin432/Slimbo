@@ -30,7 +30,6 @@ import kotlin.collections.ArrayList
 
 
 class HistoryFragment : Fragment() {
-
     private var repository = SlimboRepositoryImpl()
     private lateinit var viewModel: HistoryViewModel
     private lateinit var menu: Menu
@@ -161,9 +160,9 @@ class HistoryFragment : Fragment() {
     private fun bindRecyclerView() {
         val linearLayoutManager = LinearLayoutManager(requireContext())
         recordingsAdapter = RecordingsRecyclerAdapter(
-                ArrayList<Recording>().toMutableList(),
-                requireActivity().applicationContext
-            )
+            ArrayList<Recording>().toMutableList(),
+            requireActivity().applicationContext
+        )
         recyclerView.layoutManager = linearLayoutManager
         recyclerView.adapter = recordingsAdapter
         recordingsAdapter.onItemClick = { recording ->

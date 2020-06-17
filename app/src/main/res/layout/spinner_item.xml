@@ -8,5 +8,4 @@
     android:textAlignment="center"
     android:background="@color/card_bg"
     android:textColor="@color/colorWhiteText"
-    android:padding="5dip"
-    />
+    android:padding="5dip"/>

@@ -17,14 +17,12 @@ class StartUpReceiver : BroadcastReceiver() {
     private lateinit var alarmStore: AlarmStore
 
     override fun onReceive(context: Context, intent: Intent) {
-        Log.d("qwwe", "onReceive")
         if ("android.intent.action.BOOT_COMPLETED" == intent.action) {
             setAlarm(context)
         }
     }
 
     private fun setAlarm(context: Context) {
-        Log.d("qwwe", "setAlarm")
         try {
             alarmStore = AlarmStore(
                 PreferenceManager
@@ -61,13 +59,6 @@ class StartUpReceiver : BroadcastReceiver() {
                 }
                 val intent = Intent(context, AlarmReceiver::class.java)
                 val pendingIntent = PendingIntent.getBroadcast(context, it + 1, intent, 0)
-                Log.d(
-                    "qwwe",
-                    "set alarm on ${DateFormat.format(
-                        "dd/MM/yyyy hh:mm:ss",
-                        calendar.timeInMillis
-                    )}"
-                )
                 alarmManager.setRepeating(
                     AlarmManager.RTC_WAKEUP,
                     calendar.timeInMillis,
