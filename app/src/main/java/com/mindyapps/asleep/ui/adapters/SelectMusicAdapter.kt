@@ -68,7 +68,7 @@ class SelectMusicAdapter(
                 musicViewHolder.musicRadioButton.visibility = View.GONE
             }
         }
-        
+
         musicViewHolder.musicRadioButton.setOnCheckedChangeListener { compoundButton, b ->
             if (lastChecked != null) {
                 lastChecked!!.isChecked = false
@@ -84,8 +84,6 @@ class SelectMusicAdapter(
                 musicViewHolder.musicRadioButton.isChecked = true
             }
         }
-
-
     }
 
     inner class MusicHolder(private val view: View) : RecyclerView.ViewHolder(view) {

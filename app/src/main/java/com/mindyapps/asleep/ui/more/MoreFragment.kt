@@ -33,14 +33,9 @@ class MoreFragment : Fragment(), View.OnClickListener {
         snore_cache.setOnClickListener(this)
         more_apps.setOnClickListener(this)
         feedback.setOnClickListener(this)
+        about.setOnClickListener(this)
 
         super.onViewCreated(view, savedInstanceState)
-    }
-
-
-    private fun restartActivity() {
-        requireActivity().finish()
-        startActivity(requireActivity().intent)
     }
 
     private fun deleteFiles(folder: File) {
@@ -112,6 +107,14 @@ class MoreFragment : Fragment(), View.OnClickListener {
                         "There are no email clients installed.",
                         Toast.LENGTH_SHORT
                     ).show()
+                }
+            }
+            R.id.about -> {
+                val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogCustom)
+                with(builder)
+                {
+                    setMessage(getString(R.string.credits))
+                    show()
                 }
             }
         }

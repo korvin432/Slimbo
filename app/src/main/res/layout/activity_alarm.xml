@@ -21,7 +21,7 @@
         android:textAlignment="center"
         android:textColor="@color/colorWhiteText"
         android:layout_alignParentTop="true"
-        android:textSize="55sp" />
+        android:textSize="65sp" />
 
 
     <com.google.android.material.button.MaterialButton

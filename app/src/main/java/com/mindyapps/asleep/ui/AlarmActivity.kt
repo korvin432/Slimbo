@@ -34,7 +34,6 @@ class AlarmActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("qwwe", "oncreate")
         setContentView(R.layout.activity_alarm)
 
         if (intent.getParcelableExtra<Recording>("recording") != null){

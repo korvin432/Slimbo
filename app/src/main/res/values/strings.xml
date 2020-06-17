@@ -137,6 +137,9 @@
     <string name="no_recordings">No recordings</string>
     <string name="this_is_demo_data">This is demo data. Track at least one dream to see your statistics.</string>
     <string name="lullaby">Lullaby</string>
+    <string name="about_app">About app</string>
+    <string name="credits">Music:\nhttp://www.orangefreesounds.com\nMystic Sea by Glitch | https://soundcloud.com/glitch\nMusic promoted by https://www.free-stock-music.com\nCreative Commons Attribution 3.0 Unported License\nhttps://creativecommons.org/licenses/by/3.0/deed.en_US\nLooking At The Night Sky by Glitch | https://soundcloud.com/glitch\nMusic promoted by https://www.free-stock-music.com\nCreative Commons Attribution 3.0 Unported License\nhttps://creativecommons.org/licenses/by/3.0/deed.en_US\n reNovation by airtone © copyright 2019 Licensed under a Creative Commons Attribution (3.0) license. http://dig.ccmixter.org/files/airtone/60674\nBlack to the Night (1000 Ways Mix) by SackJo22 © copyright 2019 Licensed under a Creative Commons Attribution (3.0) license. http://dig.ccmixter.org/files/SackJo22/60660 Ft: Scomber\nAutumn\'s Dream Lullaby by gurdonark © copyright 2017 Licensed under a Creative Commons Attribution license. http://dig.ccmixter.org/files/gurdonark/56524 Ft: Scomber</string>
+
     <string-array name="repeat_minutes">
         <item>Never</item>
         <item>5</item>

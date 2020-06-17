@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/settings"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/colorLightHint"
                 android:textSize="18sp"/>
@@ -40,7 +40,7 @@
                 android:id="@+id/alarm_settings"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:gravity="center_vertical"
                 android:textSize="18sp"
                 android:fontFamily="sans-serif-light"
@@ -56,7 +56,7 @@
                 android:id="@+id/anti_snore"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:gravity="center_vertical"
                 android:textSize="18sp"
                 android:fontFamily="sans-serif-light"
@@ -84,7 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/other"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/colorLightHint"
                 android:textSize="18sp"/>
@@ -93,7 +93,7 @@
                 android:id="@+id/music_cache"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:gravity="center_vertical"
                 android:textSize="18sp"
                 android:fontFamily="sans-serif-light"
@@ -109,7 +109,7 @@
                 android:id="@+id/snore_cache"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:gravity="center_vertical"
                 android:textSize="18sp"
                 android:fontFamily="sans-serif-light"
@@ -125,7 +125,7 @@
                 android:id="@+id/more_apps"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:gravity="center_vertical"
                 android:textSize="18sp"
                 android:fontFamily="sans-serif-light"
@@ -141,12 +141,28 @@
                 android:id="@+id/feedback"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:gravity="center_vertical"
                 android:textSize="18sp"
                 android:fontFamily="sans-serif-light"
                 android:textColor="@color/colorWhiteText"
                 android:text="@string/feedback" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/card_divider"/>
+
+            <TextView
+                android:id="@+id/about"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="5dp"
+                android:gravity="center_vertical"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-light"
+                android:textColor="@color/colorWhiteText"
+                android:text="@string/about_app" />
 
         </LinearLayout>
 

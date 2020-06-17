@@ -73,6 +73,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
 
         sleepingStore =
             SleepingStore(PreferenceManager.getDefaultSharedPreferences(applicationContext))
+        sleepingStore.minimalTimeReached = false
 
         musicText = findViewById(R.id.music_text)
         musicButton = findViewById(R.id.music_button)
@@ -232,6 +233,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
             setMessage(getString(R.string.sleep_quit_text))
             setPositiveButton(android.R.string.yes) { _, _ ->
                 stopService(false)
+                sleepingStore.minimalTimeReached = false
             }
             setNegativeButton(android.R.string.no) { dialog, _ ->
                 dialog.dismiss()
@@ -243,6 +245,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacksAndMessages(null)
+        sleepingStore.minimalTimeReached = false
     }
 
     override fun onClick(v: View?) {
@@ -289,6 +292,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
             animation.start()
         } else if (event.action == ACTION_UP) {
             if (progressBar.progress == 70) {
+                Log.d("qwwe", "minimalTimeReached ${sleepingStore.minimalTimeReached}")
                 if (!sleepingStore.minimalTimeReached) {
                     showDialog()
                 } else {
