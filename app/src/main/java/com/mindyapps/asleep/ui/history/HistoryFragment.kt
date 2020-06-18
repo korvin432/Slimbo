@@ -30,6 +30,7 @@ import kotlin.collections.ArrayList
 
 
 class HistoryFragment : Fragment() {
+
     private var repository = SlimboRepositoryImpl()
     private lateinit var viewModel: HistoryViewModel
     private lateinit var menu: Menu

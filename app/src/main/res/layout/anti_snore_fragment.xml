@@ -59,8 +59,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/alarm_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
+                android:layout_height="228dp"
                 android:layout_marginTop="5dp" />
 
         </LinearLayout>

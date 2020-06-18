@@ -9,7 +9,7 @@
         android:id="@+id/navigation_history"
         android:name="com.mindyapps.asleep.ui.history.HistoryFragment"
         tools:layout="@layout/fragment_history"
-        android:label="@string/title_history" >
+        android:label="@string/diary" >
         <action
             android:id="@+id/action_navigation_history_to_recordingFragment2"
             app:destination="@id/recording_fragment" />
