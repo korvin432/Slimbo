@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.preference.PreferenceManager
+import com.android.billingclient.api.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mindyapps.asleep.data.model.Recording
 import com.mindyapps.asleep.preferences.SleepingStore
@@ -42,6 +44,7 @@ class MainActivity : AppCompatActivity() {
             recording = intent.getParcelableExtra("recording")
         }
     }
+
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)

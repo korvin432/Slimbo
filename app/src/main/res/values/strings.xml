@@ -121,6 +121,14 @@
     <string name="monitoring">Monitoring</string>
     <string name="don_t_show">Don\'t show this message again</string>
     <string name="diary">Diary</string>
+    <string name="unlim_rec">Неограниченное количество записей</string>
+    <string name="unlim_audio">Неограниченное количество аудиозаписей</string>
+    <string name="full_music">Полный доступ к музыке</string>
+    <string name="full_statistics">Просмотр статистики за любое время</string>
+    <string name="_1_month">1 month</string>
+    <string name="_3_months">3 months</string>
+    <string name="subs_info">Your account will be charged the amount of the selected subscription plan. Your subscription will automatically renew within 24 hours before the end of the current period. You can cancel and manage subscriptions in your Google Play account settings.</string>
+    <string name="subscribe">Subscribe</string>
 
     <string-array name="repeat_minutes">
         <item>Never</item>

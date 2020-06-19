@@ -122,6 +122,14 @@
     <string name="monitoring">Мониторинг</string>
     <string name="don_t_show">Не показывать это сообщение снова</string>
     <string name="diary">Дневник</string>
+    <string name="unlim_rec">Неограниченное количество записей</string>
+    <string name="unlim_audio">Неограниченное количество аудиозаписей</string>
+    <string name="full_music">Полный доступ к музыке</string>
+    <string name="full_statistics">Просмотр статистики за любое время</string>
+    <string name="_1_month">1 месяц</string>
+    <string name="_3_months">3 месяца</string>
+    <string name="subs_info">С вашего аккаунта будет списываться плата в размере выбранного плана подписки. Подписка будет автоматически продлена в течение 24 часов до окончания текущего периода. Вы можете отменить и управлять подписками в настройках своего аккаунта Google Play.</string>
+    <string name="subscribe">Подписаться</string>
 
     <string-array name="repeat_minutes">
         <item>Никогда</item>

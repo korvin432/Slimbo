@@ -34,6 +34,8 @@
     <color name="colorBadBack">#942E35B1</color>
     <color name="colorStatChip">#2E3671</color>
     <color name="colorSelectedChip">#0294AE</color>
+    <color name="colorFiol">#A321FF</color>
+    <color name="colorPlan">#1F2759</color>
 
 
 </resources>
