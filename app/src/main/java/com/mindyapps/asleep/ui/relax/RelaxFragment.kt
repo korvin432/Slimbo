@@ -99,11 +99,8 @@ class RelaxFragment : Fragment(), View.OnClickListener, SkuDetailsResponseListen
                 this,
                 RelaxViewModelFactory(repository, requireActivity().application)
             ).get(RelaxViewModel::class.java)
-
             root = inflater.inflate(R.layout.fragment_relax, container, false)
-
             recyclerView = root!!.findViewById(R.id.music_recycler)
-
         }
         return root
     }
@@ -626,6 +623,7 @@ class RelaxFragment : Fragment(), View.OnClickListener, SkuDetailsResponseListen
             }
         }
     }
+
     override fun onSkuDetailsResponse(billingResult: BillingResult, skuDetailsList: MutableList<SkuDetails>?) {
         val responseCode = billingResult.responseCode
         val debugMessage = billingResult.debugMessage

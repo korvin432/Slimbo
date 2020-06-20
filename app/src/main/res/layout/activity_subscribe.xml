@@ -66,7 +66,6 @@
                                 android:id="@+id/month_price"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="200 Р"
                                 android:textAlignment="center"
                                 android:textAllCaps="true"
                                 android:textColor="@color/colorWhiteText"
@@ -82,7 +81,6 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
                             android:elevation="5dp"
-                            android:text="200 руб./месяц"
                             android:textAlignment="center"
                             android:textColor="@color/colorWhiteText"
                             android:textSize="12sp" />
@@ -129,7 +127,6 @@
                                 android:id="@+id/three_price"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="200 Р"
                                 android:textAlignment="center"
                                 android:textAllCaps="true"
                                 android:textColor="@color/colorWhiteText"
@@ -145,7 +142,6 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
                             android:elevation="5dp"
-                            android:text="200 руб./месяц"
                             android:textAlignment="center"
                             android:textColor="@color/colorWhiteText"
                             android:textSize="12sp" />
@@ -192,7 +188,6 @@
                                 android:id="@+id/year_price"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="200 Р"
                                 android:textAlignment="center"
                                 android:textAllCaps="true"
                                 android:textColor="@color/colorWhiteText"
@@ -208,7 +203,6 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
                             android:elevation="5dp"
-                            android:text="200 руб./месяц"
                             android:textAlignment="center"
                             android:textColor="@color/colorWhiteText"
                             android:textSize="12sp" />
