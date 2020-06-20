@@ -136,6 +136,8 @@
     <string name="snore_full">Доступно только 3 записи. Подпишитесь, чтобы записывать храп без ограничений</string>
     <string name="sub_to_delete">Подпишитесь, чтобы иметь возможность удалять записи</string>
     <string name="sub_stat">Подпишитесь, чтобы получить полный доступ к статистике</string>
+    <string name="free_trial">Бесплатный пробный период длится 3 дня и может быть активирован только 1 раз.</string>
+    <string name="try_for_free">Попробовать бесплатно</string>
 
     <string-array name="repeat_minutes">
         <item>Никогда</item>

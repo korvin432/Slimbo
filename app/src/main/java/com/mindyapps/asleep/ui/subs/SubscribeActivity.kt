@@ -54,6 +54,7 @@ class SubscribeActivity : AppCompatActivity(), View.OnClickListener, SkuDetailsR
         three_month_layout.setOnClickListener(this)
         year_layout.setOnClickListener(this)
         sub_button.setOnClickListener(this)
+        free_button.setOnClickListener(this)
 
         observerSku = Observer { newsSource ->
             if (newsSource != null) {
@@ -104,6 +105,7 @@ class SubscribeActivity : AppCompatActivity(), View.OnClickListener, SkuDetailsR
         val threeMonths = skusWithSkuDetails.value?.get("half")!!
         val year = skusWithSkuDetails.value?.get("year")!!
 
+
         month_price.text = month.price
         val perMonth =
             ((month.priceAmountMicros.toDouble() / 1000000).toInt()).toString() + " " +
@@ -144,6 +146,12 @@ class SubscribeActivity : AppCompatActivity(), View.OnClickListener, SkuDetailsR
                 selectedSku = "year"
             }
             R.id.sub_button -> {
+                val flowParams = BillingFlowParams.newBuilder()
+                    .setSkuDetails(skusWithSkuDetails.value?.get(selectedSku)!!)
+                    .build()
+                val responseCode = billingClient.launchBillingFlow(this, flowParams)
+            }
+            R.id.free_button -> {
                 val flowParams = BillingFlowParams.newBuilder()
                     .setSkuDetails(skusWithSkuDetails.value?.get(selectedSku)!!)
                     .build()

@@ -4,29 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/activity_bg"
+    android:background="@drawable/subscribe_background"
     android:orientation="vertical"
     tools:context=".ui.subs.SubscribeActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/sub_button"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/free_button"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="10dp">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/image_close"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:padding="5dp"
+                android:tint="@color/colorAccentTransparent"
+                android:alpha="0.5"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_close"/>
 
             <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/plans_flex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:justifyContent="center"
                 android:layout_marginTop="30dp"
-                android:paddingHorizontal="5dp"
-                android:gravity="center_horizontal"
+                app:layout_constraintTop_toBottomOf="@id/image_close"
                 android:orientation="horizontal">
 
                 <androidx.cardview.widget.CardView
@@ -215,11 +227,14 @@
             </com.google.android.flexbox.FlexboxLayout>
 
             <LinearLayout
+                android:id="@+id/prem_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingHorizontal="20dp"
-                android:paddingVertical="28dp">
+                android:paddingVertical="22dp"
+                app:layout_constraintBottom_toTopOf="@id/charging_text"
+                app:layout_constraintTop_toBottomOf="@id/plans_flex">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -304,23 +319,58 @@
                         android:textSize="18sp" />
                 </LinearLayout>
 
-
             </LinearLayout>
 
             <TextView
+                android:id="@+id/charging_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="20dp"
+                android:layout_below="@id/prem_view"
+                android:layout_marginBottom="20dp"
                 android:text="@string/subs_info"
+                android:textAlignment="center"
+                android:fontFamily="sans-serif-light"
+                android:textColor="@color/colorLightHint"
+                app:layout_constraintBottom_toTopOf="@id/trial_text"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/trial_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:paddingHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/free_trial"
+                android:layout_marginBottom="5dp"
+                android:layout_below="@id/charging_text"
                 android:textAlignment="center"
                 android:fontFamily="sans-serif-light"
                 android:textColor="@color/colorLightHint"
                 android:textSize="13sp" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/free_button"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/sub_button"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/free_button_ripple"
+        android:fontFamily="sans-serif"
+        android:text="@string/try_for_free"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhiteText"
+        android:textSize="17sp"
+        app:backgroundTint="@null" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/sub_button"

@@ -135,6 +135,8 @@
     <string name="snore_full">Only 3 entries are available for free. Subscribe to record snoring without restrictions</string>
     <string name="sub_to_delete">Subscribe to be able to delete entries</string>
     <string name="sub_stat">Subscribe to get full access to statistics</string>
+    <string name="free_trial">The free trial period lasts 3 days and can only be activated once.</string>
+    <string name="try_for_free">Try for free</string>
 
     <string-array name="repeat_minutes">
         <item>Never</item>

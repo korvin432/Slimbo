@@ -6,8 +6,10 @@
     <color name="colorMainBack">#0F051268</color>
     <color name="colorAccent">#03BADA</color>
     <color name="colorAccentTransparent">#7200D9FF</color>
+    <color name="colorAccentDark">#15A7C1</color>
     <color name="colorFilled">#05DAFF</color>
     <color name="colorGreen">#48EF00</color>
+    <color name="colorGreenDark">#07982B</color>
     <color name="colorChipTransparent">#16FFFFFF</color>
     <color name="colorCardChipTransparent">#07FFFFFF</color>
     <color name="colorTransparent">#00000000</color>
@@ -35,7 +37,7 @@
     <color name="colorStatChip">#2E3671</color>
     <color name="colorSelectedChip">#0294AE</color>
     <color name="colorFiol">#C363FF</color>
-    <color name="colorPlan">#1F2759</color>
+    <color name="colorPlan">#252E65</color>
 
 
 </resources>
