@@ -1,5 +1,6 @@
 package com.mindyapps.asleep.ui.subs
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -11,13 +12,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.android.billingclient.api.*
+import com.mindyapps.asleep.MainActivity
 import com.mindyapps.asleep.R
 import kotlinx.android.synthetic.main.activity_subscribe.*
 import kotlinx.coroutines.launch
 
 class SubscribeActivity : AppCompatActivity(), View.OnClickListener, SkuDetailsResponseListener {
 
-    val skusWithSkuDetails = MutableLiveData<Map<String, SkuDetails>>()
+    private val skusWithSkuDetails = MutableLiveData<Map<String, SkuDetails>>()
     private lateinit var billingClient: BillingClient
     private lateinit var observerSku: Observer<Map<String, SkuDetails>>
     private var selectedSku = "half"
@@ -38,15 +40,11 @@ class SubscribeActivity : AppCompatActivity(), View.OnClickListener, SkuDetailsR
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                    // The BillingClient is ready. You can query purchases here.
-                    Log.d("qwwe", "The BillingClient is ready")
                     querySkuDetails()
                 }
             }
 
             override fun onBillingServiceDisconnected() {
-                // Try to restart the connection on the next request to
-                // Google Play by calling the startConnection() method.
                 Log.d("qwwe", "onBillingServiceDisconnected")
             }
         })
@@ -75,6 +73,12 @@ class SubscribeActivity : AppCompatActivity(), View.OnClickListener, SkuDetailsR
     private val purchaseUpdateListener =
         PurchasesUpdatedListener { billingResult, purchases ->
             // To be implemented in a later section.
+            val subscribed =
+                billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null
+            if (subscribed){
+                finish()
+                startActivity(Intent(this, MainActivity::class.java))
+            }
         }
 
     fun querySkuDetails() {
@@ -144,10 +148,6 @@ class SubscribeActivity : AppCompatActivity(), View.OnClickListener, SkuDetailsR
                     .setSkuDetails(skusWithSkuDetails.value?.get(selectedSku)!!)
                     .build()
                 val responseCode = billingClient.launchBillingFlow(this, flowParams)
-                Log.d(
-                    "qwwe",
-                    "buying response ${responseCode.responseCode}. message: ${responseCode.debugMessage}"
-                )
             }
         }
     }

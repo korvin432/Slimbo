@@ -121,10 +121,10 @@
     <string name="monitoring">Monitoring</string>
     <string name="don_t_show">Don\'t show this message again</string>
     <string name="diary">Diary</string>
-    <string name="unlim_rec">Неограниченное количество записей</string>
-    <string name="unlim_audio">Неограниченное количество аудиозаписей</string>
-    <string name="full_music">Полный доступ к музыке</string>
-    <string name="full_statistics">Просмотр статистики за любое время</string>
+    <string name="unlim_rec">Unlimited number of entries</string>
+    <string name="unlim_audio">Unlimited number of audio recordings</string>
+    <string name="full_music">Full access to music</string>
+    <string name="full_statistics">View statistics for any time</string>
     <string name="_1_month">1 month</string>
     <string name="_3_months">3 months</string>
     <string name="subs_info">Your account will be charged the amount of the selected subscription plan. Your subscription will automatically renew within 24 hours before the end of the current period. You can cancel and manage subscriptions in your Google Play account settings.</string>
@@ -132,9 +132,9 @@
     <string name="get_full">Get full access</string>
     <string name="get_all_rec">You need to subscribe to be able to create an unlimited number of records</string>
     <string name="get_all_music">You need to subscribe to get access to all music</string>
-    <string name="snore_full">Доступно только 3 записи. Подпишитесь, чтобы записывать храп без ограничений</string>
-    <string name="sub_to_delete">Подпишитесь, чтобы иметь возможность удалять записи</string>
-    <string name="sub_stat">Подпишитесь, чтобы получить полный доступ к статистике</string>
+    <string name="snore_full">Only 3 entries are available for free. Subscribe to record snoring without restrictions</string>
+    <string name="sub_to_delete">Subscribe to be able to delete entries</string>
+    <string name="sub_stat">Subscribe to get full access to statistics</string>
 
     <string-array name="repeat_minutes">
         <item>Never</item>

@@ -40,8 +40,8 @@ class RecordingFragment : Fragment() {
     private lateinit var snoreRecycler: RecyclerView
     private lateinit var factorsRecyclerAdapter: FactorsRecyclerAdapter
     private lateinit var snoreAdapter: SnoreAdapter
-    private var audioRecords: MutableList<AudioRecord>? = null
     private lateinit var progress: DottedSeekBar
+    private var audioRecords: MutableList<AudioRecord>? = null
     private var selectedFactors = ArrayList<Factor>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,10 +90,9 @@ class RecordingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         val subscribed = (requireActivity() as MainActivity).subscribed
-        if (!subscribed){
-            subscribe_text.visibility = View.VISIBLE
+        if (subscribed){
+            subscribe_text.visibility = View.GONE
         }
 
         val timeFormat = if (!DateFormat.is24HourFormat(requireContext())) {
