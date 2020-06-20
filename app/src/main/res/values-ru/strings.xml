@@ -130,6 +130,12 @@
     <string name="_3_months">3 месяца</string>
     <string name="subs_info">С вашего аккаунта будет списываться плата в размере выбранного плана подписки. Подписка будет автоматически продлена в течение 24 часов до окончания текущего периода. Вы можете отменить и управлять подписками в настройках своего аккаунта Google Play.</string>
     <string name="subscribe">Подписаться</string>
+    <string name="get_full">Get full access</string>
+    <string name="get_all_rec">You need to subscribe to be able to create an unlimited number of records</string>
+    <string name="get_all_music">You need to subscribe to get access to all music</string>
+    <string name="snore_full">Доступно только 3 записи. Подпишитесь, чтобы записывать храп без ограничений</string>
+    <string name="sub_to_delete">Подпишитесь, чтобы иметь возможность удалять записи</string>
+    <string name="sub_stat">Подпишитесь, чтобы получить полный доступ к статистике</string>
 
     <string-array name="repeat_minutes">
         <item>Никогда</item>

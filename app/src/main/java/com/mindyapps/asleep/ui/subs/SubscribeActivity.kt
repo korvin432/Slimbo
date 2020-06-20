@@ -12,10 +12,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.android.billingclient.api.*
 import com.mindyapps.asleep.R
-import com.mindyapps.asleep.data.model.Music
 import kotlinx.android.synthetic.main.activity_subscribe.*
 import kotlinx.coroutines.launch
-import kotlin.math.round
 
 class SubscribeActivity : AppCompatActivity(), View.OnClickListener, SkuDetailsResponseListener {
 
@@ -97,8 +95,7 @@ class SubscribeActivity : AppCompatActivity(), View.OnClickListener, SkuDetailsR
         }
     }
 
-    fun setUpPrices() {
-        Log.d("qwwe", "${skusWithSkuDetails.value}")
+    private fun setUpPrices() {
         val month = skusWithSkuDetails.value?.get("asleep_subscription")!!
         val threeMonths = skusWithSkuDetails.value?.get("half")!!
         val year = skusWithSkuDetails.value?.get("year")!!

@@ -49,4 +49,8 @@ class SlimboRepositoryImpl : SlimboRepository {
     override fun deleteRecording(slimboDao: SlimboDao, recording: Recording) {
         return slimboDao.deleteRecording(recording)
     }
+
+    override fun getRecordingsCount(slimboDao: SlimboDao): LiveData<Int> {
+        return slimboDao.getRecordingsCount()
+    }
 }

@@ -8,10 +8,9 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.RelativeLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
@@ -19,9 +18,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,16 +34,21 @@ import com.mindyapps.asleep.MainActivity
 import com.mindyapps.asleep.R
 import com.mindyapps.asleep.data.model.Factor
 import com.mindyapps.asleep.data.model.Music
+import com.mindyapps.asleep.data.model.Recording
+import com.mindyapps.asleep.data.repository.SlimboRepositoryImpl
 import com.mindyapps.asleep.preferences.AlarmStore
 import com.mindyapps.asleep.preferences.SleepingStore
 import com.mindyapps.asleep.preferences.SleepingStore.Companion.USE_ANTI_SNORE
 import com.mindyapps.asleep.ui.adapters.SelectedFactorsRecyclerAdapter
 import com.mindyapps.asleep.ui.sleeping.SleepingActivity
+import com.mindyapps.asleep.ui.subs.SubscribeActivity
 import kotlinx.android.synthetic.main.fragment_sleep.*
+import kotlinx.coroutines.launch
 
 
 class SleepFragment : Fragment(), View.OnClickListener {
 
+    private var repository = SlimboRepositoryImpl()
     private lateinit var sleepViewModel: SleepViewModel
     private lateinit var factorsCard: CardView
     private lateinit var musicCard: CardView
@@ -58,8 +66,10 @@ class SleepFragment : Fragment(), View.OnClickListener {
     private var useAlarm: Boolean? = null
     private var useAntiSnore: Boolean? = null
     private lateinit var preferences: SharedPreferences
+    private lateinit var observerRecordings: Observer<Int>
 
     private var root: View? = null
+    private var recordingsCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,14 +85,14 @@ class SleepFragment : Fragment(), View.OnClickListener {
 
     private var listener: SharedPreferences.OnSharedPreferenceChangeListener =
         SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-            if (key == AlarmStore.USE_ALARM || key == AlarmStore.ALARM_TIME){
+            if (key == AlarmStore.USE_ALARM || key == AlarmStore.ALARM_TIME) {
                 if (!alarmStore.useAlarm) {
                     alarmChip.text = getString(R.string.off)
                 } else {
                     alarmChip.text = alarmStore.alarmTime
                 }
             }
-            if (key == USE_ANTI_SNORE){
+            if (key == USE_ANTI_SNORE) {
                 if (!sleepingStore.useAntiSnore) {
                     snoreChip.text = getString(R.string.off)
                 } else {
@@ -99,7 +109,10 @@ class SleepFragment : Fragment(), View.OnClickListener {
         if (root == null) {
             root = inflater.inflate(R.layout.fragment_sleep, container, false)
             sleepViewModel =
-                ViewModelProvider(this, SleepViewModelFactory()).get(SleepViewModel::class.java)
+                ViewModelProvider(
+                    this,
+                    SleepViewModelFactory(repository, requireActivity().application)
+                ).get(SleepViewModel::class.java)
             val loginActivityBackground: Drawable =
                 root!!.findViewById<RelativeLayout>(R.id.sleep_layout).background
             loginActivityBackground.alpha = 40
@@ -214,6 +227,12 @@ class SleepFragment : Fragment(), View.OnClickListener {
                 }
             }
         }
+
+        observerRecordings = Observer { recordingsCount = it }
+        lifecycleScope.launch {
+            sleepViewModel.recordingsCount.observe(viewLifecycleOwner, observerRecordings)
+        }
+
     }
 
     private fun bindFactorsRecycler(factors: ArrayList<Factor>) {
@@ -261,17 +280,22 @@ class SleepFragment : Fragment(), View.OnClickListener {
                 ) {
                     ActivityCompat.requestPermissions(
                         requireActivity(),
-                        arrayOf(WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE, WAKE_LOCK,
-                            RECEIVE_BOOT_COMPLETED, RECORD_AUDIO, FOREGROUND_SERVICE),
+                        arrayOf(
+                            WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE, WAKE_LOCK,
+                            RECEIVE_BOOT_COMPLETED, RECORD_AUDIO, FOREGROUND_SERVICE
+                        ),
                         12
                     )
                 }
-                    //Do the stuff that requires permission...
+                //Do the stuff that requires permission...
+                val subscribed = (requireActivity() as MainActivity).subscribed
+                if (recordingsCount < 3 || subscribed) {
                     if (SleepingStore(PreferenceManager.getDefaultSharedPreferences(requireContext())).showTip) {
                         val bundle = bundleOf(
                             "selected_music" to selectedMusic,
                             "selected_length" to selectedLength,
-                            "selected_factors" to selectedFactors!!
+                            "selected_factors" to selectedFactors!!,
+                            "subscribed" to subscribed
                         )
                         findNavController().navigate(R.id.sleeping_tip_fragment, bundle)
                     } else {
@@ -279,8 +303,21 @@ class SleepFragment : Fragment(), View.OnClickListener {
                         intent.putExtra("music", selectedMusic)
                         intent.putExtra("duration", selectedLength)
                         intent.putExtra("factors", selectedFactors)
+                        intent.putExtra("subscribed", subscribed)
                         startActivity(intent)
                     }
+                } else {
+                    val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogCustom)
+                    with(builder)
+                    {
+                        setTitle(getString(R.string.get_full))
+                        setMessage(getString(R.string.get_all_rec))
+                        setOnDismissListener {
+                            startActivity(Intent(requireContext(), SubscribeActivity::class.java))
+                        }
+                        show()
+                    }
+                }
 
             }
         }

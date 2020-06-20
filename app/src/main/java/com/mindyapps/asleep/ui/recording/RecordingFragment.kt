@@ -1,5 +1,6 @@
 package com.mindyapps.asleep.ui.recording
 
+import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.format.DateFormat
@@ -16,6 +17,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.mindyapps.asleep.MainActivity
 import com.mindyapps.asleep.R
 import com.mindyapps.asleep.data.model.AudioRecord
 import com.mindyapps.asleep.data.model.Factor
@@ -24,6 +26,7 @@ import com.mindyapps.asleep.data.repository.SlimboRepositoryImpl
 import com.mindyapps.asleep.internal.DottedSeekBar
 import com.mindyapps.asleep.ui.adapters.FactorsRecyclerAdapter
 import com.mindyapps.asleep.ui.adapters.SnoreAdapter
+import com.mindyapps.asleep.ui.subs.SubscribeActivity
 import kotlinx.android.synthetic.main.recording_fragment.*
 import kotlin.collections.ArrayList
 
@@ -87,6 +90,12 @@ class RecordingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        val subscribed = (requireActivity() as MainActivity).subscribed
+        if (!subscribed){
+            subscribe_text.visibility = View.VISIBLE
+        }
+
         val timeFormat = if (!DateFormat.is24HourFormat(requireContext())) {
             "hh:mm a"
         } else {
@@ -118,18 +127,32 @@ class RecordingFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.delete) {
-            val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogCustom)
-            with(builder)
-            {
-                setMessage(getString(R.string.delete_rec_text))
-                setPositiveButton(android.R.string.yes) { _, _ ->
-                    viewModel.deleteRecording(recording)
-                    requireActivity().supportFragmentManager.popBackStack()
+            val subscribed = (requireActivity() as MainActivity).subscribed
+            if (subscribed) {
+                val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogCustom)
+                with(builder)
+                {
+                    setMessage(getString(R.string.delete_rec_text))
+                    setPositiveButton(android.R.string.yes) { _, _ ->
+                        viewModel.deleteRecording(recording)
+                        requireActivity().supportFragmentManager.popBackStack()
+                    }
+                    setNegativeButton(android.R.string.no) { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    show()
                 }
-                setNegativeButton(android.R.string.no) { dialog, _ ->
-                    dialog.dismiss()
+            } else {
+                val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogCustom)
+                with(builder)
+                {
+                    setTitle(getString(R.string.get_full))
+                    setMessage(getString(R.string.sub_to_delete))
+                    setOnDismissListener {
+                        startActivity(Intent(requireContext(), SubscribeActivity::class.java))
+                    }
+                    show()
                 }
-                show()
             }
             return true
         }

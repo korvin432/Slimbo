@@ -1,10 +1,12 @@
 package com.mindyapps.asleep.ui.statistics
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -19,6 +21,7 @@ import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.model.GradientColor
 import com.google.android.material.chip.Chip
+import com.mindyapps.asleep.MainActivity
 import com.mindyapps.asleep.R
 import com.mindyapps.asleep.data.model.Factor
 import com.mindyapps.asleep.data.model.Recording
@@ -26,6 +29,7 @@ import com.mindyapps.asleep.data.repository.SlimboRepositoryImpl
 import com.mindyapps.asleep.internal.CustomBarChartRender
 import com.mindyapps.asleep.internal.Sorter
 import com.mindyapps.asleep.ui.adapters.FactorProgressAdapter
+import com.mindyapps.asleep.ui.subs.SubscribeActivity
 import kotlinx.coroutines.launch
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
@@ -741,18 +745,32 @@ class StatisticsFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        when (v!!.id) {
-            R.id.week_chip -> {
-                viewModel.setRecordings(7)
-                chartDays = 7
+        val subscribed = (requireActivity() as MainActivity).subscribed
+        if (subscribed) {
+            when (v!!.id) {
+                R.id.week_chip -> {
+                    viewModel.setRecordings(7)
+                    chartDays = 7
+                }
+                R.id.month_chip -> {
+                    viewModel.setRecordings(30)
+                    chartDays = 30
+                }
+                R.id.year_chip -> {
+                    viewModel.setRecordings(365)
+                    chartDays = 12
+                }
             }
-            R.id.month_chip -> {
-                viewModel.setRecordings(30)
-                chartDays = 30
-            }
-            R.id.year_chip -> {
-                viewModel.setRecordings(365)
-                chartDays = 12
+        } else {
+            val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogCustom)
+            with(builder)
+            {
+                setTitle(getString(R.string.subscribe))
+                setMessage(getString(R.string.sub_stat))
+                setOnDismissListener {
+                    startActivity(Intent(requireContext(), SubscribeActivity::class.java))
+                }
+                show()
             }
         }
     }

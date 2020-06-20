@@ -21,6 +21,7 @@ class SleepingTipFragment : Fragment() {
     private var selectedMusic: Music? = null
     private var selectedLength: String? = null
     private var selectedFactors: ArrayList<Factor>? = null
+    private var subscribed = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +32,7 @@ class SleepingTipFragment : Fragment() {
             selectedLength = requireArguments().getString("selected_length")
         }
         selectedFactors = requireArguments().getParcelableArrayList("selected_factors")
+        subscribed = requireArguments().getBoolean("subscribed")
 
         return inflater.inflate(R.layout.fragment_sleeping_tip, container, false)
     }
@@ -39,6 +41,7 @@ class SleepingTipFragment : Fragment() {
         val bundle = bundleOf(
             "music" to selectedMusic,
             "duration" to selectedLength,
+            "subscribed" to subscribed,
             "factors" to selectedFactors
         )
         findNavController().navigate(R.id.sleepingActivity, bundle)

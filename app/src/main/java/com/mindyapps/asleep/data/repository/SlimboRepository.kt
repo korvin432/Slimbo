@@ -21,4 +21,5 @@ interface SlimboRepository {
         endTime: Long
     ): LiveData<List<Recording>>
     fun deleteRecording(slimboDao: SlimboDao, recording: Recording)
+    fun getRecordingsCount(slimboDao: SlimboDao): LiveData<Int>
 }

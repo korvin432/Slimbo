@@ -1,6 +1,7 @@
 package com.mindyapps.asleep.ui.dialogs.music_select
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
@@ -11,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -23,10 +25,12 @@ import com.google.android.material.button.MaterialButton
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
+import com.mindyapps.asleep.MainActivity
 import com.mindyapps.asleep.R
 import com.mindyapps.asleep.data.model.Music
 import com.mindyapps.asleep.data.repository.SlimboRepositoryImpl
 import com.mindyapps.asleep.ui.adapters.SelectMusicAdapter
+import com.mindyapps.asleep.ui.subs.SubscribeActivity
 import kotlinx.coroutines.launch
 import org.angmarch.views.NiceSpinner
 import java.io.File
@@ -180,17 +184,31 @@ class SelectMusicFragment : DialogFragment() {
             stopPlaying()
             if (music.name != requireContext().getString(R.string.do_not_use)) {
                 if (!music.free!!) {
-                    val storagePath =
-                        File(requireContext().externalCacheDir!!.absolutePath, "Music")
-                    if (!storagePath.exists()) {
-                        storagePath.mkdirs()
-                    }
-                    val audioFile = File(storagePath, "${music.fileName}.mp3")
-                    if (!audioFile.exists()) {
-                        downloadFile("${music.fileName}.mp3")
+                    val subscribed = (requireActivity() as MainActivity).subscribed
+                    if (subscribed) {
+                        val storagePath =
+                            File(requireContext().externalCacheDir!!.absolutePath, "Music")
+                        if (!storagePath.exists()) {
+                            storagePath.mkdirs()
+                        }
+                        val audioFile = File(storagePath, "${music.fileName}.mp3")
+                        if (!audioFile.exists()) {
+                            downloadFile("${music.fileName}.mp3")
+                        } else {
+                            player = MediaPlayer.create(requireContext(), Uri.parse(audioFile.path))
+                            player!!.start()
+                        }
                     } else {
-                        player = MediaPlayer.create(requireContext(), Uri.parse(audioFile.path))
-                        player!!.start()
+                        val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogCustom)
+                        with(builder)
+                        {
+                            setTitle(getString(R.string.subscribe))
+                            setMessage(getString(R.string.get_all_music))
+                            setOnDismissListener {
+                                startActivity(Intent(requireContext(), SubscribeActivity::class.java))
+                            }
+                            show()
+                        }
                     }
                 } else {
                     val resID =

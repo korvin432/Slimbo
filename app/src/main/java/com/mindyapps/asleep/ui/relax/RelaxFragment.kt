@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -24,6 +25,7 @@ import com.android.billingclient.api.*
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
+import com.mindyapps.asleep.MainActivity
 import com.mindyapps.asleep.R
 import com.mindyapps.asleep.data.model.Music
 import com.mindyapps.asleep.data.repository.SlimboRepositoryImpl
@@ -36,7 +38,7 @@ import java.io.File
 import kotlin.math.ln
 
 
-class RelaxFragment : Fragment(), View.OnClickListener, SkuDetailsResponseListener {
+class RelaxFragment : Fragment(), View.OnClickListener {
 
     private var repository = SlimboRepositoryImpl()
     private lateinit var viewModel: RelaxViewModel
@@ -45,7 +47,6 @@ class RelaxFragment : Fragment(), View.OnClickListener, SkuDetailsResponseListen
     private lateinit var storage: FirebaseStorage
     private lateinit var storagePath: File
     private lateinit var observerMusic: Observer<List<Music>>
-    private lateinit var billingClient: BillingClient
     private var player: MediaPlayer? = null
     private var birdsPlayer: MediaPlayer? = null
     private var cricketPlayer: MediaPlayer? = null
@@ -66,28 +67,15 @@ class RelaxFragment : Fragment(), View.OnClickListener, SkuDetailsResponseListen
     private var thunderRainLoadPlayer: MediaPlayer? = null
 
     private var root: View? = null
-    val skusWithSkuDetails = MutableLiveData<Map<String, SkuDetails>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         storage = Firebase.storage
-
         storagePath = File(requireContext().externalCacheDir!!.absolutePath, "Music")
         if (!storagePath.exists()) {
             storagePath.mkdirs()
         }
-
-        billingClient = BillingClient.newBuilder(requireActivity())
-            .setListener(purchaseUpdateListener)
-            .enablePendingPurchases()
-            .build()
-
     }
-
-    private val purchaseUpdateListener =
-        PurchasesUpdatedListener { billingResult, purchases ->
-            // To be implemented in a later section.
-        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -122,53 +110,6 @@ class RelaxFragment : Fragment(), View.OnClickListener, SkuDetailsResponseListen
         thunder_card.setOnClickListener(this)
         water_stream_card.setOnClickListener(this)
 
-        billingClient.startConnection(object : BillingClientStateListener {
-            override fun onBillingSetupFinished(billingResult: BillingResult) {
-                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                    // The BillingClient is ready. You can query purchases here.
-                    Log.d("qwwe", "The BillingClient is ready")
-                    querySkuDetails()
-                }
-            }
-
-            override fun onBillingServiceDisconnected() {
-                // Try to restart the connection on the next request to
-                // Google Play by calling the startConnection() method.
-                Log.d("qwwe", "onBillingServiceDisconnected")
-            }
-        })
-
-        buy_btn.setOnClickListener {
-//            val activity: Activity = requireActivity()
-//
-//            val flowParams = BillingFlowParams.newBuilder()
-//                .setSkuDetails(skusWithSkuDetails.value?.get("year")!!)
-//                .build()
-//            val responseCode = billingClient.launchBillingFlow(activity, flowParams)
-//            Log.d("qwwe", "buying response ${responseCode.responseCode}. message: ${responseCode.debugMessage}")
-            startActivity(Intent(requireContext(), SubscribeActivity::class.java))
-        }
-    }
-
-    val skuDetails = skusWithSkuDetails.value?.get("year") ?: run {
-        Log.d("qwwe", "Could not find SkuDetails to make purchase.")
-        return@run
-    }
-
-    fun querySkuDetails() {
-        Log.d("qwwe", "querySkuDetails")
-        val params = SkuDetailsParams.newBuilder()
-            .setType(BillingClient.SkuType.SUBS)
-            .setSkusList(listOf(
-                "half",
-                "asleep_subscription",
-                "year"
-            ))
-            .build()
-        params?.let { skuDetailsParams ->
-            Log.i("qwwe", "querySkuDetailsAsync")
-            billingClient.querySkuDetailsAsync(skuDetailsParams, this)
-        }
     }
 
     private fun setSubscriber() {
@@ -183,7 +124,6 @@ class RelaxFragment : Fragment(), View.OnClickListener, SkuDetailsResponseListen
     private fun loadMusic() {
         lifecycleScope.launch {
             viewModel.allMusic.observe(viewLifecycleOwner, observerMusic)
-
         }
     }
 
@@ -276,20 +216,37 @@ class RelaxFragment : Fragment(), View.OnClickListener, SkuDetailsResponseListen
     }
 
     private fun downloadFile(fileName: String) {
-        Toast.makeText(requireContext(), getString(R.string.downloading), Toast.LENGTH_SHORT).show()
-        val gsReference =
-            storage.getReferenceFromUrl("gs://asleep-ed29b.appspot.com/$fileName")
+        val subscribed = (requireActivity() as MainActivity).subscribed
 
-        val myFile = File(storagePath, fileName)
+        if (subscribed) {
+            Toast.makeText(requireContext(), getString(R.string.downloading), Toast.LENGTH_SHORT)
+                .show()
+            val gsReference =
+                storage.getReferenceFromUrl("gs://asleep-ed29b.appspot.com/$fileName")
 
-        gsReference.getFile(myFile).addOnSuccessListener {
-            if (view != null) {
-                setSubscriber()
-                checkLoadedFiles()
-                setUpPaidPlayers()
+            val myFile = File(storagePath, fileName)
+
+            gsReference.getFile(myFile).addOnSuccessListener {
+                if (view != null) {
+                    setSubscriber()
+                    checkLoadedFiles()
+                    setUpPaidPlayers()
+                }
+            }.addOnFailureListener {
+                Toast.makeText(requireContext(), getString(R.string.error), Toast.LENGTH_SHORT)
+                    .show()
             }
-        }.addOnFailureListener {
-            Toast.makeText(requireContext(), getString(R.string.error), Toast.LENGTH_SHORT).show()
+        } else {
+            val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogCustom)
+            with(builder)
+            {
+                setTitle(getString(R.string.subscribe))
+                setMessage(getString(R.string.get_all_music))
+                setOnDismissListener {
+                    startActivity(Intent(requireContext(), SubscribeActivity::class.java))
+                }
+                show()
+            }
         }
     }
 
@@ -311,17 +268,31 @@ class RelaxFragment : Fragment(), View.OnClickListener, SkuDetailsResponseListen
             stopPlaying()
             if (music.name != requireContext().getString(R.string.do_not_use)) {
                 if (!music.free!!) {
-                    val storagePath =
-                        File(requireContext().externalCacheDir!!.absolutePath, "Music")
-                    if (!storagePath.exists()) {
-                        storagePath.mkdirs()
-                    }
-                    val audioFile = File(storagePath, "${music.fileName}.mp3")
-                    if (!audioFile.exists()) {
-                        downloadFile("${music.fileName}.mp3")
+                    val subscribed = (requireActivity() as MainActivity).subscribed
+                    if (subscribed) {
+                        val storagePath =
+                            File(requireContext().externalCacheDir!!.absolutePath, "Music")
+                        if (!storagePath.exists()) {
+                            storagePath.mkdirs()
+                        }
+                        val audioFile = File(storagePath, "${music.fileName}.mp3")
+                        if (!audioFile.exists()) {
+                            downloadFile("${music.fileName}.mp3")
+                        } else {
+                            player = MediaPlayer.create(requireContext(), Uri.parse(audioFile.path))
+                            player!!.start()
+                        }
                     } else {
-                        player = MediaPlayer.create(requireContext(), Uri.parse(audioFile.path))
-                        player!!.start()
+                        val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogCustom)
+                        with(builder)
+                        {
+                            setTitle(getString(R.string.subscribe))
+                            setMessage(getString(R.string.get_all_music))
+                            setOnDismissListener {
+                                startActivity(Intent(requireContext(), SubscribeActivity::class.java))
+                            }
+                            show()
+                        }
                     }
                 }
             }
@@ -620,43 +591,6 @@ class RelaxFragment : Fragment(), View.OnClickListener, SkuDetailsResponseListen
                         thunderRainLoadPlayer!!
                     )
                 }
-            }
-        }
-    }
-
-    override fun onSkuDetailsResponse(billingResult: BillingResult, skuDetailsList: MutableList<SkuDetails>?) {
-        val responseCode = billingResult.responseCode
-        val debugMessage = billingResult.debugMessage
-        when (responseCode) {
-            BillingClient.BillingResponseCode.OK -> {
-                Log.i("qwwe", "onSkuDetailsResponse: $responseCode $debugMessage")
-                if (skuDetailsList == null) {
-                    Log.w("qwwe", "onSkuDetailsResponse: null SkuDetails list")
-                    skusWithSkuDetails.postValue(emptyMap())
-                } else
-                    skusWithSkuDetails.postValue(HashMap<String, SkuDetails>().apply {
-                        for (details in skuDetailsList) {
-                            Log.d("qwwe", "putting ${details.sku}")
-                            put(details.sku, details)
-                        }
-                    }.also { postedValue ->
-                        Log.i("qwwe", "onSkuDetailsResponse: count ${postedValue.size}")
-                    })
-            }
-            BillingClient.BillingResponseCode.SERVICE_DISCONNECTED,
-            BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE,
-            BillingClient.BillingResponseCode.BILLING_UNAVAILABLE,
-            BillingClient.BillingResponseCode.ITEM_UNAVAILABLE,
-            BillingClient.BillingResponseCode.DEVELOPER_ERROR,
-            BillingClient.BillingResponseCode.ERROR -> {
-                Log.e("qwwe", "onSkuDetailsResponse: $responseCode $debugMessage")
-            }
-            BillingClient.BillingResponseCode.USER_CANCELED,
-            BillingClient.BillingResponseCode.FEATURE_NOT_SUPPORTED,
-            BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED,
-            BillingClient.BillingResponseCode.ITEM_NOT_OWNED -> {
-                // These response codes are not expected.
-                Log.wtf("qwwe", "onSkuDetailsResponse: $responseCode $debugMessage")
             }
         }
     }

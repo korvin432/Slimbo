@@ -178,6 +178,16 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical" />
 
+                <TextView
+                    android:id="@+id/subscribe_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:fontFamily="sans-serif-light"
+                    android:textColor="@color/colorLightHint"
+                    android:text="@string/snore_full"
+                    android:textSize="12sp"/>
+
                 <LinearLayout
                     android:id="@+id/no_snore_layout"
                     android:layout_width="match_parent"

@@ -10,6 +10,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -21,11 +22,15 @@ import com.mindyapps.asleep.preferences.SleepingStore
 import com.mindyapps.asleep.ui.sleeping.SleepingActivity
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SkuDetailsResponseListener {
 
+    val skusWithSkuDetails = MutableLiveData<Map<String, SkuDetails>>()
     private var currentNavController: LiveData<NavController>? = null
     private lateinit var sleepingStore: SleepingStore
     var recording: Recording? = null
+    var subscribed = false
+
+    private lateinit var billingClient: BillingClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +48,64 @@ class MainActivity : AppCompatActivity() {
         if (intent.getParcelableExtra<Recording>("recording") != null) {
             recording = intent.getParcelableExtra("recording")
         }
+
+        billingClient = BillingClient.newBuilder(this)
+            .setListener(purchaseUpdateListener)
+            .enablePendingPurchases()
+            .build()
+
+        billingClient.startConnection(object : BillingClientStateListener {
+            override fun onBillingSetupFinished(billingResult: BillingResult) {
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    // The BillingClient is ready. You can query purchases here.
+                    Log.d("qwwe", "The BillingClient is ready")
+                    querySkuDetails()
+
+                    val activeSubs =
+                        billingClient.queryPurchases(BillingClient.SkuType.SUBS).purchasesList
+                    Log.d("qwwe", "active subs: $activeSubs")
+                    activeSubs!!.forEach {
+                        if (it.sku == "asleep_subscription" || it.sku == "half" || it.sku == "year") {
+                            subscribed = true
+                        }
+                    }
+                    Log.d("qwwe", "subscribed: $subscribed")
+                }
+            }
+
+            override fun onBillingServiceDisconnected() {
+                // Try to restart the connection on the next request to
+                // Google Play by calling the startConnection() method.
+                Log.d("qwwe", "onBillingServiceDisconnected")
+            }
+        })
+
     }
 
+    private val purchaseUpdateListener =
+        PurchasesUpdatedListener { billingResult, purchases ->
+            subscribed =
+                billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null
+            Log.d("qwwe", "updating subscription status to $subscribed")
+        }
+
+    fun querySkuDetails() {
+        Log.d("qwwe", "querySkuDetails")
+        val params = SkuDetailsParams.newBuilder()
+            .setType(BillingClient.SkuType.SUBS)
+            .setSkusList(
+                listOf(
+                    "half",
+                    "asleep_subscription",
+                    "year"
+                )
+            )
+            .build()
+        params?.let { skuDetailsParams ->
+            Log.i("qwwe", "querySkuDetailsAsync")
+            billingClient.querySkuDetailsAsync(skuDetailsParams, this)
+        }
+    }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
@@ -108,6 +169,46 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         return currentNavController?.value?.navigateUp() ?: false
+    }
+
+    override fun onSkuDetailsResponse(
+        billingResult: BillingResult,
+        skuDetailsList: MutableList<SkuDetails>?
+    ) {
+        val responseCode = billingResult.responseCode
+        val debugMessage = billingResult.debugMessage
+        when (responseCode) {
+            BillingClient.BillingResponseCode.OK -> {
+                Log.i("qwwe", "onSkuDetailsResponse: $responseCode $debugMessage")
+                if (skuDetailsList == null) {
+                    Log.w("qwwe", "onSkuDetailsResponse: null SkuDetails list")
+                    skusWithSkuDetails.postValue(emptyMap())
+                } else
+                    skusWithSkuDetails.postValue(HashMap<String, SkuDetails>().apply {
+                        for (details in skuDetailsList) {
+                            Log.d("qwwe", "putting ${details.sku}")
+                            put(details.sku, details)
+                        }
+                    }.also { postedValue ->
+                        Log.i("qwwe", "onSkuDetailsResponse: count ${postedValue.size}")
+                    })
+            }
+            BillingClient.BillingResponseCode.SERVICE_DISCONNECTED,
+            BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE,
+            BillingClient.BillingResponseCode.BILLING_UNAVAILABLE,
+            BillingClient.BillingResponseCode.ITEM_UNAVAILABLE,
+            BillingClient.BillingResponseCode.DEVELOPER_ERROR,
+            BillingClient.BillingResponseCode.ERROR -> {
+                Log.e("qwwe", "onSkuDetailsResponse: $responseCode $debugMessage")
+            }
+            BillingClient.BillingResponseCode.USER_CANCELED,
+            BillingClient.BillingResponseCode.FEATURE_NOT_SUPPORTED,
+            BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED,
+            BillingClient.BillingResponseCode.ITEM_NOT_OWNED -> {
+                // These response codes are not expected.
+                Log.wtf("qwwe", "onSkuDetailsResponse: $responseCode $debugMessage")
+            }
+        }
     }
 
 }

@@ -11,7 +11,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.mindyapps.asleep.MainActivity
 import com.mindyapps.asleep.R
+import com.mindyapps.asleep.ui.subs.SubscribeActivity
 import kotlinx.android.synthetic.main.fragment_more.*
 import java.io.File
 
@@ -34,6 +36,12 @@ class MoreFragment : Fragment(), View.OnClickListener {
         more_apps.setOnClickListener(this)
         feedback.setOnClickListener(this)
         about.setOnClickListener(this)
+        subscribe.setOnClickListener(this)
+
+        val subscribed = (requireActivity() as MainActivity).subscribed
+        if (subscribed){
+            subscribe.visibility = View.GONE
+        }
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -50,6 +58,9 @@ class MoreFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v!!.id) {
+            R.id.subscribe -> {
+                startActivity(Intent(requireContext(), SubscribeActivity::class.java))
+            }
             R.id.alarm_settings -> {
                 findNavController().navigate(R.id.alarmSettingsFragment)
             }

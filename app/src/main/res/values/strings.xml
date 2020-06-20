@@ -129,6 +129,12 @@
     <string name="_3_months">3 months</string>
     <string name="subs_info">Your account will be charged the amount of the selected subscription plan. Your subscription will automatically renew within 24 hours before the end of the current period. You can cancel and manage subscriptions in your Google Play account settings.</string>
     <string name="subscribe">Subscribe</string>
+    <string name="get_full">Get full access</string>
+    <string name="get_all_rec">You need to subscribe to be able to create an unlimited number of records</string>
+    <string name="get_all_music">You need to subscribe to get access to all music</string>
+    <string name="snore_full">Доступно только 3 записи. Подпишитесь, чтобы записывать храп без ограничений</string>
+    <string name="sub_to_delete">Подпишитесь, чтобы иметь возможность удалять записи</string>
+    <string name="sub_stat">Подпишитесь, чтобы получить полный доступ к статистике</string>
 
     <string-array name="repeat_minutes">
         <item>Never</item>

@@ -63,6 +63,7 @@ public class RecorderService extends Service {
     private boolean forceSave = false;
     private boolean isSaving;
     private boolean stop;
+    private boolean subscribed;
     private Vibrator v;
     private Handler timeHandler, signalHandler;
     private MediaPlayer player;
@@ -103,6 +104,7 @@ public class RecorderService extends Service {
         if (intent != null && intent.getAction().equals(START_ACTION)) {
             isActive = true;
             factors = intent.getParcelableArrayListExtra(SELECTED_FACTORS);
+            subscribed = intent.getBooleanExtra("subscribed", false);
             startSleepingTime = System.currentTimeMillis();
 
             createNotificationChannel();
@@ -189,7 +191,6 @@ public class RecorderService extends Service {
     }
 
     public void arm() {
-        // Get the minimum buffer size required for the successful creation of an AudioRecord object.
         android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_AUDIO);
         // Get the minimum buffer size required for the successful creation of an AudioRecord object.
         int bufferSizeInBytes = AudioRecord.getMinBufferSize(RECORDER_SAMPLERATE, RECORDER_CHANNELS,
@@ -360,6 +361,9 @@ public class RecorderService extends Service {
                                 mediaMetadataRetriever.setDataSource(fn);
                                 String duration = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
                                 if (duration == null || Long.parseLong(duration) < 5000) {
+                                    File fdelete = new File(fn);
+                                    fdelete.delete();
+                                } else if (audioRecords.size() >= 3 && !subscribed){
                                     File fdelete = new File(fn);
                                     fdelete.delete();
                                 } else {

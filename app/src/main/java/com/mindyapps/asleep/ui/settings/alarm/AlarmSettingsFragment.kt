@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.format.DateFormat
@@ -16,6 +17,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -26,7 +28,11 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
+import com.mindyapps.asleep.MainActivity
 import com.mindyapps.asleep.receivers.AlarmReceiver
 
 import com.mindyapps.asleep.R
@@ -34,8 +40,10 @@ import com.mindyapps.asleep.data.model.Music
 import com.mindyapps.asleep.data.repository.SlimboRepositoryImpl
 import com.mindyapps.asleep.preferences.AlarmStore
 import com.mindyapps.asleep.ui.adapters.SelectMusicAdapter
+import com.mindyapps.asleep.ui.subs.SubscribeActivity
 import kotlinx.android.synthetic.main.fragment_alarm_settings.*
 import kotlinx.coroutines.launch
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -51,6 +59,7 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
     private lateinit var smartAlarmSwitch: Switch
     private lateinit var repeatSpinner: Spinner
     private lateinit var alarmStore: AlarmStore
+    private lateinit var storage: FirebaseStorage
 
     private lateinit var observerMusic: Observer<List<Music>>
     private var AM_PM: String = ""
@@ -70,6 +79,7 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
                 repository, requireActivity().application
             )
         ).get(AlarmViewModel::class.java)
+        storage = Firebase.storage
 
         recyclerView = root.findViewById(R.id.alarm_recycler)
         timePicker = root.findViewById(R.id.alarm_time_picker)
@@ -150,6 +160,10 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         loadPreferences()
+        setSubscriber()
+    }
+
+    private fun setSubscriber() {
         observerMusic = Observer { newsSource ->
             if (newsSource.isNotEmpty()) {
                 bindRecyclerView(newsSource)
@@ -264,6 +278,25 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
         }
     }
 
+    private fun downloadFile(fileName: String) {
+        Toast.makeText(requireContext(), getString(R.string.downloading), Toast.LENGTH_SHORT).show()
+        val gsReference =
+            storage.getReferenceFromUrl("gs://asleep-ed29b.appspot.com/$fileName")
+
+        val storagePath = File(requireContext().externalCacheDir!!.absolutePath, "Music")
+        if (!storagePath.exists()) {
+            storagePath.mkdirs()
+        }
+
+        val myFile = File(storagePath, fileName)
+
+        gsReference.getFile(myFile).addOnSuccessListener {
+            setSubscriber()
+        }.addOnFailureListener {
+            Toast.makeText(requireContext(), getString(R.string.error), Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun bindRecyclerView(musicList: List<Music>) {
         val linearLayoutManager = LinearLayoutManager(requireContext())
         recyclerView.addItemDecoration(
@@ -278,12 +311,41 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
         recyclerView.adapter = selectedMusicAdapter
         selectedMusicAdapter.onItemClick = { music ->
             stopPlaying()
-            val resID =
-                resources.getIdentifier(music.fileName, "raw", requireContext().packageName)
-            player = MediaPlayer.create(requireContext(), resID)
-            player!!.isLooping = true
-            player!!.start()
-            selectedAlarm = music
+            if (!music.free!!) {
+                val subscribed = (requireActivity() as MainActivity).subscribed
+                if (subscribed) {
+                    val storagePath =
+                        File(requireContext().externalCacheDir!!.absolutePath, "Music")
+                    if (!storagePath.exists()) {
+                        storagePath.mkdirs()
+                    }
+                    val audioFile = File(storagePath, "${music.fileName}.mp3")
+                    if (!audioFile.exists()) {
+                        downloadFile("${music.fileName}.mp3")
+                    } else {
+                        player = MediaPlayer.create(requireContext(), Uri.parse(audioFile.path))
+                        player!!.start()
+                    }
+                } else {
+                    val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogCustom)
+                    with(builder)
+                    {
+                        setTitle(getString(R.string.subscribe))
+                        setMessage(getString(R.string.get_all_music))
+                        setOnDismissListener {
+                            startActivity(Intent(requireContext(), SubscribeActivity::class.java))
+                        }
+                        show()
+                    }
+                }
+            } else {
+                val resID =
+                    resources.getIdentifier(music.fileName, "raw", requireContext().packageName)
+                player = MediaPlayer.create(requireContext(), resID)
+                player!!.isLooping = true
+                player!!.start()
+                selectedAlarm = music
+            }
         }
     }
 

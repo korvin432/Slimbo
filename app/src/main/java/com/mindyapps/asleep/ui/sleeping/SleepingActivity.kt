@@ -65,6 +65,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
     private var duration: String? = null
     private var player: MediaPlayer? = null
     private var openDetails: Boolean = false
+    private var subscribed: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -209,6 +210,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
         val serviceIntent = Intent(this, RecorderService::class.java)
         serviceIntent.action = START_ACTION
         serviceIntent.putExtra(SELECTED_FACTORS, factors)
+        serviceIntent.putExtra("subscribed", subscribed)
         ContextCompat.startForegroundService(this, serviceIntent)
         sleepingStore.isWorking = true
     }

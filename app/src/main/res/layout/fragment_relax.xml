@@ -28,12 +28,6 @@
                 android:background="@drawable/card_background_gradient"
                 android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/buy_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="buy"/>
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -42,7 +36,6 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginStart="20dp"
                     android:textSize="19sp"/>
-
 
                 <androidx.core.widget.NestedScrollView
                     android:layout_width="wrap_content"

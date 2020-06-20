@@ -36,6 +36,9 @@ interface SlimboDao {
     @Query("SELECT * FROM recordings ORDER BY id DESC")
     fun getAllRecordings(): LiveData<List<Recording>>
 
+    @Query("SELECT COUNT(*) FROM recordings")
+    fun getRecordingsCount(): LiveData<Int>
+
     @Query("SELECT * FROM recordings WHERE sleep_at_time BETWEEN :endTime AND :startTime")
     fun getRecordingsBetween(startTime: Long, endTime: Long): LiveData<List<Recording>>
 

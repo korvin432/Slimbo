@@ -90,6 +90,22 @@
                 android:textSize="18sp"/>
 
             <TextView
+                android:id="@+id/subscribe"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="5dp"
+                android:gravity="center_vertical"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-light"
+                android:textColor="@color/colorWhiteText"
+                android:text="@string/subscribe" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/card_divider"/>
+
+            <TextView
                 android:id="@+id/music_cache"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
