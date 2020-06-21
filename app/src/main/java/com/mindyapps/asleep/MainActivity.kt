@@ -19,6 +19,7 @@ import com.android.billingclient.api.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mindyapps.asleep.data.model.Recording
 import com.mindyapps.asleep.preferences.SleepingStore
+import com.mindyapps.asleep.ui.onboarding.OnboardingActivity
 import com.mindyapps.asleep.ui.sleeping.SleepingActivity
 
 
@@ -35,6 +36,18 @@ class MainActivity : AppCompatActivity(), SkuDetailsResponseListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if (!PreferenceManager.getDefaultSharedPreferences(applicationContext).getBoolean(
+                "onboarding_complete",
+                false
+            )
+        ) {
+            val onboarding = Intent(this, OnboardingActivity::class.java)
+            startActivity(onboarding)
+            finish()
+            return
+        }
+
         sleepingStore = SleepingStore(
             PreferenceManager.getDefaultSharedPreferences(applicationContext)
         )

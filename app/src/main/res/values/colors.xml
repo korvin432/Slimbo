@@ -38,6 +38,8 @@
     <color name="colorSelectedChip">#0294AE</color>
     <color name="colorFiol">#C363FF</color>
     <color name="colorPlan">#252E65</color>
+    <color name="colorPlanDark">#285878</color>
+    <color name="black_transparent">#14000000</color>
 
 
 </resources>

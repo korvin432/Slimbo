@@ -28,8 +28,7 @@ class SubscribeActivity : AppCompatActivity(), View.OnClickListener, SkuDetailsR
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_subscribe)
         theme.applyStyle(R.style.AppThemeTransparent, true)
-        supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        supportActionBar!!.title = ""
+        supportActionBar!!.hide()
 
 
         billingClient = BillingClient.newBuilder(this)
@@ -55,6 +54,7 @@ class SubscribeActivity : AppCompatActivity(), View.OnClickListener, SkuDetailsR
         year_layout.setOnClickListener(this)
         sub_button.setOnClickListener(this)
         free_button.setOnClickListener(this)
+        image_close.setOnClickListener { finish() }
 
         observerSku = Observer { newsSource ->
             if (newsSource != null) {

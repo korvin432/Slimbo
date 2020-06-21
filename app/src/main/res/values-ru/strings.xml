@@ -138,6 +138,11 @@
     <string name="sub_stat">Подпишитесь, чтобы получить полный доступ к статистике</string>
     <string name="free_trial">Бесплатный пробный период длится 3 дня и может быть активирован только 1 раз.</string>
     <string name="try_for_free">Попробовать бесплатно</string>
+    <string name="start_sleeping_better">Начните спать лучше</string>
+    <string name="monitor_text">asleep будет следить за вашим сном, избавит от храпа и разбудит в самое оптимальное время</string>
+    <string name="watch_changes">Наблюдайте изменения своего сна</string>
+    <string name="relax_text">Звуки природы помогут вам расслабиться, избавиться от стресса или заняться медитацией</string>
+    <string name="get_started">Начать</string>
 
     <string-array name="repeat_minutes">
         <item>Никогда</item>

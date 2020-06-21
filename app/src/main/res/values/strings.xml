@@ -137,6 +137,11 @@
     <string name="sub_stat">Subscribe to get full access to statistics</string>
     <string name="free_trial">The free trial period lasts 3 days and can only be activated once.</string>
     <string name="try_for_free">Try for free</string>
+    <string name="start_sleeping_better">Start sleeping better</string>
+    <string name="monitor_text">asleep will monitor your sleep, get rid of snoring and wake you up at the most optimal time</string>
+    <string name="watch_changes">Watch your dream\'s changes</string>
+    <string name="relax_text">The nature sounds will help you relax, get rid of stress or engage in meditation</string>
+    <string name="get_started">Get Started</string>
 
     <string-array name="repeat_minutes">
         <item>Never</item>
