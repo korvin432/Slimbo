@@ -38,8 +38,7 @@ class MainActivity : AppCompatActivity(), SkuDetailsResponseListener {
         setContentView(R.layout.activity_main)
 
         if (!PreferenceManager.getDefaultSharedPreferences(applicationContext).getBoolean(
-                "onboarding_complete",
-                false
+                "onboarding_complete", false
             )
         ) {
             val onboarding = Intent(this, OnboardingActivity::class.java)

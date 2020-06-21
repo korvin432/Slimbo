@@ -37,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:justifyContent="center"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="5dp"
                 app:layout_constraintTop_toBottomOf="@id/image_close"
                 android:orientation="horizontal">
 
@@ -232,7 +232,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingHorizontal="20dp"
-                android:paddingVertical="22dp"
+                android:paddingVertical="15dp"
                 app:layout_constraintBottom_toTopOf="@id/charging_text"
                 app:layout_constraintTop_toBottomOf="@id/plans_flex">
 
@@ -315,6 +315,27 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:text="@string/full_statistics"
+                        android:textColor="@color/colorWhiteText"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/checkmark" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:text="@string/anti_snore_rest"
                         android:textColor="@color/colorWhiteText"
                         android:textSize="18sp" />
                 </LinearLayout>

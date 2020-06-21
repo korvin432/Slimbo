@@ -142,6 +142,8 @@
     <string name="watch_changes">Watch your dream\'s changes</string>
     <string name="relax_text">The nature sounds will help you relax, get rid of stress or engage in meditation</string>
     <string name="get_started">Get Started</string>
+    <string name="anti_snore_sub">Anti-snore can only be activated no more than 3 times. Subscribe to enjoy all the features without restrictions.</string>
+    <string name="anti_snore_rest">Anti-snore without restrictions</string>
 
     <string-array name="repeat_minutes">
         <item>Never</item>

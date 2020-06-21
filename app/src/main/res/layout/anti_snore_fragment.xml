@@ -26,6 +26,19 @@
             android:textColor="@color/colorWhiteText"
             android:textSize="16sp" />
 
+        <TextView
+            android:id="@+id/snore_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/card_bg"
+            android:visibility="gone"
+            android:paddingBottom="5dp"
+            android:paddingHorizontal="10dp"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@color/colorLightHint"
+            android:text="@string/anti_snore_sub"
+            android:textSize="12sp"/>
+
         <include layout="@layout/alarm_divider" />
 
         <Switch

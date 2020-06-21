@@ -57,6 +57,7 @@ public class RecorderService extends Service {
     private byte RECORDER_BPP = (byte) 16;
     private int minVolumeLevel = 8;
     private int resID;
+    private int antiSnoreCount = 0;
 
     private boolean isActive;
     private boolean signalCompleted = true;
@@ -242,24 +243,53 @@ public class RecorderService extends Service {
                 if (temp > minVolumeLevel && !recording && !isSaving) {
                     Log.d("qwwe", "got sound");
                     if (sleepingStore.getUseAntiSnore() && sleepingStore.getMinimalTimeReached() && signalCompleted) {
-                        if (!sleepingStore.getUseVibration()) {
-                            resID = getApplicationContext().getResources()
-                                    .getIdentifier(selectedSignal.getFileName(), "raw",
-                                            getApplicationContext().getPackageName());
-                            player = MediaPlayer.create(getApplicationContext(), resID);
-                            player.setLooping(true);
-                            player.start();
-                            Log.d("qwwe", "setting handler");
-                            signalHandler.postDelayed(stopPlayerTask, sleepingStore.getAntiSnoreDuration() * 1000);
-                            signalCompleted = false;
-                        } else {
-                            v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                            signalHandler.postDelayed(stopVibrationTask, sleepingStore.getAntiSnoreDuration() * 1000);
-                            signalCompleted = false;
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                v.vibrate(VibrationEffect.createOneShot(sleepingStore.getAntiSnoreDuration() * 1000, VibrationEffect.DEFAULT_AMPLITUDE));
+                        if (subscribed) {
+                            if (!sleepingStore.getUseVibration()) {
+                                resID = getApplicationContext().getResources()
+                                        .getIdentifier(selectedSignal.getFileName(), "raw",
+                                                getApplicationContext().getPackageName());
+                                player = MediaPlayer.create(getApplicationContext(), resID);
+                                player.setLooping(true);
+                                player.start();
+                                Log.d("qwwe", "setting handler");
+                                signalHandler.postDelayed(stopPlayerTask, sleepingStore.getAntiSnoreDuration() * 1000);
+                                signalCompleted = false;
+                                antiSnoreCount++;
                             } else {
-                                v.vibrate(sleepingStore.getAntiSnoreDuration() * 1000);
+                                v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                                signalHandler.postDelayed(stopVibrationTask, sleepingStore.getAntiSnoreDuration() * 1000);
+                                signalCompleted = false;
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    v.vibrate(VibrationEffect.createOneShot(sleepingStore.getAntiSnoreDuration() * 1000, VibrationEffect.DEFAULT_AMPLITUDE));
+                                } else {
+                                    v.vibrate(sleepingStore.getAntiSnoreDuration() * 1000);
+                                }
+                                antiSnoreCount++;
+                            }
+                        } else {
+                            if (antiSnoreCount < 3) {
+                                if (!sleepingStore.getUseVibration()) {
+                                    resID = getApplicationContext().getResources()
+                                            .getIdentifier(selectedSignal.getFileName(), "raw",
+                                                    getApplicationContext().getPackageName());
+                                    player = MediaPlayer.create(getApplicationContext(), resID);
+                                    player.setLooping(true);
+                                    player.start();
+                                    Log.d("qwwe", "setting handler");
+                                    signalHandler.postDelayed(stopPlayerTask, sleepingStore.getAntiSnoreDuration() * 1000);
+                                    signalCompleted = false;
+                                    antiSnoreCount++;
+                                } else {
+                                    v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                                    signalHandler.postDelayed(stopVibrationTask, sleepingStore.getAntiSnoreDuration() * 1000);
+                                    signalCompleted = false;
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        v.vibrate(VibrationEffect.createOneShot(sleepingStore.getAntiSnoreDuration() * 1000, VibrationEffect.DEFAULT_AMPLITUDE));
+                                    } else {
+                                        v.vibrate(sleepingStore.getAntiSnoreDuration() * 1000);
+                                    }
+                                    antiSnoreCount++;
+                                }
                             }
                         }
                     } else {
@@ -363,7 +393,7 @@ public class RecorderService extends Service {
                                 if (duration == null || Long.parseLong(duration) < 5000) {
                                     File fdelete = new File(fn);
                                     fdelete.delete();
-                                } else if (audioRecords.size() >= 3 && !subscribed){
+                                } else if (audioRecords.size() >= 3 && !subscribed) {
                                     File fdelete = new File(fn);
                                     fdelete.delete();
                                 } else {

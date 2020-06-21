@@ -95,6 +95,11 @@ class AntiSnoreFragment : Fragment(), BubbleSeekBar.OnProgressChangedListener {
                 sound_container.visibility = View.VISIBLE
             }
         }
+
+        val subscribed = (requireActivity() as MainActivity).subscribed
+        if (!subscribed){
+            snore_text.visibility = View.VISIBLE
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

@@ -143,6 +143,8 @@
     <string name="watch_changes">Наблюдайте изменения своего сна</string>
     <string name="relax_text">Звуки природы помогут вам расслабиться, избавиться от стресса или заняться медитацией</string>
     <string name="get_started">Начать</string>
+    <string name="anti_snore_sub">Анти-храп может быть активирован не более 3 раз. Подпишитесь, чтобы пользоваться всеми функциями без ограничений.</string>
+    <string name="anti_snore_rest">Анти-храп без ограничений</string>
 
     <string-array name="repeat_minutes">
         <item>Никогда</item>
