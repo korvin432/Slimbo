@@ -28,6 +28,7 @@ import com.mindyapps.asleep.ui.adapters.FactorsRecyclerAdapter
 import com.mindyapps.asleep.ui.adapters.SnoreAdapter
 import com.mindyapps.asleep.ui.subs.SubscribeActivity
 import kotlinx.android.synthetic.main.recording_fragment.*
+import java.text.SimpleDateFormat
 import kotlin.collections.ArrayList
 
 
@@ -122,6 +123,9 @@ class RecordingFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.recording_menu, menu)
+
+        val date = SimpleDateFormat("dd MMMM").format(recording.sleep_at_time)
+        (requireActivity() as MainActivity).supportActionBar?.title = date
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

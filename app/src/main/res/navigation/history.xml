@@ -17,7 +17,6 @@
     <fragment
         android:id="@+id/recording_fragment"
         android:name="com.mindyapps.asleep.ui.recording.RecordingFragment"
-        android:label="Recording"
         tools:layout="@layout/recording_fragment">
         <argument
             android:name="recording"

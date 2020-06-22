@@ -201,8 +201,13 @@ public class RecorderService extends Service {
         AudioRecord audioRecorder = new AudioRecord(MediaRecorder.AudioSource.MIC, RECORDER_SAMPLERATE,
                 RECORDER_CHANNELS, RECORDER_AUDIO_ENCODING, bufferSizeInBytes);
 
-        // Start Recording.
-        audioRecorder.startRecording();
+
+        try {
+            // Start Recording.
+            audioRecorder.startRecording();
+        } catch(Exception e) {
+            Log.e("qwwe", "exception", e); // Error trying to sleep thread
+        }
 
         long silentSeconds = 0;
 
@@ -223,9 +228,15 @@ public class RecorderService extends Service {
                 numberOfReadBytes = audioRecorder.read(audioBuffer, 0, bufferSizeInBytes);
 
                 // Analyze Sound.
-                for (int i = 0; i < bufferSizeInBytes; i += 2) {
-                    sample = (short) ((audioBuffer[i]) | audioBuffer[i + 1] << 8);
-                    totalAbsValue += Math.abs(sample) / (numberOfReadBytes / 2);
+                if (numberOfReadBytes != 0) {
+                    for (int i = 0; i < bufferSizeInBytes; i += 2) {
+                        sample = (short) ((audioBuffer[i]) | audioBuffer[i + 1] << 8);
+                        try {
+                            totalAbsValue += Math.abs(sample) / (numberOfReadBytes / 2);
+                        } catch (Exception ex) {
+
+                        }
+                    }
                 }
 
 
