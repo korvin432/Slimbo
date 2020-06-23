@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="75dp"
         android:orientation="vertical"
         android:padding="10dp">
 
@@ -148,7 +148,7 @@
                         android:text="@string/sleep_graph"
                         android:textAlignment="viewStart"
                         android:textColor="@color/colorLightHint"
-                        android:textSize="19sp" />
+                        android:textSize="17sp" />
                 </LinearLayout>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -220,7 +220,7 @@
                     android:text="@string/snore"
                     android:textAlignment="viewStart"
                     android:textColor="@color/colorLightHint"
-                    android:textSize="19sp" />
+                    android:textSize="17sp" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -285,7 +285,7 @@
                     android:text="@string/factors"
                     android:textAlignment="viewStart"
                     android:textColor="@color/colorLightHint"
-                    android:textSize="19sp" />
+                    android:textSize="17sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -298,7 +298,7 @@
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true">
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/recording_card_background_gradient"
@@ -311,8 +311,8 @@
                     android:id="@+id/sleep_at_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginEnd="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     android:orientation="vertical">
 
                     <TextView
@@ -323,21 +323,23 @@
                         android:text="@string/sleep_at"
                         android:textAlignment="center"
                         android:textColor="@color/colorLightHint"
-                        android:textSize="17sp" />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/sleep_at"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorFilled"
-                        android:textSize="19sp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/sleep_time_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
+                    app:layout_constraintEnd_toStartOf="@id/wake_up_layout"
+                    app:layout_constraintStart_toEndOf="@id/sleep_at_layout"
+                    app:layout_constraintTop_toTopOf="parent"
                     android:orientation="vertical">
 
                     <TextView
@@ -348,7 +350,7 @@
                         android:text="@string/sleep_time"
                         android:textAlignment="center"
                         android:textColor="@color/colorLightHint"
-                        android:textSize="17sp" />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/sleep_time"
@@ -356,14 +358,15 @@
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
                         android:textColor="@color/colorFilled"
-                        android:textSize="19sp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/wake_up_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     android:orientation="vertical">
 
                     <TextView
@@ -374,7 +377,7 @@
                         android:text="@string/wake_up"
                         android:textAlignment="center"
                         android:textColor="@color/colorLightHint"
-                        android:textSize="17sp" />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/wake_up"
@@ -382,11 +385,11 @@
                         android:layout_height="wrap_content"
                         android:textAlignment="viewEnd"
                         android:textColor="@color/colorFilled"
-                        android:textSize="19sp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
 
-            </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
 

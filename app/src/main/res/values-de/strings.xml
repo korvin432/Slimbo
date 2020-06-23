@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">asleep</string>
+    <string name="title_sleep">Schlaf</string>
+    <string name="title_history">Geschichte</string>
+    <string name="title_relax">Entspannen</string>
+    <string name="title_more">Mehr</string>
+    <string name="statistics">Statistiken</string>
+    <string name="confirm">Bestätigen</string>
+    <string name="coffee">Kaffee</string>
+    <string name="disease">Krankheit</string>
+    <string name="nose">Verstopfte Nase</string>
+    <string name="shower">Dusche</string>
+    <string name="wine">Alkohol</string>
+    <string name="workout">Hat geklappt</string>
+    <string name="late_dinner">Spätes Abendessen</string>
+    <string name="not_my_bed">Nicht mein Bett</string>
+    <string name="tired">Müde</string>
+    <string name="factors">Faktoren</string>
+    <string name="do_not_use">Verwende nicht</string>
+    <string name="start">Anfang</string>
+    <string name="five_minutes">5 Minuten</string>
+    <string name="ten_minutes">10 Minuten</string>
+    <string name="twenty_minutes">20 Minuten</string>
+    <string name="thirty_minutes">30 Minuten</string>
+    <string name="ffive_minutes">45 Minuten</string>
+    <string name="length">Länge</string>
+    <string name="sleeping_tip_text">Legen Sie Ihr Telefon verdeckt neben Ihr Bett und schließen Sie es an die Ladung an</string>
+    <string name="continue_tip">Fortsetzen</string>
+    <string name="title_activity_sleeping">Schlafen</string>
+    <string name="alarm_settings">Alarmeinstellungen</string>
+    <string name="activate_alarm">Alarm aktivieren</string>
+    <string name="off">aus</string>
+    <string name="stop">Halt</string>
+    <string name="repeat_after">Nachsprechen</string>
+    <string name="sound">Klang</string>
+    <string name="sun">So</string>
+    <string name="sat">Sa</string>
+    <string name="fri">Fr</string>
+    <string name="thu">Do</string>
+    <string name="wed">Mi</string>
+    <string name="tue">Di</string>
+    <string name="mon">Mo</string>
+    <string name="repeat">Wiederholen</string>
+    <string name="minutes">Protokoll</string>
+    <string name="long_press_to_stop">Zum Anhalten lange drücken</string>
+    <string name="monitoring_will_start_in_10_minutes">Die Überwachung beginnt in 10 Minuten</string>
+    <string name="monitoring_will_start">Die Überwachung beginnt in </string>
+    <string name="sleep_quit_text">Die Überwachung sollte mindestens 30 Minuten dauern. Alle Berichte werden gelöscht, wenn Sie jetzt beenden. Bist du sicher?</string>
+    <string name="title_alert">Aufmerksam</string>
+    <string name="activate_anti_snore">Anti-Schnarchen aktivieren</string>
+    <string name="anti_snore_tip">Das ausgewählte Signal wird abgespielt, wenn Geräusche erkannt werden. Ihr Schnarchen wird nicht aufgezeichnet, wenn Sie diese Funktion verwenden.</string>
+    <string name="signal">Signal</string>
+    <string name="on">An</string>
+    <string name="anti_snore">Anti-Schnarchen</string>
+    <string name="duration">Dauer</string>
+    <string name="error">Error</string>
+    <string name="how_do_you_feel">Wie fühlst du dich?</string>
+    <string name="sleep_at">Schlafen bei</string>
+    <string name="wake_up">Aufwachen</string>
+    <string name="sleep_time">Schlafenszeit</string>
+    <string name="noise">Lärm</string>
+    <string name="snore">Schnarchen</string>
+    <string name="sleep_graph">Schlafgraph</string>
+    <string name="audio_file_not_found">Audiodatei nicht gefunden</string>
+    <string name="downloading">wird heruntergeladen</string>
+    <string name="about">Über</string>
+    <string name="no_data">Keine Daten</string>
+    <string name="no_sounds_detected">Keine Geräusche erkannt</string>
+    <string name="sounds">Geräusche</string>
+    <string name="birds">Vögel</string>
+    <string name="nature_sounds">Naturgeräusche</string>
+    <string name="cricket">Kricket</string>
+    <string name="pink_noise">Lila Geräusch</string>
+    <string name="rain_in_a_car">Regen im Auto</string>
+    <string name="rain_on_the_roof">Regen auf dem Dach</string>
+    <string name="street_noise">Straßenlärm</string>
+    <string name="thunder">Donner</string>
+    <string name="water_stream">Wasserströmung</string>
+    <string name="music">Musik</string>
+    <string name="fan">Ventilator</string>
+    <string name="forest">Wald</string>
+    <string name="light_rain">Leichter Regen</string>
+    <string name="medium_rain">Mittlerer Regen</string>
+    <string name="rain">Regen</string>
+    <string name="sea_waves">Wellen</string>
+    <string name="thunder_and_wind">Donner und Wind</string>
+    <string name="thunder_rain">Donnerregen</string>
+    <string name="title_statistics">Statistiken</string>
+    <string name="day">Tag</string>
+    <string name="week">Woche</string>
+    <string name="month">Monat</string>
+    <string name="all">Alles</string>
+    <string name="snore_frequency">Schnarchfrequenz</string>
+    <string name="year">Jahr</string>
+    <string name="sleep_duration">Schlafdauer</string>
+    <string name="snore_duration">Schnarchdauer</string>
+    <string name="good_sleep">Guter Schlaf</string>
+    <string name="percentage"> \%%</string>
+    <string name="bad_sleep">Schlechter Schlaf</string>
+    <string name="not_enough_data">nicht genug Daten</string>
+    <string name="delete">Löschen</string>
+    <string name="delete_rec_text">Möchten Sie diesen Eintrag wirklich löschen?</string>
+    <string name="settings">die Einstellungen</string>
+    <string name="cache">Zwischenspeicher</string>
+    <string name="clear_music">Musik-Cache löschen</string>
+    <string name="clear_snores">Schnarchen-Cache löschen</string>
+    <string name="other">Andere</string>
+    <string name="more_apps">Mehr Apps</string>
+    <string name="feedback">Feedback</string>
+    <string name="delete_music_alert">Möchten Sie wirklich alle heruntergeladenen Musikdateien löschen? Sie können es jederzeit wieder herunterladen.</string>
+    <string name="cache_cleared">Cache geleert</string>
+    <string name="delete_snores_alert">Möchten Sie wirklich alle Schnarchdatensätze dauerhaft löschen?</string>
+    <string name="vibration">Vibration</string>
+    <string name="smart_alarm">Intelligenter Alarm</string>
+    <string name="smart_alarm_text">Der Alarm wird in einem geeigneten Schlafzyklus zwischen %1$s und %2$d aktiviert</string>
+    <string name="no_recordings">Keine Aufnahmen</string>
+    <string name="this_is_demo_data">Dies sind Demo-Daten. Verfolgen Sie mindestens einen Traum, um Ihre Statistiken zu sehen.</string>
+    <string name="lullaby">Wiegenlied</string>
+    <string name="about_app">Über App</string>
+    <string name="credits">Musik:\nhttp://www.orangefreesounds.com\nMystic Sea by Glitch | https://soundcloud.com/glitch\nMusic promoted by https://www.free-stock-music.com\nCreative Commons Attribution 3.0 Unported License\nhttps://creativecommons.org/licenses/by/3.0/deed.en_US\nLooking At The Night Sky by Glitch | https://soundcloud.com/glitch\nMusic promoted by https://www.free-stock-music.com\nCreative Commons Attribution 3.0 Unported License\nhttps://creativecommons.org/licenses/by/3.0/deed.en_US\n reNovation by airtone © copyright 2019 Licensed under a Creative Commons Attribution (3.0) license. http://dig.ccmixter.org/files/airtone/60674\nBlack to the Night (1000 Ways Mix) by SackJo22 © copyright 2019 Licensed under a Creative Commons Attribution (3.0) license. http://dig.ccmixter.org/files/SackJo22/60660 Ft: Scomber\nAutumn\'s Dream Lullaby by gurdonark © copyright 2017 Licensed under a Creative Commons Attribution license. http://dig.ccmixter.org/files/gurdonark/56524 Ft: Scomber</string>
+    <string name="monitoring">Überwachung</string>
+    <string name="don_t_show">Diese Nachricht nicht mehr anzeigen</string>
+    <string name="diary">Tagebuch</string>
+    <string name="unlim_rec">Unbegrenzte Anzahl von Einträgen</string>
+    <string name="unlim_audio">Unbegrenzte Anzahl von Audioaufnahmen</string>
+    <string name="full_music">Voller Zugriff auf Musik</string>
+    <string name="full_statistics">Statistiken jederzeit anzeigen</string>
+    <string name="_1_month">1 Monat</string>
+    <string name="_3_months">3 Monate</string>
+    <string name="subs_info">Ihrem Konto wird der Betrag des ausgewählten Abonnementplans belastet. Ihr Abonnement verlängert sich automatisch innerhalb von 24 Stunden vor dem Ende des aktuellen Zeitraums. Sie können Abonnements in Ihren Google Play-Kontoeinstellungen kündigen und verwalten.</string>
+    <string name="subscribe">Abonnieren</string>
+    <string name="get_full">Erhalten Sie vollen Zugriff</string>
+    <string name="get_all_rec">Sie müssen sich anmelden, um eine unbegrenzte Anzahl von Datensätzen erstellen zu können</string>
+    <string name="get_all_music">Sie müssen sich anmelden, um Zugriff auf alle Musikstücke zu erhalten</string>
+    <string name="snore_full">Nur 3 Einträge sind kostenlos verfügbar. Abonnieren Sie das Schnarchen ohne Einschränkungen</string>
+    <string name="sub_to_delete">Abonnieren Sie, um Einträge löschen zu können</string>
+    <string name="sub_stat">Abonnieren Sie, um vollen Zugriff auf Statistiken zu erhalten</string>
+    <string name="free_trial">Die kostenlose Testphase dauert 3 Tage und kann nur einmal aktiviert werden.</string>
+    <string name="try_for_free">Probieren Sie es kostenlos aus</string>
+    <string name="start_sleeping_better">Schlaf besser</string>
+    <string name="monitor_text">asleep überwacht Ihren Schlaf, beseitigt das Schnarchen und weckt Sie zum optimalen Zeitpunkt</string>
+    <string name="watch_changes">Beobachten Sie die Veränderungen Ihres Traums</string>
+    <string name="relax_text">Die Naturgeräusche helfen Ihnen, sich zu entspannen, Stress abzubauen oder zu meditieren</string>
+    <string name="get_started">Loslegen</string>
+    <string name="anti_snore_sub">Anti-Schnarchen kann nur höchstens dreimal aktiviert werden. Abonnieren Sie, um alle Funktionen ohne Einschränkungen zu nutzen.</string>
+    <string name="anti_snore_rest">Anti-Schnarchen ohne Einschränkungen</string>
+    <string name="no_email">Es sind keine E-Mail-Clients installiert.</string>
+
+    <string-array name="repeat_minutes">
+        <item>noch nie</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>30</item>
+    </string-array>
+
+    <string-array name="days_of_week">
+        <item>mo</item>
+        <item>di</item>
+        <item>mi</item>
+        <item>do</item>
+        <item>fr</item>
+        <item>sa</item>
+        <item>so</item>
+    </string-array>
+</resources>

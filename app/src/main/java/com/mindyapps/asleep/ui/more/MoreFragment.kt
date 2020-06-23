@@ -115,7 +115,7 @@ class MoreFragment : Fragment(), View.OnClickListener {
                 } catch (ex: ActivityNotFoundException) {
                     Toast.makeText(
                         requireContext(),
-                        "There are no email clients installed.",
+                        getString(R.string.no_email),
                         Toast.LENGTH_SHORT
                     ).show()
                 }

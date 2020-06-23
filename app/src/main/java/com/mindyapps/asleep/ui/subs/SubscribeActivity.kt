@@ -71,6 +71,8 @@ class SubscribeActivity : AppCompatActivity(), View.OnClickListener, SkuDetailsR
         selectedSku = "half"
     }
 
+    override fun onBackPressed() { }
+
     private val purchaseUpdateListener =
         PurchasesUpdatedListener { billingResult, purchases ->
             // To be implemented in a later section.

@@ -13,7 +13,7 @@ android {
         applicationId "com.mindyapps.asleep"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 10
+        versionCode 13
         versionName "1.0"
         multiDexEnabled true
 

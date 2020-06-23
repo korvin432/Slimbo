@@ -20,7 +20,7 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.onboarding.OnboardingActivity"></activity>
+        <activity android:name=".ui.onboarding.OnboardingActivity"/>
         <activity android:name=".ui.subs.SubscribeActivity" />
         <activity
             android:name=".ui.SplashActivity"
