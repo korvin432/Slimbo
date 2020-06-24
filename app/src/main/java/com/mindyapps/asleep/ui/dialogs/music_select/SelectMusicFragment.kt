@@ -211,10 +211,18 @@ class SelectMusicFragment : DialogFragment() {
                         }
                     }
                 } else {
-                    val resID =
-                        resources.getIdentifier(music.fileName, "raw", requireContext().packageName)
-                    player = MediaPlayer.create(requireContext(), resID)
-                    player!!.start()
+                    try {
+                        val resID =
+                            resources.getIdentifier(
+                                music.fileName,
+                                "raw",
+                                requireContext().packageName
+                            )
+                        player = MediaPlayer.create(requireContext(), resID)
+                        player!!.start()
+                    } catch(ex: Exception){
+
+                    }
                 }
 
             }

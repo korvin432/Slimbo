@@ -225,21 +225,22 @@ class AlarmSettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
         repeatSpinner.setSelection(alarmStore.repeatMinutes)
         smartAlarmSwitch.isChecked = alarmStore.smartAlarmTime != ""
         if (alarmStore.alarmTime != "00:00") {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                timePicker.hour = (alarmStore.alarmTime).substringBefore(":").toInt()
-                timePicker.minute = (alarmStore.alarmTime).substringAfter(":").toInt()
+            if (!DateFormat.is24HourFormat(requireContext())) {
+                val h_mm_a = SimpleDateFormat("hh:mm a")
+                val hh_mm_ss = SimpleDateFormat("HH:mm")
+                val d1 = h_mm_a.parse(alarmStore.alarmTime)
+                val time24 = hh_mm_ss.format(d1)
+                timePicker.currentHour = (time24).substringBefore(":").toInt()
+                timePicker.currentMinute = (time24).substringAfter(":").toInt()
             } else {
-                if (!DateFormat.is24HourFormat(requireContext())) {
-                    val h_mm_a = SimpleDateFormat("hh:mm a")
-                    val hh_mm_ss = SimpleDateFormat("HH:mm")
-                    val d1 = h_mm_a.parse(alarmStore.alarmTime)
-                    val time24 = hh_mm_ss.format(d1)
-                    timePicker.currentHour = (time24).substringBefore(":").toInt()
-                    timePicker.currentMinute = (time24).substringAfter(":").toInt()
-                } else {
-                    timePicker.currentHour = (alarmStore.alarmTime).substringBefore(":").toInt()
-                    timePicker.currentMinute = (alarmStore.alarmTime).substringAfter(":").toInt()
-                }
+                timePicker.currentHour =
+                    (alarmStore.alarmTime)
+                        .replace("AM", "").replace("PM", "")
+                        .trim().substringBefore(":").toInt()
+                timePicker.currentMinute =
+                    (alarmStore.alarmTime)
+                        .replace("AM", "").replace("PM", "")
+                        .trim().substringAfter(":").toInt()
             }
         }
         stringToWords(alarmStore.repeatDays).forEach {

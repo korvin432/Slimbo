@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), SkuDetailsResponseListener {
     private var currentNavController: LiveData<NavController>? = null
     private lateinit var sleepingStore: SleepingStore
     var recording: Recording? = null
-    var subscribed = false
+    var subscribed = true
 
     private lateinit var billingClient: BillingClient
 
@@ -191,14 +191,11 @@ class MainActivity : AppCompatActivity(), SkuDetailsResponseListener {
         val debugMessage = billingResult.debugMessage
         when (responseCode) {
             BillingClient.BillingResponseCode.OK -> {
-                Log.i("qwwe", "onSkuDetailsResponse: $responseCode $debugMessage")
                 if (skuDetailsList == null) {
-                    Log.w("qwwe", "onSkuDetailsResponse: null SkuDetails list")
                     skusWithSkuDetails.postValue(emptyMap())
                 } else
                     skusWithSkuDetails.postValue(HashMap<String, SkuDetails>().apply {
                         for (details in skuDetailsList) {
-                            Log.d("qwwe", "putting ${details.sku}")
                             put(details.sku, details)
                         }
                     }.also { postedValue ->
