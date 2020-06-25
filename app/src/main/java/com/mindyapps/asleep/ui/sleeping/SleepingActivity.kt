@@ -116,8 +116,8 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
         }
 
         if (!sleepingStore.isWorking && music == null) {
-            Handler().postDelayed(stopPlayerTask, 0)
-            Handler().postDelayed(stopPlayerTask, 1000)
+            Handler().postDelayed(stopPlayerTask, 600000)
+            Handler().postDelayed(stopPlayerTask, 601000)
             hideTip()
         }
 

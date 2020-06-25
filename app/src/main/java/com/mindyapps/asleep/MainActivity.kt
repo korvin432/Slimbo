@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), SkuDetailsResponseListener {
     private var currentNavController: LiveData<NavController>? = null
     private lateinit var sleepingStore: SleepingStore
     var recording: Recording? = null
-    var subscribed = true
+    var subscribed = false
 
     private lateinit var billingClient: BillingClient
 

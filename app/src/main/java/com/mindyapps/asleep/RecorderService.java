@@ -126,7 +126,7 @@ public class RecorderService extends Service {
             }.start();
             timeHandler = new Handler();
             signalHandler = new Handler();
-            timeHandler.postDelayed(minTimeTask, 5000);
+            timeHandler.postDelayed(minTimeTask, 1800000);
 
         } else if (intent.getAction().equals(STOP_ACTION)) {
             isActive = false;
