@@ -21,13 +21,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.onboarding.OnboardingActivity"/>
-        <activity android:name=".ui.subs.SubscribeActivity" />
+        <activity android:name=".ui.subs.SubscribeActivity" android:screenOrientation="portrait" />
         <activity
             android:name=".ui.SplashActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -39,10 +39,12 @@
 
         <activity
             android:name=".ui.AlarmActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.sleeping.SleepingActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
             android:hardwareAccelerated="false"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
