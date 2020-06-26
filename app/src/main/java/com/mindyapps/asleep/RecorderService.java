@@ -114,7 +114,7 @@ public class RecorderService extends Service {
                     0, notificationIntent, 0);
             Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                     .setContentTitle(getString(R.string.monitoring))
-                    .setSmallIcon(R.drawable.ic_sleep)
+                    .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentIntent(pendingIntent)
                     .build();
             startForeground(1, notification);

@@ -146,6 +146,8 @@
     <string name="anti_snore_sub">El antirronquidos solo se puede activar no más de 3 veces. Suscríbase para disfrutar de todas las funciones sin restricciones.</string>
     <string name="anti_snore_rest">Antirronquidos sin restricciones</string>
     <string name="no_email">No hay clientes de correo electrónico instalados.</string>
+    <string name="alarm">Despertador</string>
+    <string name="wake_up_alarm">¡Despierta!</string>
 
     <string-array name="repeat_minutes">
         <item>Nunca</item>

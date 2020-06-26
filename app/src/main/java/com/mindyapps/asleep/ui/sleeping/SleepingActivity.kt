@@ -117,7 +117,6 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
 
         if (!sleepingStore.isWorking && music == null) {
             Handler().postDelayed(stopPlayerTask, 600000)
-            Handler().postDelayed(stopPlayerTask, 601000)
             hideTip()
         }
 
@@ -182,6 +181,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
     }
 
     private var stopPlayerTask = Runnable {
+        Log.d("qwwe", "got stop player task")
         if (player != null) {
             player!!.stop()
         }
@@ -213,6 +213,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
         serviceIntent.putExtra("subscribed", subscribed)
         ContextCompat.startForegroundService(this, serviceIntent)
         sleepingStore.isWorking = true
+        Log.d("qwwe", "startService()")
     }
 
     private fun stopService(openDetailsFragment: Boolean) {

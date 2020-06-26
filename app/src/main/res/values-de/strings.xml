@@ -146,6 +146,8 @@
     <string name="anti_snore_sub">Anti-Schnarchen kann nur höchstens dreimal aktiviert werden. Abonnieren Sie, um alle Funktionen ohne Einschränkungen zu nutzen.</string>
     <string name="anti_snore_rest">Anti-Schnarchen ohne Einschränkungen</string>
     <string name="no_email">Es sind keine E-Mail-Clients installiert.</string>
+    <string name="alarm">Wecker</string>
+    <string name="wake_up_alarm">Aufwachen!</string>
 
     <string-array name="repeat_minutes">
         <item>noch nie</item>
