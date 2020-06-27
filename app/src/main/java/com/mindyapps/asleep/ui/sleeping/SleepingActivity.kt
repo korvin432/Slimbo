@@ -9,6 +9,7 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.os.PowerManager
 import android.util.Log
 import android.view.MotionEvent
 import android.view.MotionEvent.ACTION_DOWN
@@ -66,11 +67,16 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
     private var player: MediaPlayer? = null
     private var openDetails: Boolean = false
     private var subscribed: Boolean = false
+    private lateinit var wakeLock: PowerManager.WakeLock
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sleeping)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+        val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
+        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, javaClass.canonicalName)
+        wakeLock.acquire()
 
         sleepingStore =
             SleepingStore(PreferenceManager.getDefaultSharedPreferences(applicationContext))
@@ -136,7 +142,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
                         intent.getLongExtra(START_TIME, 0)
                     )
 
-                    if (!openDetails){
+                    if (!openDetails) {
                         finish()
                     }
 
@@ -145,7 +151,8 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
                         if (!fromAlarm) {
                             openRecording(recording)
                         } else {
-                            val alarmIntent = Intent(this@SleepingActivity, AlarmActivity::class.java)
+                            val alarmIntent =
+                                Intent(this@SleepingActivity, AlarmActivity::class.java)
                             alarmIntent.putExtra("recording", recording)
                             startActivity(alarmIntent)
                         }
@@ -181,7 +188,6 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
     }
 
     private var stopPlayerTask = Runnable {
-        Log.d("qwwe", "got stop player task")
         if (player != null) {
             player!!.stop()
         }
@@ -213,7 +219,6 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
         serviceIntent.putExtra("subscribed", subscribed)
         ContextCompat.startForegroundService(this, serviceIntent)
         sleepingStore.isWorking = true
-        Log.d("qwwe", "startService()")
     }
 
     private fun stopService(openDetailsFragment: Boolean) {
@@ -245,6 +250,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
 
     override fun onDestroy() {
         super.onDestroy()
+        wakeLock.release()
         handler.removeCallbacksAndMessages(null)
         sleepingStore.minimalTimeReached = false
     }
