@@ -148,6 +148,7 @@
     <string name="no_email">No hay clientes de correo electrónico instalados.</string>
     <string name="alarm">Despertador</string>
     <string name="wake_up_alarm">¡Despierta!</string>
+    <string name="charge_tip">Su dispositivo debe estar conectado a la carga para que el sistema no detenga la aplicación.</string>
 
     <string-array name="repeat_minutes">
         <item>Nunca</item>

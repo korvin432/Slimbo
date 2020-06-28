@@ -148,6 +148,7 @@
     <string name="no_email">Es sind keine E-Mail-Clients installiert.</string>
     <string name="alarm">Wecker</string>
     <string name="wake_up_alarm">Aufwachen!</string>
+    <string name="charge_tip">Ihr Gerät muss an den Ladevorgang angeschlossen sein, damit das System die App nicht stoppt.</string>
 
     <string-array name="repeat_minutes">
         <item>noch nie</item>

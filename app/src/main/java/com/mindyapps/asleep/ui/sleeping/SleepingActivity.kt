@@ -5,8 +5,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.media.MediaPlayer
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.PowerManager
@@ -37,6 +40,7 @@ import com.mindyapps.asleep.data.model.Factor
 import com.mindyapps.asleep.data.model.Music
 import com.mindyapps.asleep.data.model.Recording
 import com.mindyapps.asleep.data.repository.SlimboRepositoryImpl
+import com.mindyapps.asleep.internal.Utils
 import com.mindyapps.asleep.preferences.SleepingStore
 import com.mindyapps.asleep.ui.AlarmActivity
 import kotlinx.coroutines.CoroutineScope
@@ -75,7 +79,13 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
-        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, javaClass.canonicalName)
+        val lockTag = if (Build.MANUFACTURER.toLowerCase() == "huawei") {
+            "LocationManagerService"
+        } else {
+            javaClass.canonicalName
+        }
+
+        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, lockTag)
         wakeLock.acquire()
 
         sleepingStore =
@@ -159,7 +169,6 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
                     }
                     LocalBroadcastManager.getInstance(context!!)
                         .unregisterReceiver(broadcastReceiver)
-
                 }
             }
         }
@@ -250,7 +259,9 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
 
     override fun onDestroy() {
         super.onDestroy()
-        wakeLock.release()
+        if (wakeLock.isHeld) {
+            wakeLock.release()
+        }
         handler.removeCallbacksAndMessages(null)
         sleepingStore.minimalTimeReached = false
     }

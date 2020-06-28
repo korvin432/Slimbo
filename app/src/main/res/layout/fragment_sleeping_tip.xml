@@ -13,7 +13,7 @@
         android:layout_width="215dp"
         android:layout_height="215dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="95dp"
+        android:layout_marginTop="85dp"
         android:src="@drawable/sleep_tip_image" />
 
     <TextView
@@ -21,11 +21,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tip_image"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:text="@string/sleeping_tip_text"
         android:textAlignment="center"
-        android:textColor="@color/colorWhiteText"
-        android:textSize="18sp" />
+        android:textColor="@color/colorWhiteText" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tip_text"
+        android:layout_marginTop="10dp"
+        android:text="@string/charge_tip"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhiteText"/>
 
 
     <com.google.android.material.button.MaterialButton
@@ -54,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginHorizontal="80dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/button_ripple"
         android:text="@string/continue_tip"
         android:textSize="15sp"
