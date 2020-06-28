@@ -71,6 +71,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
     private var player: MediaPlayer? = null
     private var openDetails: Boolean = false
     private var subscribed: Boolean = false
+    private var stop: Boolean = false
     private lateinit var wakeLock: PowerManager.WakeLock
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -197,10 +198,12 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
     }
 
     private var stopPlayerTask = Runnable {
-        if (player != null) {
-            player!!.stop()
+        if (!stop) {
+            if (player != null) {
+                player!!.stop()
+            }
+            startService()
         }
-        startService()
     }
 
     private fun hideTip() {
@@ -262,7 +265,9 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
         if (wakeLock.isHeld) {
             wakeLock.release()
         }
+        stop = true
         handler.removeCallbacksAndMessages(null)
+        handler.removeCallbacks(stopPlayerTask)
         sleepingStore.minimalTimeReached = false
     }
 
