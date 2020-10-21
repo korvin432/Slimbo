@@ -26,7 +26,6 @@
         android:layout_width="match_parent"
         android:layout_height="32dp">
 
-
         <rm.com.audiowave.AudioWaveView
             android:id="@+id/waveView"
             android:layout_width="match_parent"

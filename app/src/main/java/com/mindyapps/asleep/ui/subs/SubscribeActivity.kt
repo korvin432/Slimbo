@@ -75,17 +75,28 @@ class SubscribeActivity : AppCompatActivity(), View.OnClickListener, SkuDetailsR
 
     private val purchaseUpdateListener =
         PurchasesUpdatedListener { billingResult, purchases ->
-            // To be implemented in a later section.
-            val subscribed =
-                billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null
+            val subscribed = billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null
             if (subscribed){
-                finish()
-                startActivity(Intent(this, MainActivity::class.java))
+                purchases?.lastOrNull()?.let {
+                    handlePurchase(it)
+                }
             }
         }
 
+    private fun handlePurchase(purchase: Purchase) {
+        if (!purchase.isAcknowledged) {
+            val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
+                .setPurchaseToken(purchase.purchaseToken)
+            billingClient.acknowledgePurchase(acknowledgePurchaseParams.build()) { billingResult ->
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    finish()
+                    startActivity(Intent(this, MainActivity::class.java))
+                }
+            }
+        }
+    }
+
     fun querySkuDetails() {
-        Log.d("qwwe", "querySkuDetails")
         val params = SkuDetailsParams.newBuilder()
             .setType(BillingClient.SkuType.SUBS)
             .setSkusList(
@@ -97,7 +108,6 @@ class SubscribeActivity : AppCompatActivity(), View.OnClickListener, SkuDetailsR
             )
             .build()
         params?.let { skuDetailsParams ->
-            Log.i("qwwe", "querySkuDetailsAsync")
             billingClient.querySkuDetailsAsync(skuDetailsParams, this)
         }
     }
@@ -170,14 +180,11 @@ class SubscribeActivity : AppCompatActivity(), View.OnClickListener, SkuDetailsR
         val debugMessage = billingResult.debugMessage
         when (responseCode) {
             BillingClient.BillingResponseCode.OK -> {
-                Log.i("qwwe", "onSkuDetailsResponse: $responseCode $debugMessage")
                 if (skuDetailsList == null) {
-                    Log.w("qwwe", "onSkuDetailsResponse: null SkuDetails list")
                     skusWithSkuDetails.postValue(emptyMap())
                 } else
                     skusWithSkuDetails.postValue(HashMap<String, SkuDetails>().apply {
                         for (details in skuDetailsList) {
-                            Log.d("qwwe", "putting ${details.sku}")
                             put(details.sku, details)
                         }
                     }.also { postedValue ->
