@@ -54,7 +54,9 @@ class MainActivity : AppCompatActivity(), SkuDetailsResponseListener {
             setupBottomNavigationBar()
         }
         if (sleepingStore.isWorking) {
-            startActivity(Intent(this, SleepingActivity::class.java))
+            val intent = Intent(this, SleepingActivity::class.java)
+            intent.putExtra("isSubscribed", subscribed)
+            startActivity(intent)
         }
 
         if (intent.getParcelableExtra<Recording>("recording") != null) {

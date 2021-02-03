@@ -37,6 +37,7 @@ class MoreFragment : Fragment(), View.OnClickListener {
         feedback.setOnClickListener(this)
         about.setOnClickListener(this)
         subscribe.setOnClickListener(this)
+        lucidly_new.setOnClickListener { openProject("lucidlynew") }
 
         val subscribed = (requireActivity() as MainActivity).subscribed
         if (subscribed){
@@ -44,6 +45,12 @@ class MoreFragment : Fragment(), View.OnClickListener {
         }
 
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun openProject(name: String){
+        val page: Uri = Uri.parse("https://play.google.com/store/apps/details?id=com.mindyapps.$name")
+        val myIntent = Intent(Intent.ACTION_VIEW, page)
+        startActivity(myIntent)
     }
 
     private fun deleteFiles(folder: File) {
@@ -98,7 +105,7 @@ class MoreFragment : Fragment(), View.OnClickListener {
                 }
             }
             R.id.more_apps -> {
-                val uri = Uri.parse("https://play.google.com/store/apps/developer?id=MindyApps")
+                val uri = Uri.parse("https://play.google.com/store/apps/dev?id=8188968846352525287")
                 val intent = Intent(Intent.ACTION_VIEW, uri)
                 startActivity(intent)
             }

@@ -2,187 +2,239 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/activity_bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/activity_bg"
     tools:context=".ui.more.MoreFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/card_bg"
-        android:layout_marginTop="70dp"
-        app:cardCornerRadius="10dp">
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            app:cardBackgroundColor="@color/card_bg"
+            app:cardCornerRadius="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/settings"
+                    android:textColor="@color/colorLightHint"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/alarm_settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center_vertical"
+                    android:padding="5dp"
+                    android:text="@string/alarm_settings"
+                    android:textColor="@color/colorWhiteText"
+                    android:textSize="18sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/card_divider" />
+
+                <TextView
+                    android:id="@+id/anti_snore"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center_vertical"
+                    android:padding="5dp"
+                    android:text="@string/anti_snore"
+                    android:textColor="@color/colorWhiteText"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:cardBackgroundColor="@color/card_bg"
+            app:cardCornerRadius="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/other"
+                    android:textColor="@color/colorLightHint"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/subscribe"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center_vertical"
+                    android:padding="5dp"
+                    android:text="@string/subscribe"
+                    android:textColor="@color/colorWhiteText"
+                    android:textSize="18sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/card_divider" />
+
+                <TextView
+                    android:id="@+id/music_cache"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center_vertical"
+                    android:padding="5dp"
+                    android:text="@string/clear_music"
+                    android:textColor="@color/colorWhiteText"
+                    android:textSize="18sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/card_divider" />
+
+                <TextView
+                    android:id="@+id/snore_cache"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center_vertical"
+                    android:padding="5dp"
+                    android:text="@string/clear_snores"
+                    android:textColor="@color/colorWhiteText"
+                    android:textSize="18sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/card_divider" />
+
+                <TextView
+                    android:id="@+id/more_apps"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center_vertical"
+                    android:padding="5dp"
+                    android:text="@string/more_apps"
+                    android:textColor="@color/colorWhiteText"
+                    android:textSize="18sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/card_divider" />
+
+                <TextView
+                    android:id="@+id/feedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center_vertical"
+                    android:padding="5dp"
+                    android:text="@string/feedback"
+                    android:textColor="@color/colorWhiteText"
+                    android:textSize="18sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/card_divider" />
+
+                <TextView
+                    android:id="@+id/about"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center_vertical"
+                    android:padding="5dp"
+                    android:text="@string/about_app"
+                    android:textColor="@color/colorWhiteText"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:padding="10dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
 
-            <TextView
+            <RelativeLayout
+                android:id="@+id/lucidly_new"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/settings"
-                android:layout_marginStart="5dp"
-                android:layout_marginBottom="10dp"
-                android:textColor="@color/colorLightHint"
-                android:textSize="18sp"/>
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/alarm_settings"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:padding="5dp"
-                android:gravity="center_vertical"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif-light"
-                android:textColor="@color/colorWhiteText"
-                android:text="@string/alarm_settings" />
+                <ImageView
+                    android:id="@+id/lucidly_new_image"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_luc_new" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/card_divider"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@id/lucidly_new_image"
+                    android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/anti_snore"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:padding="5dp"
-                android:gravity="center_vertical"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif-light"
-                android:textColor="@color/colorWhiteText"
-                android:text="@string/anti_snore" />
+                    <TextView
+                        android:id="@+id/lucidly_new_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center_vertical"
+                        android:text="Lucidly New"
+                        android:textColor="@color/colorWhiteText"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/lucidly_new_descr"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center_vertical"
+                        android:text="@string/lucid_dreaming_app"
+                        android:textColor="@color/colorWhiteText" />
+                </LinearLayout>
+
+
+            </RelativeLayout>
 
         </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/card_bg"
-        android:layout_marginTop="10dp"
-        app:cardCornerRadius="10dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:padding="10dp"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/other"
-                android:layout_marginStart="5dp"
-                android:layout_marginBottom="10dp"
-                android:textColor="@color/colorLightHint"
-                android:textSize="18sp"/>
-
-            <TextView
-                android:id="@+id/subscribe"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:padding="5dp"
-                android:gravity="center_vertical"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif-light"
-                android:textColor="@color/colorWhiteText"
-                android:text="@string/subscribe" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/card_divider"/>
-
-            <TextView
-                android:id="@+id/music_cache"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:padding="5dp"
-                android:gravity="center_vertical"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif-light"
-                android:textColor="@color/colorWhiteText"
-                android:text="@string/clear_music" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/card_divider"/>
-
-            <TextView
-                android:id="@+id/snore_cache"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:padding="5dp"
-                android:gravity="center_vertical"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif-light"
-                android:textColor="@color/colorWhiteText"
-                android:text="@string/clear_snores" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/card_divider"/>
-
-            <TextView
-                android:id="@+id/more_apps"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:padding="5dp"
-                android:gravity="center_vertical"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif-light"
-                android:textColor="@color/colorWhiteText"
-                android:text="@string/more_apps" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/card_divider"/>
-
-            <TextView
-                android:id="@+id/feedback"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:padding="5dp"
-                android:gravity="center_vertical"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif-light"
-                android:textColor="@color/colorWhiteText"
-                android:text="@string/feedback" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/card_divider"/>
-
-            <TextView
-                android:id="@+id/about"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:padding="5dp"
-                android:gravity="center_vertical"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif-light"
-                android:textColor="@color/colorWhiteText"
-                android:text="@string/about_app" />
-
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 

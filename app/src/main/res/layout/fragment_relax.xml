@@ -1028,6 +1028,14 @@
 
         </androidx.cardview.widget.CardView>
 
+        <com.google.android.ads.nativetemplates.TemplateView
+            android:id="@+id/nativeTemplateView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"
+            app:gnt_template_type="@layout/gnt_small_template_view" />
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

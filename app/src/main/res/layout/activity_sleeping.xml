@@ -17,12 +17,23 @@
         android:background="@drawable/sleeping_bg"
         android:padding="20dp">
 
+        <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-2203627564530242/4866179646" />
+
         <TextClock
             android:id="@+id/text_clock"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="55dp"
             android:fontFamily="sans-serif-thin"
             android:format12Hour="hh:mm"
             android:format24Hour="HH:mm"

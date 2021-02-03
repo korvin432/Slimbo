@@ -28,6 +28,8 @@ import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceManager
 import com.gauravbhola.ripplepulsebackground.RipplePulseLayout
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mindyapps.asleep.MainActivity
 import com.mindyapps.asleep.R
@@ -43,6 +45,7 @@ import com.mindyapps.asleep.data.repository.SlimboRepositoryImpl
 import com.mindyapps.asleep.internal.Utils
 import com.mindyapps.asleep.preferences.SleepingStore
 import com.mindyapps.asleep.ui.AlarmActivity
+import kotlinx.android.synthetic.main.activity_sleeping.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -71,6 +74,7 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
     private var player: MediaPlayer? = null
     private var openDetails: Boolean = false
     private var subscribed: Boolean = false
+    private var isSubscribed: Boolean = false
     private var stop: Boolean = false
     private lateinit var wakeLock: PowerManager.WakeLock
 
@@ -78,6 +82,14 @@ class SleepingActivity : AppCompatActivity(), View.OnClickListener, View.OnTouch
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sleeping)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+        isSubscribed = intent.getBooleanExtra("isSubscribed", false)
+        if (!isSubscribed){
+            adView.visibility = View.VISIBLE
+            MobileAds.initialize(this) {}
+            val adRequest = AdRequest.Builder().build()
+            adView.loadAd(adRequest)
+        }
 
         val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
         val lockTag = if (Build.MANUFACTURER.toLowerCase() == "huawei") {

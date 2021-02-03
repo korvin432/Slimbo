@@ -149,6 +149,7 @@
     <string name="alarm">Будильник</string>
     <string name="wake_up_alarm">Проснитесь!</string>
     <string name="charge_tip">Ваше устройство должно быть подключено к зарядке, чтобы система не остановила работу приложения.</string>
+    <string name="lucid_dreaming_app">Приложение для осознанных сновидений</string>
 
     <string-array name="repeat_minutes">
         <item>Никогда</item>

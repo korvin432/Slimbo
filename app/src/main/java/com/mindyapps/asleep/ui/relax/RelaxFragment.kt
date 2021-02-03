@@ -22,6 +22,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.billingclient.api.*
+import com.google.android.gms.ads.*
+import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
@@ -67,6 +69,7 @@ class RelaxFragment : Fragment(), View.OnClickListener {
     private var thunderRainLoadPlayer: MediaPlayer? = null
 
     private var root: View? = null
+    var nativeAd: UnifiedNativeAd? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,6 +101,9 @@ class RelaxFragment : Fragment(), View.OnClickListener {
         setSubscriber()
         setUpPlayers()
         checkLoadedFiles()
+        if (!(requireActivity() as MainActivity).subscribed) {
+            setAds()
+        }
 
         //free play buttons
         birds_card.setOnClickListener(this)
@@ -110,6 +116,24 @@ class RelaxFragment : Fragment(), View.OnClickListener {
         thunder_card.setOnClickListener(this)
         water_stream_card.setOnClickListener(this)
 
+    }
+
+    private fun setAds(){
+        MobileAds.initialize(requireContext()) {
+            val adLoader = AdLoader.Builder(context, "ca-app-pub-2203627564530242/7336430312")
+                .forUnifiedNativeAd { ad: UnifiedNativeAd ->
+                    nativeAd = ad
+                    nativeTemplateView.visibility = View.VISIBLE
+                    nativeTemplateView.setNativeAd(nativeAd)
+                }
+                .withAdListener(object : AdListener() {
+                    override fun onAdFailedToLoad(adError: LoadAdError) {
+                        // Handle the failure by logging, altering the UI, and so on.
+                    }
+                })
+                .build()
+            adLoader.loadAd(AdRequest.Builder().build())
+        }
     }
 
     private fun setSubscriber() {

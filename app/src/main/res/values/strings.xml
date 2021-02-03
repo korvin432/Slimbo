@@ -148,6 +148,7 @@
     <string name="alarm">Alarm clock</string>
     <string name="wake_up_alarm">Wake up!</string>
     <string name="charge_tip">Your device must be connected to charging so that the system does not stop the app.</string>
+    <string name="lucid_dreaming_app">Lucid Dreaming app</string>
 
     <string-array name="repeat_minutes">
         <item>Never</item>

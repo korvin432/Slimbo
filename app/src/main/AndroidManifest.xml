@@ -20,6 +20,11 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-2203627564530242~1286027283"/>
+
         <activity android:name=".ui.onboarding.OnboardingActivity"/>
         <activity android:name=".ui.subs.SubscribeActivity" android:screenOrientation="portrait" />
         <activity

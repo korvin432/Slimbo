@@ -149,6 +149,7 @@
     <string name="alarm">Despertador</string>
     <string name="wake_up_alarm">¡Despierta!</string>
     <string name="charge_tip">Su dispositivo debe estar conectado a la carga para que el sistema no detenga la aplicación.</string>
+    <string name="lucid_dreaming_app">Lucid Dreaming app</string>
 
     <string-array name="repeat_minutes">
         <item>Nunca</item>
