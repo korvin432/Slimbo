@@ -150,6 +150,8 @@
     <string name="wake_up_alarm">¡Despierta!</string>
     <string name="charge_tip">Su dispositivo debe estar conectado a la carga para que el sistema no detenga la aplicación.</string>
     <string name="lucid_dreaming_app">Lucid Dreaming app</string>
+    <string name="affirmations">Afirmaciones</string>
+    <string name="daily_affirmations_and_improving_self_esteem_for_positive_thinking">Afirmaciones diarias y mejora de la autoestima para el pensamiento positivo</string>
 
     <string-array name="repeat_minutes">
         <item>Nunca</item>

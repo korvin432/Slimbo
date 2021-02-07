@@ -143,18 +143,21 @@ class SubscribeActivity : AppCompatActivity(), View.OnClickListener, SkuDetailsR
                 month_layout.setBackgroundResource(R.drawable.sub_button_gradient)
                 three_month_layout.setBackgroundColor(ContextCompat.getColor(this, R.color.card_bg))
                 year_layout.setBackgroundColor(ContextCompat.getColor(this, R.color.card_bg))
+                free_button.visibility = View.GONE
                 selectedSku = "asleep_subscription"
             }
             R.id.three_month_layout -> {
                 three_month_layout.setBackgroundResource(R.drawable.sub_button_gradient)
                 month_layout.setBackgroundColor(ContextCompat.getColor(this, R.color.card_bg))
                 year_layout.setBackgroundColor(ContextCompat.getColor(this, R.color.card_bg))
+                free_button.visibility = View.VISIBLE
                 selectedSku = "half"
             }
             R.id.year_layout -> {
                 year_layout.setBackgroundResource(R.drawable.sub_button_gradient)
                 three_month_layout.setBackgroundColor(ContextCompat.getColor(this, R.color.card_bg))
                 month_layout.setBackgroundColor(ContextCompat.getColor(this, R.color.card_bg))
+                free_button.visibility = View.GONE
                 selectedSku = "year"
             }
             R.id.sub_button -> {
