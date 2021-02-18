@@ -53,7 +53,7 @@ class SubscribeActivity : AppCompatActivity(), View.OnClickListener, SkuDetailsR
         three_month_layout.setOnClickListener(this)
         year_layout.setOnClickListener(this)
         sub_button.setOnClickListener(this)
-        free_button.setOnClickListener(this)
+        //free_button.setOnClickListener(this)
         image_close.setOnClickListener { finish() }
 
         observerSku = Observer { newsSource ->
@@ -143,21 +143,21 @@ class SubscribeActivity : AppCompatActivity(), View.OnClickListener, SkuDetailsR
                 month_layout.setBackgroundResource(R.drawable.sub_button_gradient)
                 three_month_layout.setBackgroundColor(ContextCompat.getColor(this, R.color.card_bg))
                 year_layout.setBackgroundColor(ContextCompat.getColor(this, R.color.card_bg))
-                free_button.visibility = View.GONE
+                //free_button.visibility = View.GONE
                 selectedSku = "asleep_subscription"
             }
             R.id.three_month_layout -> {
                 three_month_layout.setBackgroundResource(R.drawable.sub_button_gradient)
                 month_layout.setBackgroundColor(ContextCompat.getColor(this, R.color.card_bg))
                 year_layout.setBackgroundColor(ContextCompat.getColor(this, R.color.card_bg))
-                free_button.visibility = View.VISIBLE
+                //free_button.visibility = View.VISIBLE
                 selectedSku = "half"
             }
             R.id.year_layout -> {
                 year_layout.setBackgroundResource(R.drawable.sub_button_gradient)
                 three_month_layout.setBackgroundColor(ContextCompat.getColor(this, R.color.card_bg))
                 month_layout.setBackgroundColor(ContextCompat.getColor(this, R.color.card_bg))
-                free_button.visibility = View.GONE
+                //free_button.visibility = View.GONE
                 selectedSku = "year"
             }
             R.id.sub_button -> {
@@ -166,12 +166,12 @@ class SubscribeActivity : AppCompatActivity(), View.OnClickListener, SkuDetailsR
                     .build()
                 val responseCode = billingClient.launchBillingFlow(this, flowParams)
             }
-            R.id.free_button -> {
-                val flowParams = BillingFlowParams.newBuilder()
-                    .setSkuDetails(skusWithSkuDetails.value?.get(selectedSku)!!)
-                    .build()
-                val responseCode = billingClient.launchBillingFlow(this, flowParams)
-            }
+//            R.id.free_button -> {
+//                val flowParams = BillingFlowParams.newBuilder()
+//                    .setSkuDetails(skusWithSkuDetails.value?.get(selectedSku)!!)
+//                    .build()
+//                val responseCode = billingClient.launchBillingFlow(this, flowParams)
+//            }
         }
     }
 
