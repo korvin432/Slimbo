@@ -81,6 +81,7 @@ class SleepFragment : Fragment(), View.OnClickListener {
             )
             findNavController().navigate(R.id.recordingFragment, bundle)
         }
+        (requireActivity() as MainActivity).checkBattery()
     }
 
     private var listener: SharedPreferences.OnSharedPreferenceChangeListener =

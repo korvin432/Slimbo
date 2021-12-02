@@ -6,15 +6,15 @@ apply plugin: 'com.google.gms.google-services'
 
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "29.0.2"
+    compileSdkVersion 31
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "com.mindyapps.asleep"
         minSdkVersion 21
-        targetSdkVersion 30
-        versionCode 25
-        versionName "1.0.3"
+        targetSdkVersion 31
+        versionCode 26
+        versionName "1.0.4"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

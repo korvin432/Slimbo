@@ -128,7 +128,7 @@ public class RecorderService extends Service {
             signalHandler = new Handler();
             timeHandler.postDelayed(minTimeTask, 1800000);
 
-        } else if (intent.getAction().equals(STOP_ACTION)) {
+        } else if (intent != null && intent.getAction().equals(STOP_ACTION)) {
             isActive = false;
             Intent sleepingIntent = new Intent(SleepingActivity.RECEIVER_INTENT);
             sleepingIntent.putExtra(SleepingActivity.RECEIVER_MESSAGE, "stop");

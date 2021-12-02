@@ -1,9 +1,15 @@
 package com.mindyapps.asleep
 
+import android.content.ActivityNotFoundException
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
+import android.os.PowerManager
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
@@ -17,6 +23,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.preference.PreferenceManager
 import com.android.billingclient.api.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mindyapps.asleep.data.model.Recording
 import com.mindyapps.asleep.preferences.SleepingStore
 import com.mindyapps.asleep.ui.onboarding.OnboardingActivity
@@ -72,39 +79,83 @@ class MainActivity : AppCompatActivity(), SkuDetailsResponseListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                     // The BillingClient is ready. You can query purchases here.
-                    Log.d("qwwe", "The BillingClient is ready")
                     querySkuDetails()
 
                     val activeSubs =
                         billingClient.queryPurchases(BillingClient.SkuType.SUBS).purchasesList
-                    Log.d("qwwe", "active subs: $activeSubs")
                     activeSubs!!.forEach {
                         if (it.sku == "asleep_subscription" || it.sku == "half" || it.sku == "year") {
                             subscribed = true
                         }
                     }
-                    Log.d("qwwe", "subscribed: $subscribed")
                 }
             }
 
             override fun onBillingServiceDisconnected() {
                 // Try to restart the connection on the next request to
                 // Google Play by calling the startConnection() method.
-                Log.d("qwwe", "onBillingServiceDisconnected")
             }
         })
 
+    }
+
+    fun checkBattery() {
+        if (!sleepingStore.optimizationShowed && !isIgnoringBatteryOptimizations(this)
+            && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+        ) {
+            MaterialAlertDialogBuilder(this)
+                .setMessage(getString(R.string.optimization))
+                .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                    try {
+                        val intent = Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
+                        startActivity(intent)
+                    } catch (ex: Exception) {
+                        if (Build.MANUFACTURER == "samsung") {
+                            val intent = Intent()
+                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
+                                intent.component = ComponentName(
+                                    "com.samsung.android.lool",
+                                    "com.samsung.android.sm.ui.battery.BatteryActivity"
+                                )
+                            } else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                                intent.component = ComponentName(
+                                    "com.samsung.android.sm",
+                                    "com.samsung.android.sm.ui.battery.BatteryActivity"
+                                )
+                            }
+                            try {
+                                startActivity(intent)
+                            } catch (ex: ActivityNotFoundException) {
+                                startActivity(Intent(Settings.ACTION_SETTINGS))
+                            }
+                        }
+                    }
+                }
+                .setNegativeButton(android.R.string.cancel) { _, _ -> }
+                .setOnDismissListener {
+                    sleepingStore.optimizationShowed = true
+                }
+                .show()
+        }
+    }
+
+    private fun isIgnoringBatteryOptimizations(context: Context): Boolean {
+        val manager =
+            context.applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
+        val name = context.applicationContext.packageName
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return manager.isIgnoringBatteryOptimizations(name)
+        }
+        return true
     }
 
     private val purchaseUpdateListener =
         PurchasesUpdatedListener { billingResult, purchases ->
             subscribed =
                 billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null
-            Log.d("qwwe", "updating subscription status to $subscribed")
         }
 
     fun querySkuDetails() {
-        Log.d("qwwe", "querySkuDetails")
         val params = SkuDetailsParams.newBuilder()
             .setType(BillingClient.SkuType.SUBS)
             .setSkusList(
@@ -116,7 +167,6 @@ class MainActivity : AppCompatActivity(), SkuDetailsResponseListener {
             )
             .build()
         params?.let { skuDetailsParams ->
-            Log.i("qwwe", "querySkuDetailsAsync")
             billingClient.querySkuDetailsAsync(skuDetailsParams, this)
         }
     }
