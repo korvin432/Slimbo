@@ -153,6 +153,9 @@
     <string name="affirmations">Аффирмации</string>
     <string name="daily_affirmations_and_improving_self_esteem_for_positive_thinking">Ежедневные аффирмации и повышение самооценки для позитивного мышления</string>
     <string name="optimization">Ваше устройство может блокировать отправку уведомлений в фоновом режиме. Пожалуйста, перейдите в настройки и отключите оптимизацию приложения.</string>
+    <string name="my_other">Другие приложения</string>
+    <string name="drink_water_reminder">Водное напоминание</string>
+    <string name="reminder_water">Напоминание о питье воды для поддержания водного баланса в организме</string>
 
     <string-array name="repeat_minutes">
         <item>Никогда</item>

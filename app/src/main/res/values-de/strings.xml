@@ -153,6 +153,9 @@
     <string name="affirmations">Affirmationen</string>
     <string name="daily_affirmations_and_improving_self_esteem_for_positive_thinking">Tägliche Affirmationen und Verbesserung des Selbstwertgefühls für positives Denken</string>
     <string name="optimization">Your device may block notifications from being sent in the background. Please go to settings and disable app optimization.</string>
+    <string name="my_other">Andere apps</string>
+    <string name="drink_water_reminder">Erinnerung an Wasser trinken</string>
+    <string name="reminder_water">Erinnerung an die Aufrechterhaltung des Wasserhaushalts im Körper</string>
 
     <string-array name="repeat_minutes">
         <item>noch nie</item>

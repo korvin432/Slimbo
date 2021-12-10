@@ -39,6 +39,7 @@ class MoreFragment : Fragment(), View.OnClickListener {
         subscribe.setOnClickListener(this)
         lucidly_new.setOnClickListener { openProject("lucidlynew") }
         affirmations.setOnClickListener { openProject("affirmations") }
+        water_reminder.setOnClickListener { openProject("waterreminder") }
 
         val subscribed = (requireActivity() as MainActivity).subscribed
         if (subscribed){

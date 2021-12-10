@@ -152,6 +152,9 @@
     <string name="affirmations">Affirmations</string>
     <string name="daily_affirmations_and_improving_self_esteem_for_positive_thinking">Daily affirmations and improving self-esteem for positive thinking</string>
     <string name="optimization">Your device may block notifications from being sent in the background. Please go to settings and disable app optimization.</string>
+    <string name="my_other">Other apps</string>
+    <string name="drink_water_reminder">Drink Water Reminder</string>
+    <string name="reminder_water">Reminder to maintain water balance in the body</string>
 
     <string-array name="repeat_minutes">
         <item>Never</item>
